@@ -49,18 +49,15 @@ public class MemberController {
     @PatchMapping("/members/nickname")
     public ResponseEntity<MemberResponse> updateMemberNickname(@LoginMember Long memberId,
                                        @RequestBody @Valid MemberUpdateRequest memberUpdateRequest){
-        Member updatedMember = memberService.updateMember(memberId, memberUpdateRequest);
 
-        return ResponseEntity.ok(new MemberResponse(updatedMember));
+        return ResponseEntity.ok(memberService.updateMember(memberId, memberUpdateRequest));
     }
 
     // 프로필사진 수정
     @PatchMapping("/members/profileimg")
-    public ResponseEntity updateProfileImage(@LoginMember Long memberId,
+    public ResponseEntity<MemberResponse> updateProfileImage(@LoginMember Long memberId,
                                              @RequestPart MultipartFile image){
-        memberService.updateProfileImg(image, memberId);
-
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.ok(memberService.updateProfileImg(image, memberId));
     }
 
     // 회원 탈퇴

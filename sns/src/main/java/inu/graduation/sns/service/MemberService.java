@@ -81,7 +81,7 @@ public class MemberService {
 
     // 닉네임 수정
     @Transactional
-    public Member updateMember(Long memberId, MemberUpdateRequest memberUpdateRequest) {
+    public MemberResponse updateMember(Long memberId, MemberUpdateRequest memberUpdateRequest) {
         // 존재하는 닉네임이면
         if (memberRepository.findByNickname(memberUpdateRequest.getNickname()).isPresent()){
             throw new MemberException("이미 존재하는 닉네임입니다.");
@@ -90,18 +90,18 @@ public class MemberService {
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
         findMember.updateNickname(memberUpdateRequest.getNickname());
 
-        return findMember;
+        return new MemberResponse(findMember);
     }
 
     // 프로필사진 수정
     @Transactional
-    public boolean updateProfileImg(MultipartFile image, Long memberId) {
+    public MemberResponse updateProfileImg(MultipartFile image, Long memberId) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
         ProfileImage updateProfileImage = uploadImageS3(image);
         findMember.updateProfileImage(updateProfileImage);
 
-        return true;
+        return new MemberResponse(findMember);
     }
 
     // 회원 탈퇴
