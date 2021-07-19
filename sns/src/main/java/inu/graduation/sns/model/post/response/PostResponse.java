@@ -4,13 +4,17 @@ import inu.graduation.sns.domain.Post;
 import inu.graduation.sns.model.Image.dto.ImageDto;
 import inu.graduation.sns.model.category.dto.CategoryDto;
 import inu.graduation.sns.model.member.dto.MemberDto;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PostResponse {
     private Long id;
     private String content;

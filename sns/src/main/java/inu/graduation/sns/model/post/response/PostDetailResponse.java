@@ -3,11 +3,15 @@ package inu.graduation.sns.model.post.response;
 import inu.graduation.sns.domain.Post;
 import inu.graduation.sns.model.category.dto.CategoryDto;
 import inu.graduation.sns.model.member.dto.MemberDto;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PostDetailResponse {
     private Long id;
     private String content;

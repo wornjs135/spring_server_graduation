@@ -57,8 +57,7 @@ public class PostService {
 
     //게시글 생성 + 이미지 업로드 + 해쉬태그 생성
     @Transactional
-    public Post createPost(Long memberId, Long categoryId, PostSaveRequest request){
- //           , List<MultipartFile> images) {
+    public Post createPost(Long memberId, Long categoryId, PostSaveRequest request, List<MultipartFile> images) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
         Category findCategory = categoryRepository.findById(categoryId)
@@ -67,13 +66,7 @@ public class PostService {
         Post savedPost = postRepository.save(createdPost);
 
         // 이미지 s3에 업로드
-        //uploadImageS3(images, savedPost);
-
-        // 이미지db 추가 테스트
-        Image image = Image.createImage("urlasdf", "thumbnailsadf", "storefds", savedPost);
-        imageRepository.save(image);
-        Image image2 = Image.createImage("urla", "thumlsadf", "stods", savedPost);
-        imageRepository.save(image2);
+        uploadImageS3(images, savedPost);
 
         // 해시태그 추출해서 저장
         extractHashTag(savedPost.getContent(), savedPost);
@@ -83,7 +76,7 @@ public class PostService {
 
     // 게시글 내용들 수정
     @Transactional
-    public boolean updatePost(Long memberId, Long postId, Long categoryId, PostUpdateRequest request) {
+    public PostDetailResponse updatePost(Long memberId, Long postId, Long categoryId, PostUpdateRequest request) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
         Category findCategory = categoryRepository.findById(categoryId)
@@ -100,7 +93,7 @@ public class PostService {
         // 해시태그 추출해서 다시 저장
         extractHashTag(request.getContent(), findPost);
 
-        return true;
+        return new PostDetailResponse(findPost);
     }
 
     // 게시글 이미지 수정
@@ -212,31 +205,35 @@ public class PostService {
 
     // s3 이미지 업로드 함수 + db저장
     public boolean uploadImageS3(List<MultipartFile> images, Post createdPost) {
-        Image imageObject;
-        ObjectMetadata objectMetadata = new ObjectMetadata();
+        if (images != null){
+            if (!images.isEmpty()) {
+                Image imageObject;
+                ObjectMetadata objectMetadata = new ObjectMetadata();
 
-        for (MultipartFile img: images) {
-            if(!img.isEmpty()){
-                if(!img.getContentType().startsWith("image")){
-                    throw new IllegalStateException();
-                }
+                for (MultipartFile img: images) {
+                    if(!img.isEmpty()){
+                        if(!img.getContentType().startsWith("image")){
+                            throw new IllegalStateException();
+                        }
 
-                objectMetadata.setContentLength(img.getSize());
-                objectMetadata.setContentType(img.getContentType());
-                String storeName = UUID.randomUUID().toString() + "_" + img.getOriginalFilename();
+                        objectMetadata.setContentLength(img.getSize());
+                        objectMetadata.setContentType(img.getContentType());
+                        String storeName = UUID.randomUUID().toString() + "_" + img.getOriginalFilename();
 
-                try {
-                    amazonS3Client.putObject(new PutObjectRequest(bucket,storeName, img.getInputStream(), objectMetadata)
-                            .withCannedAcl(CannedAccessControlList.PublicRead));
+                        try {
+                            amazonS3Client.putObject(new PutObjectRequest(bucket,storeName, img.getInputStream(), objectMetadata)
+                                    .withCannedAcl(CannedAccessControlList.PublicRead));
 
-                    //이미지 url 가져오기
-                    String imageUrl = amazonS3Client.getUrl(bucket, storeName).toString();
-                    String thumbnailImageUrl = amazonS3Client.getUrl(thumbnailBucket, storeName).toString();
+                            //이미지 url 가져오기
+                            String imageUrl = amazonS3Client.getUrl(bucket, storeName).toString();
+                            String thumbnailImageUrl = amazonS3Client.getUrl(thumbnailBucket, storeName).toString();
 
-                    imageObject = Image.createImage(imageUrl, thumbnailImageUrl, storeName, createdPost);
-                    imageRepository.save(imageObject);
-                } catch (Exception ex){
-                    throw new MemberException(ex.getMessage());
+                            imageObject = Image.createImage(imageUrl, thumbnailImageUrl, storeName, createdPost);
+                            imageRepository.save(imageObject);
+                        } catch (Exception ex){
+                            throw new MemberException(ex.getMessage());
+                        }
+                    }
                 }
             }
         }
@@ -276,7 +273,6 @@ public class PostService {
         if(str.length() < 1) {
             return null;
         }
-
         return str;
     }
 

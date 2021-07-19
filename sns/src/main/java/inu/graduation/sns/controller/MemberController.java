@@ -71,9 +71,7 @@ public class MemberController {
     // 회원 정보 조회
     @GetMapping("/members")
     public ResponseEntity<MemberResponse> findMemberInfo(@LoginMember Long memberId){
-        MemberResponse findMemberInfo = memberService.findMemberInfo(memberId);
-
-        return ResponseEntity.ok(findMemberInfo);
+        return ResponseEntity.ok(memberService.findMemberInfo(memberId));
     }
 
     // 로그아웃

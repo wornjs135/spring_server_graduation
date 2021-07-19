@@ -1,6 +1,7 @@
 package inu.graduation.sns.controller;
 
 import inu.graduation.sns.domain.Category;
+import inu.graduation.sns.model.category.response.CategoryResponse;
 import inu.graduation.sns.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +18,7 @@ public class CategoryController {
 
     // 카테고리 리스트 조회
     @GetMapping("/categories")
-    public List<Category> findAllCategoryList(){
-        List<Category> allCateogryList = categoryService.findAllCateogryList();
-
-        return allCateogryList;
+    public List<CategoryResponse> findAllCategoryList(){
+        return categoryService.findAllCateogryList();
     }
 }

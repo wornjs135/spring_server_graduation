@@ -4,12 +4,14 @@ import inu.graduation.sns.domain.Category;
 import inu.graduation.sns.exception.CategoryException;
 import inu.graduation.sns.model.category.request.CategorySaveRequest;
 import inu.graduation.sns.model.category.request.CategoryUpdateRequest;
+import inu.graduation.sns.model.category.response.CategoryResponse;
 import inu.graduation.sns.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -48,9 +50,10 @@ public class CategoryService {
         return true;
     }
 
-    public List<Category> findAllCateogryList() {
+    // 카테고리 리스트 조회
+    public List<CategoryResponse> findAllCateogryList() {
         List<Category> allCategoryList = categoryRepository.findAll();
-
-        return allCategoryList;
+        return allCategoryList.stream().map(category -> new CategoryResponse(category))
+                .collect(Collectors.toList());
     }
 }

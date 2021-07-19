@@ -20,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -31,14 +32,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.StandardCharsets;
 
-import static inu.graduation.sns.TestObject.TEST_MEMBER_RESPONSE;
-import static inu.graduation.sns.TestObject.TEST_MEMBER_RESPONSE_UPDATE_PROFILEIMG;
+import static inu.graduation.sns.TestObject.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -58,9 +59,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)
 class MemberControllerTest {
-
-    private final String JWT_ACCESSTOKEN_TEST = "Bearer access토큰";
-    private final String JWT_REFRESHTOKEN_TEST = "Bearer refresh토큰";
 
     @MockBean
     private MemberService memberService;
@@ -91,12 +89,14 @@ class MemberControllerTest {
     @Test
     @DisplayName("카카오 로그인")
     void kakaoLogin() throws Exception {
+        // given
         CreateToken createToken = CreateToken.from(JWT_ACCESSTOKEN_TEST, JWT_REFRESHTOKEN_TEST);
 
         given(memberService.kakaoLoginMember(any()))
                 .willReturn(createToken);
 
-        mockMvc.perform(post("/members/login")
+        // when
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/members/login")
                 .header("kakaoToken","kakaoAccessToken"))
                 .andExpect(status().isOk())
                 .andExpect(header().string("accessToken", createToken.getAccessToken()))
@@ -110,6 +110,7 @@ class MemberControllerTest {
                                 headerWithName("refreshToken").description("Refresh 토큰")
                         )));
 
+        // then
         then(memberService).should(times(1)).kakaoLoginMember(any());
     }
 
@@ -121,7 +122,7 @@ class MemberControllerTest {
         given(loginMemberArgumentResolver.resolveArgument(any(), any(), any(), any()))
                 .willReturn(1L);
 
-        mockMvc.perform(post("/members/refresh")
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/members/refresh")
                 .header(HttpHeaders.AUTHORIZATION, JWT_REFRESHTOKEN_TEST))
                 .andExpect(status().isOk())
                 .andExpect(header().string("accessToken", JWT_ACCESSTOKEN_TEST))
@@ -149,7 +150,7 @@ class MemberControllerTest {
         given(memberService.updateMember(any(), any()))
                 .willReturn(TEST_MEMBER_RESPONSE);
 
-        mockMvc.perform(patch("/members/nickname")
+        mockMvc.perform(RestDocumentationRequestBuilders.patch("/members/nickname")
                 .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(body)
@@ -175,6 +176,7 @@ class MemberControllerTest {
     }
 
     @Test
+    @DisplayName("프로필사진 수정")
     void updateProfileImage() throws Exception {
         // given
         given(memberService.updateProfileImg(any(), any()))
@@ -182,21 +184,106 @@ class MemberControllerTest {
         given(loginMemberArgumentResolver.resolveArgument(any(), any(), any(), any()))
                 .willReturn(1L);
 
-        mockMvc.perform(multipart("/members/profileimg")
+        MockMultipartHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.multipart("/members/profileimg");
+        builder.with(new RequestPostProcessor() {
+            @Override
+            public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+                request.setMethod("PATCH");
+                return request;
+            }
+        });
+
+        // when
+        mockMvc.perform(builder.file(TEST_IMAGE_FILE1)
                 .header(HttpHeaders.AUTHORIZATION,JWT_ACCESSTOKEN_TEST)
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(TEST_MEMBER_RESPONSE_UPDATE_PROFILEIMG)))
-                .andDo()
+                .andDo(document("member/updateProfileImg",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer Access 토큰")
+                        ),
+                        requestParts(
+                                partWithName("image").description("수정할 프로필사진 이미지")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
+                                fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("수정된 프로필 이미지"),
+                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("수정된 프로필 썸네일 이미지")
+                        )));
 
+        // then
+        then(memberService).should(times(1)).updateProfileImg(any(), any());
     }
 
     @Test
-    void deleteMember() {
+    @DisplayName("회원 탈퇴")
+    void deleteMember() throws Exception{
+        // given
+        given(memberService.deleteMember(any()))
+                .willReturn(true);
+
+        // when
+        mockMvc.perform(RestDocumentationRequestBuilders.delete("/members/delete")
+                .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST))
+                .andExpect(status().isOk())
+                .andDo(document("member/delete",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer Access 토큰")
+                        )));
+
+        // then
+        then(memberService).should(times(1)).deleteMember(any());
     }
 
     @Test
-    void findMemberInfo() {
+    @DisplayName("회원 정보 조회")
+    void findMemberInfo() throws Exception{
+        // given
+        given(memberService.findMemberInfo(any()))
+                .willReturn(TEST_MEMBER_RESPONSE);
+
+        // when
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/members")
+                .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(TEST_MEMBER_RESPONSE)))
+                .andDo(document("member/findInfo",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer Access 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
+                                fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필 이미지 URL"),
+                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("프로필 썸네일 이미지 URL")
+                        )));
+
+        // then
+        then(memberService).should(times(1)).findMemberInfo(any());
+    }
+
+    @Test
+    @DisplayName("로그아웃")
+    void logout() throws Exception {
+        // given
+
+        //when
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/members/logout")
+                .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST))
+                .andExpect(status().isOk())
+                .andDo(document("member/logout",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer Access 토큰")
+                        )));
+
+        // then
+        then(memberService).should(times(1)).logout(any());
     }
 }
