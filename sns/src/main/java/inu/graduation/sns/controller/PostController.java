@@ -76,40 +76,36 @@ public class PostController {
     // 게시글 간단 조회(앱)
     @GetMapping("/m/posts")
     public ResponseEntity<Slice<PostSimpleResponse>> findSimplePosts(@RequestParam String firstAddress, @RequestParam String secondAddress, Pageable pageable){
-        Slice<PostSimpleResponse> findSimplePostList = postService.findSimplePostList(firstAddress, secondAddress, pageable);
+        return ResponseEntity.ok(postService.findSimplePostList(firstAddress, secondAddress, pageable));
+    }
 
-        return ResponseEntity.ok(findSimplePostList);
+    // 내가 쓴 글 조회(웹)
+    @GetMapping("/members/posts")
+    public ResponseEntity<Page<PostResponse>> findMyPostListWeb(@LoginMember Long memberId, Pageable pageable){
+        return ResponseEntity.ok(postService.findMyPostListWeb(memberId, pageable));
     }
 
     // 내가 쓴 글 간단조회(앱)
     @GetMapping("/m/members/posts")
-    public ResponseEntity<Slice<PostSimpleResponse>> findMyPostList(@LoginMember Long memberId, Pageable pageable){
-        Slice<PostSimpleResponse> myPostList = postService.findMyPostList(memberId, pageable);
-
-        return ResponseEntity.ok(myPostList);
+    public ResponseEntity<Slice<PostSimpleResponse>> findMyPostListApp(@LoginMember Long memberId, Pageable pageable){
+        return ResponseEntity.ok(postService.findMyPostList(memberId, pageable));
     }
 
     // 게시글 상세 조회(앱)
     @GetMapping("/m/posts/{postId}")
-    public ResponseEntity<PostDetailResponse> findPost(@PathVariable Long postId){
-        PostDetailResponse findPost = postService.findPost(postId);
-
-        return ResponseEntity.ok(findPost);
+    public ResponseEntity<PostDetailResponse> findPostDetail(@PathVariable Long postId){
+        return ResponseEntity.ok(postService.findPost(postId));
     }
 
     // 해시태그로 게시글검색(웹)
     @GetMapping("/posts/hashtag")
     public ResponseEntity<Page<PostResponse>> findPostsByHashtag(@RequestParam String hashtag, Pageable pageable){
-        Page<PostResponse> findPostListByHashtag = postService.findPostsByHashtag(hashtag, pageable);
-
-        return ResponseEntity.ok(findPostListByHashtag);
+        return ResponseEntity.ok(postService.findPostsByHashtag(hashtag, pageable));
     }
 
     // 해시태그로 게시글검색(앱)
-    @GetMapping("m/posts/hashtag")
+    @GetMapping("/m/posts/hashtag")
     public ResponseEntity<Slice<PostSimpleResponse>> findPostByHashtagApp(@RequestParam String hashtag, Pageable pageable){
-        Slice<PostSimpleResponse> findPostListByHashtag = postService.findPostsByhashtagApp(hashtag, pageable);
-
-        return ResponseEntity.ok(findPostListByHashtag);
+        return ResponseEntity.ok(postService.findPostsByhashtagApp(hashtag, pageable));
     }
 }

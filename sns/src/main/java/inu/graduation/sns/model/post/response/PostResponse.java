@@ -18,9 +18,7 @@ import java.util.stream.Collectors;
 public class PostResponse {
     private Long id;
     private String content;
-    private String firstAddress;
-    private String secondAddress;
-    private String restAddress;
+    private String address;
     private Integer score;
     private Boolean isOpen;
     private Integer countGood;
@@ -34,9 +32,7 @@ public class PostResponse {
     public PostResponse(Post post) {
         this.id = post.getId();
         this.content = post.getContent();
-        this.firstAddress = post.getFirstAddress();
-        this.secondAddress = post.getSecondAddress();
-        this.restAddress = post.getRestAddress();
+        this.address = post.getAddress();
         this.score = post.getScore();
         this.isOpen = post.getIsOpen();
         this.countGood = post.getCountGood();

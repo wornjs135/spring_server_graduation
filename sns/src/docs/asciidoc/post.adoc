@@ -1,0 +1,140 @@
+:basedir: {docdir}/../../../
+:snippets: {basedir}/build/generated-snippets
+
+= RESTFUL Notes API Guide
+:doctype: member
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectlinks:
+:sectanchors:
+
+[[api]]
+== 게시글 생성 API
+===== 요청
+include::{snippets}/post/create/http-request.adoc[]
+경로변수
+include::{snippets}/post/create/path-parameters.adoc[]
+Header
+include::{snippets}/post/create/request-headers.adoc[]
+Part
+include::{snippets}/post/create/request-parts.adoc[]
+request.json 필드
+include::{snippets}/post/create/request-part-request-fields.adoc[]
+===== 응답
+include::{snippets}/post/create/http-response.adoc[]
+
+== 게시글 수정 API(이미지 제외한 나머지)
+===== 요청
+include::{snippets}/post/updatePost/http-request.adoc[]
+경로변수
+include::{snippets}/post/updatePost/path-parameters.adoc[]
+Header
+include::{snippets}/post/updatePost/request-headers.adoc[]
+Body
+include::{snippets}/post/updatePost/request-body.adoc[]
+include::{snippets}/post/updatePost/request-fields.adoc[]
+===== 응답
+include::{snippets}/post/updatePost/http-response.adoc[]
+include::{snippets}/post/updatePost/response-fields.adoc[]
+
+== 게시글 수정 API(이미지만)
+===== 요청
+include::{snippets}/post/updatePostImage/http-request.adoc[]
+경로변수
+include::{snippets}/post/updatePostImage/path-parameters.adoc[]
+Header
+include::{snippets}/post/updatePostImage/request-headers.adoc[]
+Part
+include::{snippets}/post/updatePostImage/request-parts.adoc[]
+===== 응답
+include::{snippets}/post/updatePostImage/http-response.adoc[]
+
+== 게시글 삭제 API
+===== 요청
+include::{snippets}/post/delete/http-request.adoc[]
+경로변수
+include::{snippets}/post/delete/path-parameters.adoc[]
+Header
+include::{snippets}/post/delete/request-headers.adoc[]
+===== 응답
+include::{snippets}/post/delete/http-response.adoc[]
+
+== (웹) 게시글 조회(주소로)
+===== 요청
+include::{snippets}/post/findPostsWeb/http-request.adoc[]
+URL 파라미터
+include::{snippets}/post/findPostsWeb/request-parameters.adoc[]
+Header
+include::{snippets}/post/findPostsWeb/request-headers.adoc[]
+===== 응답
+include::{snippets}/post/findPostsWeb/http-response.adoc[]
+include::{snippets}/post/findPostsWeb/response-fields.adoc[]
+
+== (웹) 내가 쓴 글 조회
+===== 요청
+include::{snippets}/post/findByPostsWeb/http-request.adoc[]
+URL 파라미터
+include::{snippets}/post/findByPostsWeb/request-parameters.adoc[]
+Header
+include::{snippets}/post/findByPostsWeb/request-headers.adoc[]
+===== 응답
+include::{snippets}/post/findByPostsWeb/http-response.adoc[]
+include::{snippets}/post/findByPostsWeb/response-fields.adoc[]
+
+== (웹) 해시태그로 글 조회
+===== 요청
+include::{snippets}/post/findByHashtagWeb/http-request.adoc[]
+URL 파라미터
+include::{snippets}/post/findByHashtagWeb/request-parameters.adoc[]
+Header
+include::{snippets}/post/findByHashtagWeb/request-headers.adoc[]
+===== 응답
+include::{snippets}/post/findByHashtagWeb/http-response.adoc[]
+include::{snippets}/post/findByHashtagWeb/response-fields.adoc[]
+
+== (앱) 게시글 간단 조회(주소로)
+===== 요청
+include::{snippets}/post/findPostsApp/http-request.adoc[]
+URL 파라미터
+include::{snippets}/post/findPostsApp/request-parameters.adoc[]
+Header
+include::{snippets}/post/findPostsApp/request-headers.adoc[]
+===== 응답
+include::{snippets}/post/findPostsApp/http-response.adoc[]
+include::{snippets}/post/findPostsApp/response-fields.adoc[]
+
+== (앱) 내가 쓴 글 간단 조회
+===== 요청
+include::{snippets}/post/findMyPostsApp/http-request.adoc[]
+URL 파라미터
+include::{snippets}/post/findMyPostsApp/request-parameters.adoc[]
+Header
+include::{snippets}/post/findMyPostsApp/request-headers.adoc[]
+===== 응답
+include::{snippets}/post/findMyPostsApp/http-response.adoc[]
+include::{snippets}/post/findMyPostsApp/response-fields.adoc[]
+
+== (앱) 해시태그로 글 조회
+===== 요청
+include::{snippets}/post/findByHashtagApp/http-request.adoc[]
+URL 파라미터
+include::{snippets}/post/findByHashtagApp/request-parameters.adoc[]
+Header
+include::{snippets}/post/findByHashtagApp/request-headers.adoc[]
+===== 응답
+include::{snippets}/post/findByHashtagApp/http-response.adoc[]
+include::{snippets}/post/findByHashtagApp/response-fields.adoc[]
+
+== (앱) 게시글 상세 조회
+===== 요청
+include::{snippets}/post/findPostDetailApp/http-request.adoc[]
+경로변수
+include::{snippets}/post/findPostDetailApp/path-parameters.adoc[]
+Header
+include::{snippets}/post/findPostDetailApp/request-headers.adoc[]
+===== 응답
+include::{snippets}/post/findPostDetailApp/http-response.adoc[]
+include::{snippets}/post/findPostDetailApp/response-fields.adoc[]

@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 public class PostSaveRequest {
 
     private String content;
-    private String firstAddress;
-    private String secondAddress;
-    private String restAddress;
+    private String address;
     private Integer score;
     private Boolean isOpen;
 }

@@ -157,50 +157,51 @@ public class PostService {
     // 게시글 조회(웹)
     public Page<PostResponse> findPostByAddress(String firstAddress, String secondAddress, Pageable pageable) {
         Page<Post> findPosts = postQueryRepository.findByAddress(firstAddress, secondAddress, pageable);
-        Page<PostResponse> findPostList = findPosts.map(post -> new PostResponse(post));
 
-        return findPostList;
+        return findPosts.map(post -> new PostResponse(post));
+
     }
 
     // 게시글 간단 조회(앱)
     public Slice<PostSimpleResponse> findSimplePostList(String firstAddress, String secondAddress, Pageable pageable) {
         Slice<Post> findSimplePosts = postRepository.findSimplePostList(firstAddress, secondAddress, pageable);
-        Slice<PostSimpleResponse> findSimplePostList = findSimplePosts.map(post -> new PostSimpleResponse(post));
 
-        return findSimplePostList;
+        return findSimplePosts.map(post -> new PostSimpleResponse(post));
+    }
+
+    // 내가 쓴 게시글 조회(웹)
+    public Page<PostResponse> findMyPostListWeb(Long memberId, Pageable pageable) {
+        Page<Post> myPostWeb = postQueryRepository.findMyPostWeb(memberId, pageable);
+
+        return myPostWeb.map(post -> new PostResponse(post));
     }
 
     // 내가 쓴 게시글 간단 조회(앱)
     public Slice<PostSimpleResponse> findMyPostList(Long memberId, Pageable pageable) {
         Slice<Post> myPostList = postRepository.findMyPostList(memberId, pageable);
-        Slice<PostSimpleResponse> findMyPostList = myPostList.map(post -> new PostSimpleResponse(post));
 
-        return findMyPostList;
+        return myPostList.map(post -> new PostSimpleResponse(post));
     }
 
     // 게시글 상세 조회
     public PostDetailResponse findPost(Long postId) {
-        PostDetailResponse findPost = postQueryRepository.findPost(postId);
-
-        return findPost;
+        return postQueryRepository.findPost(postId);
     }
 
     // 해시태그로 게시글 조회(웹)
     public Page<PostResponse> findPostsByHashtag(String hashtag, Pageable pageable) {
         Hashtag findHashtag = hashtagRepository.findByName(hashtag)
                 .orElseThrow(() -> new HashtagException("존재하지 않는 해시태그입니다."));
-        Page<PostResponse> findPostByHashtag = postHashtagQueryRepository.findPostByHashtagId(findHashtag.getId(), pageable);
 
-        return findPostByHashtag;
+        return postHashtagQueryRepository.findPostByHashtagId(findHashtag.getId(), pageable);
     }
 
     // 해시태그로 게시글 조회(앱)
     public Slice<PostSimpleResponse> findPostsByhashtagApp(String hashtag, Pageable pageable) {
         Hashtag findHashtag = hashtagRepository.findByName(hashtag)
                 .orElseThrow(() -> new HashtagException("존재하지 않는 해시태그입니다."));
-        Slice<PostSimpleResponse> findPostsByHashtag = postHashtagRepository.findPostsByHashtagId(findHashtag.getId(), pageable);
 
-        return findPostsByHashtag;
+        return postHashtagRepository.findPostsByHashtagId(findHashtag.getId(), pageable);
     }
 
     // s3 이미지 업로드 함수 + db저장

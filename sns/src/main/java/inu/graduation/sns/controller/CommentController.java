@@ -25,20 +25,16 @@ public class CommentController {
 
     // 댓글 생성
     @PostMapping("/posts/{postId}/comments")
-    public ResponseEntity createComment(@LoginMember Long memberId, @PathVariable Long postId,
+    public ResponseEntity<CommentResponse> createComment(@LoginMember Long memberId, @PathVariable Long postId,
                                       @RequestBody @Valid CommentSaveRequest commentSaveRequest){
-        commentService.saveComment(memberId, postId, commentSaveRequest);
-
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.ok(commentService.saveComment(memberId, postId, commentSaveRequest));
     }
 
     // 댓글 수정
     @PatchMapping("/comments/{commentId}")
-    public ResponseEntity updateComment(@LoginMember Long memberId, @PathVariable Long commentId,
+    public ResponseEntity<CommentResponse> updateComment(@LoginMember Long memberId, @PathVariable Long commentId,
                                         @RequestBody @Valid CommentUpdateRequest commentUpdateRequest){
-        commentService.updateComment(memberId, commentId, commentUpdateRequest);
-
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.ok(commentService.updateComment(memberId, commentId, commentUpdateRequest));
     }
 
     // 댓글 삭제
@@ -49,19 +45,15 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    // 게시글의 댓글 검색(앱)
+    // 게시글의 댓글 조회(앱)
     @GetMapping("/m/posts/{postId}/comments")
     public ResponseEntity<Slice<CommentResponse>> findCommentsByPostIdApp(@PathVariable Long postId, Pageable pageable){
-        Slice<CommentResponse> findComments = commentService.findCommentsByPostId(postId, pageable);
-
-        return ResponseEntity.ok(findComments);
+        return ResponseEntity.ok(commentService.findCommentsByPostId(postId, pageable));
     }
 
-    // 게시글의 댓글 검색(웹)
+    // 게시글의 댓글 조회(웹)
     @GetMapping("/posts/{postId}/comments")
     public ResponseEntity<Page<CommentResponse>> findCommentsByPostId(@PathVariable Long postId, Pageable pageable){
-        Page<CommentResponse> findComments = commentService.findCommentsByPost(postId, pageable);
-
-        return ResponseEntity.ok(findComments);
+        return ResponseEntity.ok(commentService.findCommentsByPost(postId, pageable));
     }
 }

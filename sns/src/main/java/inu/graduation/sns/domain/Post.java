@@ -22,11 +22,7 @@ public class Post extends BaseEntity{
 
     private String content;
 
-    private String firstAddress;
-
-    private String secondAddress;
-
-    private String restAddress;
+    private String address;
 
     private Integer score;
 
@@ -61,9 +57,7 @@ public class Post extends BaseEntity{
         post.member = findMember;
         post.category = findCategory;
         post.content = request.getContent();
-        post.firstAddress = request.getFirstAddress();
-        post.secondAddress = request.getSecondAddress();
-        post.restAddress = request.getRestAddress();
+        post.address = request.getAddress();
         post.score = request.getScore();
         post.isOpen = request.getIsOpen();
         post.countGood = 0;
@@ -74,9 +68,7 @@ public class Post extends BaseEntity{
     public boolean update(Category findCategory, PostUpdateRequest request) {
         this.category = findCategory;
         this.content = request.getContent();
-        this.firstAddress = request.getFirstAddress();
-        this.secondAddress = request.getSecondAddress();
-        this.restAddress = request.getRestAddress();
+        this.address = request.getAddress();
         this.score = request.getScore();
         this.isOpen = request.getIsOpen();
         return true;

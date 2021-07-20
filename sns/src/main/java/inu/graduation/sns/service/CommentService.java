@@ -30,20 +30,20 @@ public class CommentService {
 
     // 댓글 생성
     @Transactional
-    public Comment saveComment(Long memberId, Long postId, CommentSaveRequest commentSaveRequest) {
+    public CommentResponse saveComment(Long memberId, Long postId, CommentSaveRequest commentSaveRequest) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
         Post findPost = postRepository.findById(postId)
                 .orElseThrow(() -> new PostException("존재하지 않는 게시글입니다."));
         Comment comment = Comment.saveComment(commentSaveRequest.getContent(), findMember, findPost);
         findPost.addCommentCount();
-
-        return commentRepository.save(comment);
+        Comment savedComment = commentRepository.save(comment);
+        return new CommentResponse(savedComment);
     }
 
     // 댓글 수정
     @Transactional
-    public boolean updateComment(Long memberId, Long commentId, CommentUpdateRequest commentUpdateRequest) {
+    public CommentResponse updateComment(Long memberId, Long commentId, CommentUpdateRequest commentUpdateRequest) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
         Comment findComment = commentRepository.findById(commentId)
@@ -54,7 +54,7 @@ public class CommentService {
         }
         findComment.updateComment(commentUpdateRequest.getContent());
 
-        return true;
+        return new CommentResponse(findComment);
     }
 
     // 댓글 삭제

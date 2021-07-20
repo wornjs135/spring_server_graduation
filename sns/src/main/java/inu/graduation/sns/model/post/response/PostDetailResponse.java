@@ -15,9 +15,7 @@ import java.time.LocalDateTime;
 public class PostDetailResponse {
     private Long id;
     private String content;
-    private String firstAddress;
-    private String secondAddress;
-    private String restAddress;
+    private String address;
     private Integer score;
     private Boolean isOpen;
     private Integer countGood;
@@ -30,9 +28,7 @@ public class PostDetailResponse {
     public PostDetailResponse(Post post) {
         this.id = post.getId();
         this.content = post.getContent();
-        this.firstAddress = post.getFirstAddress();
-        this.secondAddress = post.getSecondAddress();
-        this.restAddress = post.getRestAddress();
+        this.address = post.getAddress();
         this.score = post.getScore();
         this.isOpen = post.getIsOpen();
         this.countGood = post.getCountGood();

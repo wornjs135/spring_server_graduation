@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query("select p from Post p where p.firstAddress like %:firstAddress% and p.secondAddress like %:secondAddress% and p.isOpen = true order by p.createdAt desc")
+    @Query("select p from Post p where p.address like %:firstAddress% and p.address like %:secondAddress% and p.isOpen = true order by p.createdAt desc")
     Slice<Post> findSimplePostList(@Param("firstAddress") String firstAddress, @Param("secondAddress") String secondAddress, Pageable pageable);
 
     @Query("select p from Post p where p.member.id =:memberId order by p.createdAt desc")

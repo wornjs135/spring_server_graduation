@@ -30,7 +30,7 @@ public class PostQueryRepository {
     public Page<Post> findByAddress(String firstAddress, String secondAddress, Pageable pageable){
         List<Post> findPosts = queryFactory
                 .selectFrom(post)
-                .where(post.firstAddress.contains(firstAddress), post.secondAddress.contains(secondAddress),
+                .where(post.address.contains(firstAddress), post.address.contains(secondAddress),
                         post.isOpen.eq(true))
                 .leftJoin(post.member, member).fetchJoin()
                 .leftJoin(post.category, category).fetchJoin()
@@ -41,7 +41,7 @@ public class PostQueryRepository {
 
         long totalCount = queryFactory
                 .selectFrom(post)
-                .where(post.firstAddress.contains(firstAddress), post.secondAddress.contains(secondAddress),
+                .where(post.address.contains(firstAddress), post.address.contains(secondAddress),
                         post.isOpen.eq(true))
                 .orderBy(post.createdAt.desc())
                 .offset(pageable.getOffset())
@@ -59,5 +59,27 @@ public class PostQueryRepository {
                 .fetchOne();
 
         return findPost;
+    }
+
+    public Page<Post> findMyPostWeb(Long memberId, Pageable pageable){
+        List<Post> findPosts = queryFactory
+                .selectFrom(post)
+                .where(post.member.id.eq(memberId))
+                .leftJoin(post.member, member).fetchJoin()
+                .leftJoin(post.category, category).fetchJoin()
+                .orderBy(post.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        long totalCount = queryFactory
+                .selectFrom(post)
+                .where(post.member.id.eq(memberId))
+                .orderBy(post.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchCount();
+
+        return new PageImpl<>(findPosts, pageable, totalCount);
     }
 }
