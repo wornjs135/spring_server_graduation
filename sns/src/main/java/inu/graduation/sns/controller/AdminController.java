@@ -3,6 +3,7 @@ package inu.graduation.sns.controller;
 import inu.graduation.sns.domain.Category;
 import inu.graduation.sns.model.category.request.CategorySaveRequest;
 import inu.graduation.sns.model.category.request.CategoryUpdateRequest;
+import inu.graduation.sns.model.category.response.CategoryResponse;
 import inu.graduation.sns.service.CategoryService;
 import inu.graduation.sns.service.CommentService;
 import inu.graduation.sns.service.MemberService;
@@ -29,19 +30,15 @@ public class AdminController {
 
     // 카테고리 생성
     @PostMapping("/admin/categories")
-    public ResponseEntity createCategory(@RequestBody @Valid CategorySaveRequest categorySaveRequest){
-        categoryService.createCategory(categorySaveRequest);
-
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<CategoryResponse> createCategory(@RequestBody @Valid CategorySaveRequest categorySaveRequest){
+        return ResponseEntity.ok(categoryService.createCategory(categorySaveRequest));
     }
 
     // 카테고리 수정
     @PatchMapping("/admin/categories/{categoryId}")
     public ResponseEntity updateCategory(@PathVariable Long categoryId,
                                          @RequestBody @Valid CategoryUpdateRequest categoryUpdateRequest){
-        categoryService.updateCategory(categoryId, categoryUpdateRequest);
-
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.ok(categoryService.updateCategory(categoryId, categoryUpdateRequest));
     }
 
     // 카테고리 삭제

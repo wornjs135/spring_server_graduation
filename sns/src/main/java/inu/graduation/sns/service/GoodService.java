@@ -6,6 +6,7 @@ import inu.graduation.sns.domain.Post;
 import inu.graduation.sns.exception.GoodException;
 import inu.graduation.sns.exception.MemberException;
 import inu.graduation.sns.exception.PostException;
+import inu.graduation.sns.model.good.response.GoodCountResponse;
 import inu.graduation.sns.repository.GoodRepository;
 import inu.graduation.sns.repository.MemberRepository;
 import inu.graduation.sns.repository.PostRepository;
@@ -26,7 +27,7 @@ public class GoodService {
 
     // 좋아요 하기
     @Transactional
-    public Good saveGood(Long memberId, Long postId) {
+    public GoodCountResponse saveGood(Long memberId, Long postId) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
         Post findPost = postRepository.findById(postId)
@@ -35,15 +36,15 @@ public class GoodService {
             throw new GoodException("이미 좋아요를 누른 게시글입니다.");
         }
         Good good = Good.createGood(findMember, findPost);
-        goodRepository.save(good);
+        Good savedGood = goodRepository.save(good);
         findPost.addGoodCount();
 
-        return good;
+        return new GoodCountResponse(savedGood.getId(), findPost.getCountGood());
     }
 
     // 좋아요 취소
     @Transactional
-    public boolean cancleGood(Long memberId, Long goodId) {
+    public GoodCountResponse cancleGood(Long memberId, Long goodId) {
         Good findGood = goodRepository.findById(goodId)
                 .orElseThrow(() -> new GoodException("존재하지 않는 좋아요입니다."));
         if(!findGood.getMember().getId().equals(memberId)){
@@ -54,6 +55,6 @@ public class GoodService {
         findPost.removeGoodCount();
         goodRepository.delete(findGood);
 
-        return true;
+        return new GoodCountResponse(findGood.getId(), findPost.getCountGood());
     }
 }

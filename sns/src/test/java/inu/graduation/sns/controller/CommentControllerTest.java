@@ -194,6 +194,8 @@ class CommentControllerTest {
 
         // when
         mockMvc.perform(RestDocumentationRequestBuilders.get("/posts/{postId}/comments", 1L)
+                .param("page", "0")
+                .param("size", "20")
                 .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -204,6 +206,10 @@ class CommentControllerTest {
                         ),
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer Access 토큰")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("페이지 번호"),
+                                parameterWithName("size").description("데이터 개수")
                         ),
                         responseFields(
                                 fieldWithPath("content.[].id").type(JsonFieldType.NUMBER).description("댓글 식별자"),
@@ -250,6 +256,8 @@ class CommentControllerTest {
 
         // when
         mockMvc.perform(RestDocumentationRequestBuilders.get("/m/posts/{postId}/comments", 1L)
+                .param("page", "0")
+                .param("size", "20")
                 .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -257,6 +265,10 @@ class CommentControllerTest {
                 .andDo(document("comment/findCommentsApp",
                         pathParameters(
                                 parameterWithName("postId").description("게시글 식별자")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("페이지 번호"),
+                                parameterWithName("size").description("데이터 개수")
                         ),
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer Access 토큰")

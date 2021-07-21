@@ -1,0 +1,35 @@
+:basedir: {docdir}/../../../
+:snippets: {basedir}/build/generated-snippets
+
+= RESTFUL Notes API Guide
+:doctype: member
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectlinks:
+:sectanchors:
+
+[[api]]
+== 좋아요 하기 API
+===== 요청
+include::{snippets}/good/create/http-request.adoc[]
+경로변수
+include::{snippets}/good/create/path-parameters.adoc[]
+Header
+include::{snippets}/good/create/request-headers.adoc[]
+===== 응답
+include::{snippets}/good/create/http-response.adoc[]
+include::{snippets}/good/create/response-fields.adoc[]
+
+== 좋아요 취소 API
+===== 요청
+include::{snippets}/good/delete/http-request.adoc[]
+경로변수
+include::{snippets}/good/delete/path-parameters.adoc[]
+Header
+include::{snippets}/good/delete/request-headers.adoc[]
+===== 응답
+include::{snippets}/good/delete/http-response.adoc[]
+include::{snippets}/good/delete/response-fields.adoc[]

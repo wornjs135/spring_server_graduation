@@ -1,0 +1,79 @@
+:basedir: {docdir}/../../../
+:snippets: {basedir}/build/generated-snippets
+
+= RESTFUL Notes API Guide
+:doctype: member
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectlinks:
+:sectanchors:
+
+[[api]]
+== (관리자) 카테고리 생성 API
+===== 요청
+include::{snippets}/admin/createCateogry/http-request.adoc[]
+Header
+include::{snippets}/admin/createCateogry/request-headers.adoc[]
+Body
+include::{snippets}/admin/createCateogry/request-body.adoc[]
+include::{snippets}/admin/createCateogry/request-fields.adoc[]
+===== 응답
+include::{snippets}/admin/createCateogry/http-response.adoc[]
+include::{snippets}/admin/createCateogry/response-fields.adoc[]
+
+== (관리자) 카테고리 수정 API
+===== 요청
+include::{snippets}/admin/updateCategory/http-request.adoc[]
+경로변수
+include::{snippets}/admin/updateCategory/path-parameters.adoc[]
+Hedaer
+include::{snippets}/admin/updateCategory/request-headers.adoc[]
+Body
+include::{snippets}/admin/updateCategory/request-body.adoc[]
+include::{snippets}/admin/updateCategory/request-fields.adoc[]
+===== 응답
+include::{snippets}/admin/updateCategory/http-response.adoc[]
+include::{snippets}/admin/updateCategory/response-fields.adoc[]
+
+== (관리자) 카테고리 삭제 API
+===== 요청
+include::{snippets}/admin/deleteCategory/http-request.adoc[]
+경로변수
+include::{snippets}/admin/deleteCategory/path-parameters.adoc[]
+Header
+include::{snippets}/admin/deleteCategory/request-headers.adoc[]
+===== 응답
+include::{snippets}/admin/deleteCategory/http-response.adoc[]
+
+== (관리자) 회원 삭제 API
+===== 요청
+include::{snippets}/admin/deleteMember/http-request.adoc[]
+경로변수
+include::{snippets}/admin/deleteMember/path-parameters.adoc[]
+Header
+include::{snippets}/admin/deleteMember/request-headers.adoc[]
+===== 응답
+include::{snippets}/admin/deleteMember/http-response.adoc[]
+
+== (관리자) 게시글 삭제 API
+===== 요청
+include::{snippets}/admin/deletePost/http-request.adoc[]
+경로변수
+include::{snippets}/admin/deletePost/path-parameters.adoc[]
+Header
+include::{snippets}/admin/deletePost/request-headers.adoc[]
+===== 응답
+include::{snippets}/admin/deletePost/http-response.adoc[]
+
+== (관리자) 댓글 삭제 API
+===== 요청
+include::{snippets}/admin/deleteComment/http-request.adoc[]
+경로변수
+include::{snippets}/admin/deleteComment/path-parameters.adoc[]
+Header
+include::{snippets}/admin/deleteComment/request-headers.adoc[]
+===== 응답
+include::{snippets}/admin/deleteComment/http-response.adoc[]

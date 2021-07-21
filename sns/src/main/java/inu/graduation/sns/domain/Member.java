@@ -44,6 +44,17 @@ public class Member extends BaseEntity{
         return member;
     }
 
+    public static Member createAdminMember(Integer kakaoId, String email) {
+        Member member = new Member();
+        member.kakaoId = Long.valueOf(kakaoId);
+        member.email = email;
+        member.nickname = "관리자";
+        member.role = Role.ROLE_ADMIN;
+        member.profileImage = ProfileImage.createDefaultProfileImage();
+        member.refreshToken = null;
+        return member;
+    }
+
     public boolean updateNickname(String nickname) {
         this.nickname = nickname;
         return true;

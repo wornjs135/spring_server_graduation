@@ -2,10 +2,13 @@ package inu.graduation.sns;
 
 import inu.graduation.sns.model.Image.dto.ImageDto;
 import inu.graduation.sns.model.category.dto.CategoryDto;
+import inu.graduation.sns.model.category.request.CategorySaveRequest;
+import inu.graduation.sns.model.category.request.CategoryUpdateRequest;
 import inu.graduation.sns.model.category.response.CategoryResponse;
 import inu.graduation.sns.model.comment.request.CommentSaveRequest;
 import inu.graduation.sns.model.comment.request.CommentUpdateRequest;
 import inu.graduation.sns.model.comment.response.CommentResponse;
+import inu.graduation.sns.model.good.response.GoodCountResponse;
 import inu.graduation.sns.model.member.dto.MemberDto;
 import inu.graduation.sns.model.member.response.MemberResponse;
 import inu.graduation.sns.model.post.request.PostSaveRequest;
@@ -64,6 +67,10 @@ public class TestObject {
 
     public static final CategoryDto TEST_CATEGORY_DTO
             = new CategoryDto(1L, "카테고리1");
+    public static final CategorySaveRequest TEST_CATEGORY_SAVE_REQUEST
+            = new CategorySaveRequest("새로운 카테고리");
+    public static final CategoryUpdateRequest TEST_CATEGORY_UPDATE_REQUEST
+            = new CategoryUpdateRequest("수정할 카테고리");
 
     public static final CategoryResponse TEST_CATEGORY_RESPONSE1
             = new CategoryResponse(1L, "관광지");
@@ -71,6 +78,10 @@ public class TestObject {
             = new CategoryResponse(2L, "숙소");
     public static final CategoryResponse TEST_CATEGORY_RESPONSE3
             = new CategoryResponse(3L, "맛집");
+    public static final CategoryResponse TEST_CATEGORY_RESPONSE4
+            = new CategoryResponse(4L, "생성된 카테고리");
+    public static final CategoryResponse TEST_CATEGORY_RESPONSE5
+            = new CategoryResponse(5L, "수정된 카테고리");
 
     public static final ImageDto TEST_IMAGE_DTO1
             = new ImageDto(1L, "이미지url", "썸네일url");
@@ -137,4 +148,7 @@ public class TestObject {
             = new CommentResponse(4L, "댓글이다아아아악", TEST_MEMBER_DTO2);
     public static final CommentResponse TEST_COMMENT_RESPONSE5
             = new CommentResponse(5L, "댓글댓글댓글댓글댁글", TEST_MEMBER_DTO3);
+
+    public static final GoodCountResponse TEST_GOOD_COUTN_RESPONSE
+            = new GoodCountResponse(1L ,57);
 }

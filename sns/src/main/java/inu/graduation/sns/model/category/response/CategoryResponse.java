@@ -14,8 +14,7 @@ public class CategoryResponse {
     private String name;
 
     public CategoryResponse(Category category){
-        CategoryResponse categoryResponse = new CategoryResponse();
-        categoryResponse.id = categoryResponse.getId();
-        categoryResponse.name = categoryResponse.getName();
+        this.id = category.getId();
+        this.name = category.getName();
     }
 }

@@ -1,0 +1,22 @@
+:basedir: {docdir}/../../../
+:snippets: {basedir}/build/generated-snippets
+
+= RESTFUL Notes API Guide
+:doctype: member
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectlinks:
+:sectanchors:
+
+[[api]]
+== 카테고리 리스트 조회 API
+===== 요청
+include::{snippets}/category/findList/http-request.adoc[]
+Header
+include::{snippets}/category/findList/request-headers.adoc[]
+===== 응답
+include::{snippets}/category/findList/http-response.adoc[]
+include::{snippets}/category/findList/response-fields.adoc[]

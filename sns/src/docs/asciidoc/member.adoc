@@ -1,0 +1,81 @@
+:basedir: {docdir}/../../../
+:snippets: {basedir}/build/generated-snippets
+
+= RESTFUL Notes API Guide
+:doctype: member
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectlinks:
+:sectanchors:
+
+[[api]]
+== 회원 로그인 API
+===== 요청
+include::{snippets}/member/create/http-request.adoc[]
+Header
+include::{snippets}/member/create/request-headers.adoc[]
+===== 응답
+include::{snippets}/member/create/http-response.adoc[]
+Header
+include::{snippets}/member/create/response-headers.adoc[]
+
+== access 토큰 재발급 API
+===== 요청
+include::{snippets}/member/refresh/http-request.adoc[]
+Header
+include::{snippets}/member/refresh/request-headers.adoc[]
+===== 응답
+include::{snippets}/member/refresh/http-response.adoc[]
+Header
+include::{snippets}/member/refresh/response-headers.adoc[]
+
+== 닉네임 수정 API
+===== 요청
+include::{snippets}/member/updateNickname/http-request.adoc[]
+Header
+include::{snippets}/member/updateNickname/request-headers.adoc[]
+Body
+include::{snippets}/member/updateNickname/request-body.adoc[]
+include::{snippets}/member/updateNickname/request-fields.adoc[]
+===== 응답
+include::{snippets}/member/updateNickname/http-response.adoc[]
+include::{snippets}/member/updateNickname/response-fields.adoc[]
+
+== 프로필사진 수정 API
+===== 요청
+include::{snippets}/member/updateProfileImg/http-request.adoc[]
+Header
+include::{snippets}/member/updateProfileImg/request-headers.adoc[]
+Part
+include::{snippets}/member/updateProfileImg/request-parts.adoc[]
+===== 응답
+include::{snippets}/member/updateProfileImg/http-response.adoc[]
+include::{snippets}/member/updateProfileImg/response-fields.adoc[]
+
+== 회원 탈퇴 API
+===== 요청
+include::{snippets}/member/delete/http-request.adoc[]
+Header
+include::{snippets}/member/delete/request-headers.adoc[]
+===== 응답
+include::{snippets}/member/delete/http-response.adoc[]
+
+== 회원 정보 조회 API
+===== 요청
+include::{snippets}/member/findInfo/http-request.adoc[]
+Header
+include::{snippets}/member/findInfo/request-headers.adoc[]
+===== 응답
+include::{snippets}/member/findInfo/http-response.adoc[]
+include::{snippets}/member/findInfo/response-fields.adoc[]
+
+== 로그아웃 API
+===== 요청
+include::{snippets}/member/logout/http-request.adoc[]
+Header
+include::{snippets}/member/logout/request-headers.adoc[]
+===== 응답
+include::{snippets}/member/logout/http-response.adoc[]

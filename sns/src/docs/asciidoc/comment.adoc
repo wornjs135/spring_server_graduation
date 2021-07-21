@@ -1,0 +1,77 @@
+:basedir: {docdir}/../../../
+:snippets: {basedir}/build/generated-snippets
+
+= RESTFUL Notes API Guide
+:doctype: member
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectlinks:
+:sectanchors:
+
+[[api]]
+== 댓글 생성 API
+===== 요청
+include::{snippets}/comment/create/http-request.adoc[]
+경로변수
+include::{snippets}/comment/create/path-parameters.adoc[]
+Header
+include::{snippets}/comment/create/request-headers.adoc[]
+Body
+include::{snippets}/comment/create/request-body.adoc[]
+include::{snippets}/comment/create/request-fields.adoc[]
+===== 응답
+include::{snippets}/comment/create/http-response.adoc[]
+include::{snippets}/comment/create/response-fields.adoc[]
+
+== 댓글 수정 API
+===== 요청
+include::{snippets}/comment/update/http-request.adoc[]
+경로변수
+include::{snippets}/comment/update/path-parameters.adoc[]
+Header
+include::{snippets}/comment/update/request-headers.adoc[]
+Body
+include::{snippets}/comment/update/request-body.adoc[]
+include::{snippets}/comment/update/request-fields.adoc[]
+===== 응답
+include::{snippets}/comment/update/http-response.adoc[]
+include::{snippets}/comment/update/response-fields.adoc[]
+
+== 댓글 삭제 API
+===== 요청
+include::{snippets}/comment/delete/http-request.adoc[]
+경로변수
+include::{snippets}/comment/delete/path-parameters.adoc[]
+Header
+include::{snippets}/comment/delete/request-headers.adoc[]
+===== 응답
+include::{snippets}/comment/delete/http-response.adoc[]
+
+== (웹) 게시글의 댓글 조회
+===== 요청
+include::{snippets}/comment/findCommentsWeb/http-request.adoc[]
+경로변수
+include::{snippets}/comment/findCommentsWeb/path-parameters.adoc[]
+URL 파라미터
+include::{snippets}/comment/findCommentsWeb/request-parameters.adoc[]
+Header
+include::{snippets}/comment/findCommentsWeb/request-headers.adoc[]
+===== 응답
+include::{snippets}/comment/findCommentsWeb/http-response.adoc[]
+include::{snippets}/comment/findCommentsWeb/response-fields.adoc[]
+
+== (앱) 게시글의 댓글 조회
+===== 요청
+include::{snippets}/comment/findCommentsApp/http-request.adoc[]
+경로변수
+include::{snippets}/comment/findCommentsApp/path-parameters.adoc[]
+URL 파라미터
+include::{snippets}/comment/findCommentsApp/request-parameters.adoc[]
+Header
+include::{snippets}/comment/findCommentsApp/request-headers.adoc[]
+===== 응답
+include::{snippets}/comment/findCommentsApp/http-response.adoc[]
+include::{snippets}/comment/findCommentsApp/response-fields.adoc[]

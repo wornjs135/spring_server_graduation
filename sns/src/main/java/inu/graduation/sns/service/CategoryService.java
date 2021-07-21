@@ -22,22 +22,27 @@ public class CategoryService {
 
     // 카테고리 생성
     @Transactional
-    public Category createCategory(CategorySaveRequest categorySaveRequest) {
+    public CategoryResponse createCategory(CategorySaveRequest categorySaveRequest) {
         if(categoryRepository.findByName(categorySaveRequest.getName()).isPresent()){
             throw new CategoryException("이미 생성된 카테고리입니다.");
         }
         Category category = Category.createCategory(categorySaveRequest.getName());
+        Category savedCategory = categoryRepository.save(category);
 
-        return categoryRepository.save(category);
+        return new CategoryResponse(savedCategory);
     }
 
     // 카테고리 수정
     @Transactional
-    public boolean updateCategory(Long categoryId, CategoryUpdateRequest categoryUpdateRequest) {
+    public CategoryResponse updateCategory(Long categoryId, CategoryUpdateRequest categoryUpdateRequest) {
         Category findCategory = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new CategoryException("없는 카테고리입니다."));
+        if(categoryRepository.findByName(categoryUpdateRequest.getName()).isPresent()){
+            throw new CategoryException("이미 생성된 카테고리입니다.");
+        }
+        findCategory.updateCategory(categoryUpdateRequest.getName());
 
-        return findCategory.updateCategory(categoryUpdateRequest.getName());
+        return new CategoryResponse(findCategory);
     }
 
     // 카테고리 삭제

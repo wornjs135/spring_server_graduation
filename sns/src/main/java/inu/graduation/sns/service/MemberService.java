@@ -43,6 +43,9 @@ public class MemberService {
     @Value("${cloud.aws.s3.thumbnailBucket}")
     private String thumbnailBucket;
 
+    @Value("${spring.adminEmail}")
+    private String adminEmail;
+
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
     private final AmazonS3Client amazonS3Client;
@@ -57,12 +60,23 @@ public class MemberService {
         Optional<Member> findMember = memberRepository.findByKakaoId(Long.valueOf(kakaoUser.getId()));
         // 서버에 회원 정보가 없으면
         if (!findMember.isPresent()){
-            Member member = Member.createMember(kakaoUser.getId(), kakaoUser.getKakao_account().getEmail());
-            Member savedMember = memberRepository.save(member);
-            CreateToken createToken = jwtTokenProvider.createToken(String.valueOf(savedMember.getId()));
-            savedMember.changeRefreshToken(createToken.getRefreshToken());
-            return createToken;
-        } else {
+            // 일반계정 생성
+            if (!kakaoUser.getKakao_account().getEmail().equals(adminEmail)) {
+                Member member = Member.createMember(kakaoUser.getId(), kakaoUser.getKakao_account().getEmail());
+                Member savedMember = memberRepository.save(member);
+                CreateToken createToken = jwtTokenProvider.createToken(String.valueOf(savedMember.getId()));
+                savedMember.changeRefreshToken(createToken.getRefreshToken());
+
+                return createToken;
+            } else { // 관리자 계정 생성
+                Member savedAdmin = saveAdmin(kakaoUser.getId(), kakaoUser.getKakao_account().getEmail());
+                CreateToken createToken = jwtTokenProvider.createToken(String.valueOf(savedAdmin.getId()));
+                savedAdmin.changeRefreshToken(createToken.getRefreshToken());
+
+                return createToken;
+            }
+
+        } else { // 서버에 회원 정보 있으면 바로 로그인
             Member member = findMember.get();
             CreateToken createToken = jwtTokenProvider.createToken(String.valueOf(member.getId()));
             member.changeRefreshToken(createToken.getRefreshToken());
@@ -170,6 +184,12 @@ public class MemberService {
         }
 
         return kaKaoUserResponse;
+    }
+
+    // 관리자 계정 저장
+    private Member saveAdmin(Integer kakaoId, String email) {
+        Member adminMember = Member.createAdminMember(kakaoId, email);
+        return memberRepository.save(adminMember);
     }
 
     // 프로필사진 s3에 업로드

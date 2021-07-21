@@ -3,8 +3,11 @@ package inu.graduation.sns.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.Embeddable;
+
+import static inu.graduation.sns.model.common.DefaultProfielImg.*;
 
 @Embeddable
 @Getter
@@ -17,9 +20,9 @@ public class ProfileImage {
 
     public static ProfileImage createDefaultProfileImage(){
         ProfileImage profileImage = new ProfileImage();
-        profileImage.profileImageUrl = "기본이미지";
-        profileImage.profileThumbnailImageUrl = "기본썸넹ㄹ";
-        profileImage.imageStoreName = "기본이미지이름";
+        profileImage.profileImageUrl = DEFAULT_PROFILE_IMG;
+        profileImage.profileThumbnailImageUrl = DEFAULT_PROFILE_THUMBNAIL_IMG;
+        profileImage.imageStoreName = "kakao_2.jpg";
         return profileImage;
     }
 
