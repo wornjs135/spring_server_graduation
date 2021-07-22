@@ -19,6 +19,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class MemberController {
 
     private final MemberService memberService;
@@ -31,6 +32,8 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK)
                 .header("accessToken", createToken.getAccessToken())
                 .header("refreshToken", createToken.getRefreshToken())
+//                .header("Access-Controll-Allow-Origin", "*")
+//                .header("Access-Controll-Allow-Credentials", String.valueOf(true))
                 .build();
     }
 
