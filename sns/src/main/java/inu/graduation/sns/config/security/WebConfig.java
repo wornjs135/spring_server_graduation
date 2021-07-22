@@ -19,14 +19,14 @@ public class WebConfig implements WebMvcConfigurer {
         resolvers.add(loginMemberArgumentResolver);
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("*")
-                .allowedHeaders("*")
-//                .allowCredentials(true) // 특정 오리진 일때만 true
-                .maxAge(3600);
-    }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//
+//        registry.addMapping("/**")
+//                .allowedOrigins("*")
+//                .allowedMethods("*")
+//                .allowedHeaders("*")
+////                .allowCredentials(true) // 특정 오리진 일때만 true
+//                .maxAge(3600);
+//    }
 }
