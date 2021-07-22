@@ -25,7 +25,7 @@ public class MemberController {
 
     // 카카오 로그인
     @PostMapping("/members/login")
-    public ResponseEntity kakaoLogin(@RequestHeader String kakaoToken){
+    public ResponseEntity kakaoLogin(@RequestHeader(name = "kakaoToken") String kakaoToken){
         CreateToken createToken = memberService.kakaoLoginMember(kakaoToken);
 
         return ResponseEntity.status(HttpStatus.OK)
