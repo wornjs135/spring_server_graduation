@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Entity
 @Getter
@@ -37,7 +38,7 @@ public class Member extends BaseEntity{
         Member member = new Member();
         member.kakaoId = Long.valueOf(kakaoId);
         member.email = email;
-        member.nickname = "기본 닉네임";
+        member.nickname = randomNickname();
         member.role = Role.ROLE_MEMBER;
         member.profileImage = ProfileImage.createDefaultProfileImage();
         member.refreshToken = null;
@@ -71,5 +72,20 @@ public class Member extends BaseEntity{
 
     public void changeRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+
+    // 기본 랜덤닉네임 생성
+    public static String randomNickname(){
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+
+        return random.ints(leftLimit,rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 }
