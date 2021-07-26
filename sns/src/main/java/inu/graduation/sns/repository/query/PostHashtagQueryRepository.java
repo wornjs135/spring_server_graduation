@@ -27,6 +27,8 @@ public class PostHashtagQueryRepository {
                 .select(Projections.constructor(PostResponse.class, postHashtag.post)).from(postHashtag)
                 .where(postHashtag.hashtag.id.eq(hashtagId), postHashtag.post.isOpen.eq(true))
                 .orderBy(postHashtag.post.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetchResults();
 
         List<PostResponse> findPosts = result.getResults();

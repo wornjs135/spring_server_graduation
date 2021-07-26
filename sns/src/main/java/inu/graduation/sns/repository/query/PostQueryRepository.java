@@ -44,8 +44,6 @@ public class PostQueryRepository {
                 .where(post.address.contains(firstAddress), post.address.contains(secondAddress),
                         post.isOpen.eq(true))
                 .orderBy(post.createdAt.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
                 .fetchCount();
 
         return new PageImpl<>(findPosts, pageable, totalCount);
@@ -76,8 +74,6 @@ public class PostQueryRepository {
                 .selectFrom(post)
                 .where(post.member.id.eq(memberId))
                 .orderBy(post.createdAt.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
                 .fetchCount();
 
         return new PageImpl<>(findPosts, pageable, totalCount);
