@@ -18,7 +18,7 @@ public class MemberResponse {
 
     public MemberResponse(Member member){
         this.id = member.getId();
-        this.email = member.getEmail();
+//        this.email = member.getEmail();
         this.nickname = member.getNickname();
         this.profileImageUrl = member.getProfileImage().getProfileImageUrl();
         this.profileThumbnailImageUrl = member.getProfileImage().getProfileThumbnailImageUrl();

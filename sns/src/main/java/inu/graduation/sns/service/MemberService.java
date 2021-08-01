@@ -43,8 +43,8 @@ public class MemberService {
     @Value("${cloud.aws.s3.thumbnailBucket}")
     private String thumbnailBucket;
 
-    @Value("${spring.adminEmail}")
-    private String adminEmail;
+    @Value("${spring.adminKakaoId}")
+    private Integer adminKakaoId;
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
@@ -61,15 +61,15 @@ public class MemberService {
         // 서버에 회원 정보가 없으면
         if (!findMember.isPresent()){
             // 일반계정 생성
-            if (!kakaoUser.getKakao_account().getEmail().equals(adminEmail)) {
-                Member member = Member.createMember(kakaoUser.getId(), kakaoUser.getKakao_account().getEmail());
+            if (!kakaoUser.getId().equals(adminKakaoId)) {
+                Member member = Member.createMember(kakaoUser.getId());
                 Member savedMember = memberRepository.save(member);
                 CreateToken createToken = jwtTokenProvider.createToken(String.valueOf(savedMember.getId()));
                 savedMember.changeRefreshToken(createToken.getRefreshToken());
 
                 return createToken;
             } else { // 관리자 계정 생성
-                Member savedAdmin = saveAdmin(kakaoUser.getId(), kakaoUser.getKakao_account().getEmail());
+                Member savedAdmin = saveAdmin(kakaoUser.getId());
                 CreateToken createToken = jwtTokenProvider.createToken(String.valueOf(savedAdmin.getId()));
                 savedAdmin.changeRefreshToken(createToken.getRefreshToken());
 
@@ -187,8 +187,8 @@ public class MemberService {
     }
 
     // 관리자 계정 저장
-    private Member saveAdmin(Integer kakaoId, String email) {
-        Member adminMember = Member.createAdminMember(kakaoId, email);
+    private Member saveAdmin(Integer kakaoId) {
+        Member adminMember = Member.createAdminMember(kakaoId);
         return memberRepository.save(adminMember);
     }
 

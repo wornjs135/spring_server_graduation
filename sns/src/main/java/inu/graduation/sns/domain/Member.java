@@ -22,7 +22,7 @@ public class Member extends BaseEntity{
 
     private Long kakaoId;
 
-    private String email;
+//    private String email;
 
     private String nickname;
 
@@ -34,10 +34,10 @@ public class Member extends BaseEntity{
 
     private String refreshToken;
 
-    public static Member createMember(Integer kakaoId, String email) {
+    public static Member createMember(Integer kakaoId) {
         Member member = new Member();
         member.kakaoId = Long.valueOf(kakaoId);
-        member.email = email;
+//        member.email = email;
         member.nickname = randomNickname();
         member.role = Role.ROLE_MEMBER;
         member.profileImage = ProfileImage.createDefaultProfileImage();
@@ -45,10 +45,10 @@ public class Member extends BaseEntity{
         return member;
     }
 
-    public static Member createAdminMember(Integer kakaoId, String email) {
+    public static Member createAdminMember(Integer kakaoId) {
         Member member = new Member();
         member.kakaoId = Long.valueOf(kakaoId);
-        member.email = email;
+//        member.email = email;
         member.nickname = "관리자";
         member.role = Role.ROLE_ADMIN;
         member.profileImage = ProfileImage.createDefaultProfileImage();
