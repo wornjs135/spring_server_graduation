@@ -166,7 +166,7 @@ class MemberControllerTest {
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원 식별자"),
-                                fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
+//                                fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("수정된 닉네임"),
                                 fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필 이미지 URL"),
                                 fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("프로필 썸네일 이미지 URL")
@@ -210,14 +210,44 @@ class MemberControllerTest {
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원 식별자"),
-                                fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
+//                                fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
-                                fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("수정된 프로필 이미지"),
-                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("수정된 프로필 썸네일 이미지")
+                                fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("수정된 프로필 이미지 URL"),
+                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("수정된 프로필 썸네일 이미지 URL")
                         )));
 
         // then
         then(memberService).should(times(1)).updateProfileImg(any(), any());
+    }
+
+    @Test
+    @DisplayName("기본 프로필사진으로 변경")
+    void defaultProfileimg() throws Exception{
+        // given
+        given(memberService.defaultProfileImage(any()))
+                .willReturn(TEST_MEMBER_RESPONSE_DEFAULT_PROFILEIMG);
+        given(loginMemberArgumentResolver.resolveArgument(any(), any(), any(), any()))
+                .willReturn(1L);
+
+        // when
+        mockMvc.perform(RestDocumentationRequestBuilders.patch("/members/profileimg/default")
+                .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(TEST_MEMBER_RESPONSE_DEFAULT_PROFILEIMG)))
+                .andDo(document("member/defaultProfileImg",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer Access 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
+                                fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("기본 프로필 이미지 URL"),
+                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("기본 프로필 썸네일 이미지 URL")
+                        )));
+
+        // then
+        then(memberService).should(times(1)).defaultProfileImage(any());
     }
 
     @Test
@@ -259,7 +289,7 @@ class MemberControllerTest {
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원 식별자"),
-                                fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
+//                                fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
                                 fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필 이미지 URL"),
                                 fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("프로필 썸네일 이미지 URL")

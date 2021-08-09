@@ -118,6 +118,16 @@ public class MemberService {
         return new MemberResponse(findMember);
     }
 
+    // 기본 프로필사진으로
+    @Transactional
+    public MemberResponse defaultProfileImage(Long memberId) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
+        findMember.defaultProfileImage();
+
+        return new MemberResponse(findMember);
+    }
+
     // 회원 탈퇴
     @Transactional
     public boolean deleteMember(Long memberId) {
@@ -221,5 +231,4 @@ public class MemberService {
 
         return imageObject;
     }
-
 }

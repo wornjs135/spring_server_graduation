@@ -55,6 +55,15 @@ include::{snippets}/member/updateProfileImg/request-parts.adoc[]
 include::{snippets}/member/updateProfileImg/http-response.adoc[]
 include::{snippets}/member/updateProfileImg/response-fields.adoc[]
 
+== 기본 프로필사진으로 수정 API
+===== 요청
+include::{snippets}/member/defaultProfileImg/http-request.adoc[]
+Header
+include::{snippets}/member/defaultProfileImg/request-headers.adoc[]
+===== 응답
+include::{snippets}/member/defaultProfileImg/http-response.adoc[]
+include::{snippets}/member/defaultProfileImg/response-fields.adoc[]
+
 == 회원 탈퇴 API
 ===== 요청
 include::{snippets}/member/delete/http-request.adoc[]

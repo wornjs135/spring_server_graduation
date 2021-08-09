@@ -66,6 +66,10 @@ public class Member extends BaseEntity{
         return true;
     }
 
+    public void defaultProfileImage() {
+        this.profileImage = ProfileImage.createDefaultProfileImage();
+    }
+
     public void logout(){
         this.refreshToken = null;
     }

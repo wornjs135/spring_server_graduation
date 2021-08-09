@@ -32,10 +32,12 @@ public class TestObject {
     public final static String JWT_REFRESHTOKEN_TEST = "Bearer refresh토큰";
 
     public static final MemberResponse TEST_MEMBER_RESPONSE
-            = new MemberResponse(1L,"이메일", "황주환", "이미지", "썸네일");
+            = new MemberResponse(1L, "황주환", "이미지url", "썸네일url");
 
     public static final MemberResponse TEST_MEMBER_RESPONSE_UPDATE_PROFILEIMG
-            = new MemberResponse(1L,"이메일", "황주환", "수정된이미지", "수정된썸네일");
+            = new MemberResponse(1L, "황주환", "수정된이미지url", "수정된썸네일url");
+    public static final MemberResponse TEST_MEMBER_RESPONSE_DEFAULT_PROFILEIMG
+            = new MemberResponse(1L, "황주환", "기본이미지url", "기본썸네일url");
 
     public static final MemberDto TEST_MEMBER_DTO
             = new MemberDto(1L, "닉네임");

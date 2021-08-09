@@ -60,6 +60,12 @@ public class MemberController {
         return ResponseEntity.ok(memberService.updateProfileImg(image, memberId));
     }
 
+    // 기본 프로필사진으로
+    @PatchMapping("/members/profileimg/default")
+    public ResponseEntity<MemberResponse> defaultProfileImage(@LoginMember Long memberId){
+        return ResponseEntity.ok(memberService.defaultProfileImage(memberId));
+    }
+
     // 회원 탈퇴
     @DeleteMapping("/members/delete")
     public ResponseEntity deleteMember(@LoginMember Long memberId){

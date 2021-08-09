@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class MemberResponse {
 
     private Long id;
-    private String email;
+//    private String email;
     private String nickname;
     private String profileImageUrl;
     private String profileThumbnailImageUrl;
