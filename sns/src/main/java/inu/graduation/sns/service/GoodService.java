@@ -24,6 +24,7 @@ public class GoodService {
     private final GoodRepository goodRepository;
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
+    //private final NotificationService notificationService;
 
     // 좋아요 하기
     @Transactional
@@ -38,6 +39,8 @@ public class GoodService {
         Good good = Good.createGood(findMember, findPost);
         Good savedGood = goodRepository.save(good);
         findPost.addGoodCount();
+
+        //notificationService.sendMessage("게시글 작성자 토큰", "새 좋아요", NotificationService.createGoodNotice(findMember.getNickname()));
 
         return new GoodCountResponse(savedGood.getId(), findPost.getCountGood());
     }

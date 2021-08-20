@@ -27,6 +27,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
+    //private final NotificationService notificationService;
 
     // 댓글 생성
     @Transactional
@@ -38,6 +39,9 @@ public class CommentService {
         Comment comment = Comment.saveComment(commentSaveRequest.getContent(), findMember, findPost);
         findPost.addCommentCount();
         Comment savedComment = commentRepository.save(comment);
+
+        //notificationService.sendMessage("게시글 작성자 토큰", "새 댓글", NotificationService.createCommentNotice(findMember.getNickname()));
+
         return new CommentResponse(savedComment);
     }
 
@@ -88,12 +92,12 @@ public class CommentService {
         return true;
     }
 
-    // 게시글의 댓글들 검색(앱)
+    // 게시글의 댓글들 조회(앱)
     public Slice<CommentResponse> findCommentsByPostId(Long postId, Pageable pageable) {
         return commentRepository.findCommentsByPostId(postId, pageable);
     }
 
-    // 게시글의 댓글들 검색(웹)
+    // 게시글의 댓글들 조회(웹)
     public Page<CommentResponse> findCommentsByPost(Long postId, Pageable pageable) {
         Page<Comment> result = commentRepository.findCommentsByPost(postId, pageable);
 

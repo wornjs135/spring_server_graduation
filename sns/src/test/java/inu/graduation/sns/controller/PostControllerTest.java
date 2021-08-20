@@ -100,12 +100,17 @@ class PostControllerTest {
         given(loginMemberArgumentResolver.resolveArgument(any(), any(), any(), any()))
                 .willReturn(1L);
 
+        given(postService.createPost(any(), any(), any(), any()))
+                .willReturn(TEST_POST_CREATE_RESPONSE);
+
         // when
         mockMvc.perform(RestDocumentationRequestBuilders.fileUpload("/posts/categories/{categoryId}", 1L)
                 .file(request).file(TEST_IMAGE_FILE2).file(TEST_IMAGE_FILE3)
                 .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
-                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
-                .andExpect(status().isCreated())
+                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(TEST_POST_CREATE_RESPONSE)))
                 .andDo(document("post/create",
                         pathParameters(
                                 parameterWithName("categoryId").description("카테고리 식별자")
@@ -122,6 +127,24 @@ class PostControllerTest {
                                 fieldWithPath("address").type(JsonFieldType.STRING).description("주소"),
                                 fieldWithPath("score").type(JsonFieldType.NUMBER).description("별점"),
                                 fieldWithPath("isOpen").type(JsonFieldType.BOOLEAN).description("공개여부")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시글 식별자"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("게시글 내용"),
+                                fieldWithPath("address").type(JsonFieldType.STRING).description("주소"),
+                                fieldWithPath("score").type(JsonFieldType.NUMBER).description("별점"),
+                                fieldWithPath("isOpen").type(JsonFieldType.BOOLEAN).description("공개여부"),
+                                fieldWithPath("countGood").type(JsonFieldType.NUMBER).description("좋아요 개수"),
+                                fieldWithPath("countComment").type(JsonFieldType.NUMBER).description("댓글 개수"),
+                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("게시글 생성시간"),
+                                fieldWithPath("updatedAt").type(JsonFieldType.STRING).description("게시글 수정시간"),
+                                fieldWithPath("memberDto.id").type(JsonFieldType.NUMBER).description("작성자 식별자"),
+                                fieldWithPath("memberDto.nickname").type(JsonFieldType.STRING).description("작성자 닉네임"),
+                                fieldWithPath("categoryDto.id").type(JsonFieldType.NUMBER).description("카테고리 식별자"),
+                                fieldWithPath("categoryDto.name").type(JsonFieldType.STRING).description("카테고리 이름"),
+                                fieldWithPath("imageDtoList.[].id").description(JsonFieldType.NUMBER).description("이미지 식별자"),
+                                fieldWithPath("imageDtoList.[].imageUrl").description(JsonFieldType.STRING).description("이미지 url"),
+                                fieldWithPath("imageDtoList.[].thumbnailImageUrl").description(JsonFieldType.STRING).description("썸네일 url")
                         )));
 
         // then
@@ -172,7 +195,10 @@ class PostControllerTest {
                                 fieldWithPath("memberDto.id").type(JsonFieldType.NUMBER).description("작성자 식별자"),
                                 fieldWithPath("memberDto.nickname").type(JsonFieldType.STRING).description("게시글 작성자 닉네임"),
                                 fieldWithPath("categoryDto.id").type(JsonFieldType.NUMBER).description("카테고리 식별자"),
-                                fieldWithPath("categoryDto.name").type(JsonFieldType.STRING).description("카테고리 이름")
+                                fieldWithPath("categoryDto.name").type(JsonFieldType.STRING).description("카테고리 이름"),
+                                fieldWithPath("imageDtoList.[].id").description(JsonFieldType.NUMBER).description("이미지 식별자"),
+                                fieldWithPath("imageDtoList.[].imageUrl").description(JsonFieldType.STRING).description("이미지 url"),
+                                fieldWithPath("imageDtoList.[].thumbnailImageUrl").description(JsonFieldType.STRING).description("썸네일 url")
                         )));
 
         // then
@@ -540,7 +566,10 @@ class PostControllerTest {
                                 fieldWithPath("memberDto.id").type(JsonFieldType.NUMBER).description("작성자 식별자"),
                                 fieldWithPath("memberDto.nickname").type(JsonFieldType.STRING).description("작성자 닉네임"),
                                 fieldWithPath("categoryDto.id").type(JsonFieldType.NUMBER).description("카테고리 식별자"),
-                                fieldWithPath("categoryDto.name").type(JsonFieldType.STRING).description("카테고리 이름")
+                                fieldWithPath("categoryDto.name").type(JsonFieldType.STRING).description("카테고리 이름"),
+                                fieldWithPath("imageDtoList.[].id").description(JsonFieldType.NUMBER).description("이미지 식별자"),
+                                fieldWithPath("imageDtoList.[].imageUrl").description(JsonFieldType.STRING).description("이미지 url"),
+                                fieldWithPath("imageDtoList.[].thumbnailImageUrl").description(JsonFieldType.STRING).description("썸네일 url")
                                 )));
 
         // then

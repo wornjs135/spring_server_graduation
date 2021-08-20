@@ -100,6 +100,9 @@ public class TestObject {
         }
     };
 
+    public static final PostResponse TEST_POST_CREATE_RESPONSE
+            = new PostResponse(1L, "게시글내용", "인천광역시 남동구 어쩌고저쩌고",  7,
+            true, 0, 0, LocalDateTime.now(), LocalDateTime.now(),TEST_MEMBER_DTO, TEST_CATEGORY_DTO, TEST_IMAGE_DTO_LIST);
     public static final PostResponse TEST_POST_RESPONSE
             = new PostResponse(1L, "게시글내용", "인천광역시 남동구 어쩌고저쩌고",  7,
             true, 13, 3, LocalDateTime.now(), LocalDateTime.now(),TEST_MEMBER_DTO, TEST_CATEGORY_DTO, TEST_IMAGE_DTO_LIST);
@@ -121,7 +124,7 @@ public class TestObject {
 
     public static final PostDetailResponse TEST_POST_DETAIL_RESPONSE
             = new PostDetailResponse(1L, "게시글내용", "인천광역시 남동구 어쩌고 저쩌고", 7,
-            true, 13, 3, LocalDateTime.now(), LocalDateTime.now(), TEST_MEMBER_DTO, TEST_CATEGORY_DTO);
+            true, 13, 3, LocalDateTime.now(), LocalDateTime.now(), TEST_MEMBER_DTO, TEST_CATEGORY_DTO, TEST_IMAGE_DTO_LIST);
 
     public static final PostSimpleResponse TEST_POST_SIMPLE_RESPONSE1
             = new PostSimpleResponse(1L, "게시글내용", TEST_IMAGE_DTO_LIST);

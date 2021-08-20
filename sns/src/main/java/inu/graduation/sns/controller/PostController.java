@@ -29,13 +29,12 @@ public class PostController {
 
     //게시글 생성 + 이미지 같이 업로드
     @PostMapping("/posts/categories/{categoryId}")
-    public ResponseEntity createPostWithImages(@LoginMember Long memberId,
+    public ResponseEntity<PostResponse> createPostWithImages(@LoginMember Long memberId,
                                              @PathVariable Long categoryId,
                                              @RequestPart @Valid PostSaveRequest request,
                                              @RequestPart(required = false) List<MultipartFile> image){
-        postService.createPost(memberId, categoryId, request, image);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.ok(postService.createPost(memberId, categoryId, request, image));
     }
 
     //게시글 수정(내용,주소,별점,공개비공개,카테고리)

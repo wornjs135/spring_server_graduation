@@ -50,8 +50,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final AmazonS3Client amazonS3Client;
 
-    // 관리자 계정 생성
-
     // 로그인
     @Transactional
     public CreateToken kakaoLoginMember(String kakaoToken) {

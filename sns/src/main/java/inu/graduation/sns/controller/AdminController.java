@@ -4,10 +4,8 @@ import inu.graduation.sns.domain.Category;
 import inu.graduation.sns.model.category.request.CategorySaveRequest;
 import inu.graduation.sns.model.category.request.CategoryUpdateRequest;
 import inu.graduation.sns.model.category.response.CategoryResponse;
-import inu.graduation.sns.service.CategoryService;
-import inu.graduation.sns.service.CommentService;
-import inu.graduation.sns.service.MemberService;
-import inu.graduation.sns.service.PostService;
+import inu.graduation.sns.model.notification.request.CreateNotificationRequest;
+import inu.graduation.sns.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +23,7 @@ public class AdminController {
     private final MemberService memberService;
     private final PostService postService;
     private final CommentService commentService;
-
-    // 관리자 로그인 구현하기
+//    private final NotificationService notificationService;
 
     // 카테고리 생성
     @PostMapping("/admin/categories")
@@ -72,4 +69,12 @@ public class AdminController {
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    // 공지사항 알림
+//    @PostMapping("/admin/notification")
+//    public ResponseEntity sendNotification(@RequestBody @Valid CreateNotificationRequest createNotificationRequest) {
+//        notificationService.sendAllMessage(createNotificationRequest);
+//
+//        return ResponseEntity.status(HttpStatus.OK).build();
+//    }
 }

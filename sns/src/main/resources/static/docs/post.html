@@ -512,6 +512,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /posts/categories/1 HTTP/1.1
 Content-Type: multipart/form-data; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
 Authorization: Bearer access토큰
+Accept: application/json
 Host: localhost:8080
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
@@ -644,7 +645,42 @@ Content-Type: image/jpeg
 <h5 id="_응답"><a class="anchor" href="#_응답"></a><a class="link" href="#_응답">응답</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 718
+
+{
+  "id" : 1,
+  "content" : "게시글내용",
+  "address" : "인천광역시 남동구 어쩌고저쩌고",
+  "score" : 7,
+  "isOpen" : true,
+  "countGood" : 0,
+  "countComment" : 0,
+  "createdAt" : "2021-08-20T12:35:37.110044",
+  "updatedAt" : "2021-08-20T12:35:37.110173",
+  "memberDto" : {
+    "id" : 1,
+    "nickname" : "닉네임"
+  },
+  "categoryDto" : {
+    "id" : 1,
+    "name" : "카테고리1"
+  },
+  "imageDtoList" : [ {
+    "id" : 1,
+    "imageUrl" : "이미지url",
+    "thumbnailImageUrl" : "썸네일url"
+  }, {
+    "id" : 2,
+    "imageUrl" : "이미지url",
+    "thumbnailImageUrl" : "썸네일url"
+  }, {
+    "id" : 3,
+    "imageUrl" : "이미지url",
+    "thumbnailImageUrl" : "썸네일url"
+  } ]
+}</code></pre>
 </div>
 </div>
 </div>
@@ -775,7 +811,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 412
+Content-Length: 720
 
 {
   "id" : 1,
@@ -785,8 +821,8 @@ Content-Length: 412
   "isOpen" : true,
   "countGood" : 13,
   "countComment" : 3,
-  "createdAt" : "2021-08-09T15:07:55.546115",
-  "updatedAt" : "2021-08-09T15:07:55.546122",
+  "createdAt" : "2021-08-20T12:35:37.110811",
+  "updatedAt" : "2021-08-20T12:35:37.110836",
   "memberDto" : {
     "id" : 1,
     "nickname" : "닉네임"
@@ -794,7 +830,20 @@ Content-Length: 412
   "categoryDto" : {
     "id" : 1,
     "name" : "카테고리1"
-  }
+  },
+  "imageDtoList" : [ {
+    "id" : 1,
+    "imageUrl" : "이미지url",
+    "thumbnailImageUrl" : "썸네일url"
+  }, {
+    "id" : 2,
+    "imageUrl" : "이미지url",
+    "thumbnailImageUrl" : "썸네일url"
+  }, {
+    "id" : 3,
+    "imageUrl" : "이미지url",
+    "thumbnailImageUrl" : "썸네일url"
+  } ]
 }</code></pre>
 </div>
 </div>
@@ -876,6 +925,21 @@ Content-Length: 412
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>categoryDto.name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imageDtoList.[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imageDtoList.[].imageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 url</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imageDtoList.[].thumbnailImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">썸네일 url</p></td>
 </tr>
 </tbody>
 </table>
@@ -1110,7 +1174,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 2837
+Content-Length: 2836
 
 {
   "content" : [ {
@@ -1121,8 +1185,8 @@ Content-Length: 2837
     "isOpen" : true,
     "countGood" : 13,
     "countComment" : 3,
-    "createdAt" : "2021-08-09T15:07:55.545657",
-    "updatedAt" : "2021-08-09T15:07:55.545712",
+    "createdAt" : "2021-08-20T12:35:37.110219",
+    "updatedAt" : "2021-08-20T12:35:37.110222",
     "memberDto" : {
       "id" : 1,
       "nickname" : "닉네임"
@@ -1152,8 +1216,8 @@ Content-Length: 2837
     "isOpen" : true,
     "countGood" : 53,
     "countComment" : 3,
-    "createdAt" : "2021-08-09T15:07:55.545731",
-    "updatedAt" : "2021-08-09T15:07:55.545734",
+    "createdAt" : "2021-08-20T12:35:37.110227",
+    "updatedAt" : "2021-08-20T12:35:37.110229",
     "memberDto" : {
       "id" : 1,
       "nickname" : "닉네임"
@@ -1183,8 +1247,8 @@ Content-Length: 2837
     "isOpen" : true,
     "countGood" : 23,
     "countComment" : 13,
-    "createdAt" : "2021-08-09T15:07:55.545742",
-    "updatedAt" : "2021-08-09T15:07:55.545745",
+    "createdAt" : "2021-08-20T12:35:37.11024",
+    "updatedAt" : "2021-08-20T12:35:37.110243",
     "memberDto" : {
       "id" : 1,
       "nickname" : "닉네임"
@@ -1209,8 +1273,8 @@ Content-Length: 2837
   } ],
   "pageable" : {
     "sort" : {
-      "sorted" : false,
       "unsorted" : true,
+      "sorted" : false,
       "empty" : true
     },
     "offset" : 0,
@@ -1225,8 +1289,8 @@ Content-Length: 2837
   "size" : 20,
   "number" : 0,
   "sort" : {
-    "sorted" : false,
     "unsorted" : true,
+    "sorted" : false,
     "empty" : true
   },
   "numberOfElements" : 3,
@@ -1495,7 +1559,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 2837
+Content-Length: 2836
 
 {
   "content" : [ {
@@ -1506,8 +1570,8 @@ Content-Length: 2837
     "isOpen" : true,
     "countGood" : 13,
     "countComment" : 3,
-    "createdAt" : "2021-08-09T15:07:55.545657",
-    "updatedAt" : "2021-08-09T15:07:55.545712",
+    "createdAt" : "2021-08-20T12:35:37.110219",
+    "updatedAt" : "2021-08-20T12:35:37.110222",
     "memberDto" : {
       "id" : 1,
       "nickname" : "닉네임"
@@ -1537,8 +1601,8 @@ Content-Length: 2837
     "isOpen" : true,
     "countGood" : 53,
     "countComment" : 3,
-    "createdAt" : "2021-08-09T15:07:55.545731",
-    "updatedAt" : "2021-08-09T15:07:55.545734",
+    "createdAt" : "2021-08-20T12:35:37.110227",
+    "updatedAt" : "2021-08-20T12:35:37.110229",
     "memberDto" : {
       "id" : 1,
       "nickname" : "닉네임"
@@ -1568,8 +1632,8 @@ Content-Length: 2837
     "isOpen" : true,
     "countGood" : 23,
     "countComment" : 13,
-    "createdAt" : "2021-08-09T15:07:55.545742",
-    "updatedAt" : "2021-08-09T15:07:55.545745",
+    "createdAt" : "2021-08-20T12:35:37.11024",
+    "updatedAt" : "2021-08-20T12:35:37.110243",
     "memberDto" : {
       "id" : 1,
       "nickname" : "닉네임"
@@ -1594,8 +1658,8 @@ Content-Length: 2837
   } ],
   "pageable" : {
     "sort" : {
-      "sorted" : false,
       "unsorted" : true,
+      "sorted" : false,
       "empty" : true
     },
     "offset" : 0,
@@ -1610,8 +1674,8 @@ Content-Length: 2837
   "size" : 20,
   "number" : 0,
   "sort" : {
-    "sorted" : false,
     "unsorted" : true,
+    "sorted" : false,
     "empty" : true
   },
   "numberOfElements" : 3,
@@ -1884,7 +1948,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 2847
+Content-Length: 2848
 
 {
   "content" : [ {
@@ -1895,8 +1959,8 @@ Content-Length: 2847
     "isOpen" : true,
     "countGood" : 13,
     "countComment" : 3,
-    "createdAt" : "2021-08-09T15:07:55.54575",
-    "updatedAt" : "2021-08-09T15:07:55.545753",
+    "createdAt" : "2021-08-20T12:35:37.110249",
+    "updatedAt" : "2021-08-20T12:35:37.110251",
     "memberDto" : {
       "id" : 1,
       "nickname" : "닉네임"
@@ -1926,8 +1990,8 @@ Content-Length: 2847
     "isOpen" : true,
     "countGood" : 53,
     "countComment" : 3,
-    "createdAt" : "2021-08-09T15:07:55.545759",
-    "updatedAt" : "2021-08-09T15:07:55.545761",
+    "createdAt" : "2021-08-20T12:35:37.110257",
+    "updatedAt" : "2021-08-20T12:35:37.11026",
     "memberDto" : {
       "id" : 1,
       "nickname" : "닉네임"
@@ -1957,8 +2021,8 @@ Content-Length: 2847
     "isOpen" : true,
     "countGood" : 23,
     "countComment" : 13,
-    "createdAt" : "2021-08-09T15:07:55.545767",
-    "updatedAt" : "2021-08-09T15:07:55.54577",
+    "createdAt" : "2021-08-20T12:35:37.110265",
+    "updatedAt" : "2021-08-20T12:35:37.110267",
     "memberDto" : {
       "id" : 1,
       "nickname" : "닉네임"
@@ -1983,8 +2047,8 @@ Content-Length: 2847
   } ],
   "pageable" : {
     "sort" : {
-      "sorted" : false,
       "unsorted" : true,
+      "sorted" : false,
       "empty" : true
     },
     "offset" : 0,
@@ -1999,8 +2063,8 @@ Content-Length: 2847
   "size" : 20,
   "number" : 0,
   "sort" : {
-    "sorted" : false,
     "unsorted" : true,
+    "sorted" : false,
     "empty" : true
   },
   "numberOfElements" : 3,
@@ -2331,8 +2395,8 @@ Content-Length: 1612
   } ],
   "pageable" : {
     "sort" : {
-      "sorted" : false,
       "unsorted" : true,
+      "sorted" : false,
       "empty" : true
     },
     "offset" : 0,
@@ -2344,8 +2408,8 @@ Content-Length: 1612
   "size" : 20,
   "number" : 0,
   "sort" : {
-    "sorted" : false,
     "unsorted" : true,
+    "sorted" : false,
     "empty" : true
   },
   "numberOfElements" : 3,
@@ -2604,8 +2668,8 @@ Content-Length: 1612
   } ],
   "pageable" : {
     "sort" : {
-      "sorted" : false,
       "unsorted" : true,
+      "sorted" : false,
       "empty" : true
     },
     "offset" : 0,
@@ -2617,8 +2681,8 @@ Content-Length: 1612
   "size" : 20,
   "number" : 0,
   "sort" : {
-    "sorted" : false,
     "unsorted" : true,
+    "sorted" : false,
     "empty" : true
   },
   "numberOfElements" : 3,
@@ -2881,8 +2945,8 @@ Content-Length: 1622
   } ],
   "pageable" : {
     "sort" : {
-      "sorted" : false,
       "unsorted" : true,
+      "sorted" : false,
       "empty" : true
     },
     "offset" : 0,
@@ -2894,8 +2958,8 @@ Content-Length: 1622
   "size" : 20,
   "number" : 0,
   "sort" : {
-    "sorted" : false,
     "unsorted" : true,
+    "sorted" : false,
     "empty" : true
   },
   "numberOfElements" : 3,
@@ -3097,7 +3161,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 412
+Content-Length: 720
 
 {
   "id" : 1,
@@ -3107,8 +3171,8 @@ Content-Length: 412
   "isOpen" : true,
   "countGood" : 13,
   "countComment" : 3,
-  "createdAt" : "2021-08-09T15:07:55.546115",
-  "updatedAt" : "2021-08-09T15:07:55.546122",
+  "createdAt" : "2021-08-20T12:35:37.110811",
+  "updatedAt" : "2021-08-20T12:35:37.110836",
   "memberDto" : {
     "id" : 1,
     "nickname" : "닉네임"
@@ -3116,7 +3180,20 @@ Content-Length: 412
   "categoryDto" : {
     "id" : 1,
     "name" : "카테고리1"
-  }
+  },
+  "imageDtoList" : [ {
+    "id" : 1,
+    "imageUrl" : "이미지url",
+    "thumbnailImageUrl" : "썸네일url"
+  }, {
+    "id" : 2,
+    "imageUrl" : "이미지url",
+    "thumbnailImageUrl" : "썸네일url"
+  }, {
+    "id" : 3,
+    "imageUrl" : "이미지url",
+    "thumbnailImageUrl" : "썸네일url"
+  } ]
 }</code></pre>
 </div>
 </div>
@@ -3198,6 +3275,21 @@ Content-Length: 412
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>categoryDto.name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imageDtoList.[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imageDtoList.[].imageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 url</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imageDtoList.[].thumbnailImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">썸네일 url</p></td>
 </tr>
 </tbody>
 </table>

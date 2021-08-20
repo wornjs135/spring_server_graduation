@@ -57,7 +57,7 @@ public class PostService {
 
     //게시글 생성 + 이미지 업로드 + 해쉬태그 생성
     @Transactional
-    public Post createPost(Long memberId, Long categoryId, PostSaveRequest request, List<MultipartFile> images) {
+    public PostResponse createPost(Long memberId, Long categoryId, PostSaveRequest request, List<MultipartFile> images) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
         Category findCategory = categoryRepository.findById(categoryId)
@@ -71,7 +71,7 @@ public class PostService {
         // 해시태그 추출해서 저장
         extractHashTag(savedPost.getContent(), savedPost);
 
-        return savedPost;
+        return new PostResponse(savedPost);
     }
 
     // 게시글 내용들 수정

@@ -3,10 +3,7 @@ package inu.graduation.sns.config.security;
 import inu.graduation.sns.domain.Member;
 import inu.graduation.sns.exception.MemberException;
 import inu.graduation.sns.model.common.CreateToken;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,8 +25,8 @@ public class JwtTokenProvider {
     @Value("${spring.jwt.refreshSecretKey}")
     private String refreshSecretKey;
 
-    private Long accessTokenValidTime = 1000L * 60 * 60;
-    private Long refreshTokenValidTime = 1000L * 60 * 60 * 24 * 30;
+    private Long accessTokenValidTime = 1000L * 60 * 60 * 24 * 30;
+    private Long refreshTokenValidTime = 1000L * 60 * 60 * 24 * 30 * 6;
 
     private final UserDetailsService userDetailsService;
 
@@ -91,7 +88,7 @@ public class JwtTokenProvider {
 //        return userId;
 //    }
 
-    public boolean validateToken(String jwtToken){
+    public boolean validateToken(String jwtToken) {
         try{
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());

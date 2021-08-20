@@ -31,6 +31,7 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<ExceptionResponse> handlingException1(AuthenticationException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ExceptionResponse(e.getMessage()));
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ValidExceptionResponse exceptionHanding(MethodArgumentNotValidException e){
         Map<String, String> errors = new HashMap<>();

@@ -5,6 +5,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+graduation-notification-firebase-adminsdk-c1pnx-61a5ef1c3c.json
 
 ### STS ###
 .apt_generated

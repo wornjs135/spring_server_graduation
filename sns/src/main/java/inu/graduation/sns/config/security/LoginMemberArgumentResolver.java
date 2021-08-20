@@ -33,8 +33,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         User user = (User) authentication.getPrincipal();
         return Long.valueOf(user.getUsername());
 //        String bearerToken = webRequest.getHeader(HttpHeaders.AUTHORIZATION);
-//        String userId = jwtTokenProvider.getMemberPk(bearerToken);
-//        return userId;
-//        return authentication.getName();
+//        String memberPk = jwtTokenProvider.getMemberPk(bearerToken);
+//        return memberPk;
     }
 }

@@ -54,6 +54,9 @@ dependencies {
 
     //배포시
     compile("org.mariadb.jdbc:mariadb-java-client")
+
+    //fcm 추가
+    implementation 'com.google.firebase:firebase-admin:6.8.1'
 }
 
 //querydsl 추가 시작
