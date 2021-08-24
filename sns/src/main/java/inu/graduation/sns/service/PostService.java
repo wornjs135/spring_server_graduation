@@ -12,9 +12,7 @@ import inu.graduation.sns.exception.MemberException;
 import inu.graduation.sns.exception.PostException;
 import inu.graduation.sns.model.post.request.PostSaveRequest;
 import inu.graduation.sns.model.post.request.PostUpdateRequest;
-import inu.graduation.sns.model.post.response.PostDetailResponse;
-import inu.graduation.sns.model.post.response.PostResponse;
-import inu.graduation.sns.model.post.response.PostSimpleResponse;
+import inu.graduation.sns.model.post.response.*;
 import inu.graduation.sns.repository.*;
 import inu.graduation.sns.repository.query.PostHashtagQueryRepository;
 import inu.graduation.sns.repository.query.PostQueryRepository;
@@ -52,12 +50,13 @@ public class PostService {
     private final CategoryRepository categoryRepository;
     private final HashtagRepository hashtagRepository;
     private final PostHashtagRepository postHashtagRepository;
+    private final GoodRepository goodRepository;
     private final PostQueryRepository postQueryRepository;
     private final PostHashtagQueryRepository postHashtagQueryRepository;
 
     //게시글 생성 + 이미지 업로드 + 해쉬태그 생성
     @Transactional
-    public PostResponse createPost(Long memberId, Long categoryId, PostSaveRequest request, List<MultipartFile> images) {
+    public PostCreateResponse createPost(Long memberId, Long categoryId, PostSaveRequest request, List<MultipartFile> images) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
         Category findCategory = categoryRepository.findById(categoryId)
@@ -71,12 +70,12 @@ public class PostService {
         // 해시태그 추출해서 저장
         extractHashTag(savedPost.getContent(), savedPost);
 
-        return new PostResponse(savedPost);
+        return new PostCreateResponse(savedPost);
     }
 
     // 게시글 내용들 수정
     @Transactional
-    public PostDetailResponse updatePost(Long memberId, Long postId, Long categoryId, PostUpdateRequest request) {
+    public PostUpdateResponse updatePost(Long memberId, Long postId, Long categoryId, PostUpdateRequest request) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
         Category findCategory = categoryRepository.findById(categoryId)
@@ -93,7 +92,7 @@ public class PostService {
         // 해시태그 추출해서 다시 저장
         extractHashTag(request.getContent(), findPost);
 
-        return new PostDetailResponse(findPost);
+        return new PostUpdateResponse(findPost);
     }
 
     // 게시글 이미지 수정
@@ -155,11 +154,10 @@ public class PostService {
     }
 
     // 게시글 조회(웹)
-    public Page<PostResponse> findPostByAddress(String firstAddress, String secondAddress, Pageable pageable) {
-        Page<Post> findPosts = postQueryRepository.findByAddress(firstAddress, secondAddress, pageable);
+    public Page<PostResponse> findPostByAddress(Long memberId, String firstAddress, String secondAddress, Pageable pageable) {
+        Page<Post> findPosts = postQueryRepository.findByAddress(memberId, firstAddress, secondAddress, pageable);
 
         return findPosts.map(post -> new PostResponse(post));
-
     }
 
     // 게시글 간단 조회(앱)
@@ -184,16 +182,24 @@ public class PostService {
     }
 
     // 게시글 상세 조회
-    public PostDetailResponse findPost(Long postId) {
-        return postQueryRepository.findPost(postId);
+    public PostDetailResponse findPost(Long memberId, Long postId) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
+        Post findPost = postQueryRepository.findPost(postId);
+        Optional<Good> findGood = goodRepository.findByMemberAndPost(findMember, findPost);
+        if (!findGood.isPresent()) {
+            return new PostDetailResponse(findPost, Good.isGoodFalse());
+        }
+        return new PostDetailResponse(findPost, findGood.get());
     }
 
     // 해시태그로 게시글 조회(웹)
     public Page<PostResponse> findPostsByHashtag(String hashtag, Pageable pageable) {
         Hashtag findHashtag = hashtagRepository.findByName(hashtag)
                 .orElseThrow(() -> new HashtagException("존재하지 않는 해시태그입니다."));
+        Page<Post> postByHashtag = postHashtagQueryRepository.findPostByHashtagId(findHashtag.getId(), pageable);
 
-        return postHashtagQueryRepository.findPostByHashtagId(findHashtag.getId(), pageable);
+        return postByHashtag.map(post -> new PostResponse(post));
     }
 
     // 해시태그로 게시글 조회(앱)

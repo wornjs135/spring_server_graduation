@@ -144,7 +144,9 @@ class PostControllerTest {
                                 fieldWithPath("categoryDto.name").type(JsonFieldType.STRING).description("카테고리 이름"),
                                 fieldWithPath("imageDtoList.[].id").description(JsonFieldType.NUMBER).description("이미지 식별자"),
                                 fieldWithPath("imageDtoList.[].imageUrl").description(JsonFieldType.STRING).description("이미지 url"),
-                                fieldWithPath("imageDtoList.[].thumbnailImageUrl").description(JsonFieldType.STRING).description("썸네일 url")
+                                fieldWithPath("imageDtoList.[].thumbnailImageUrl").description(JsonFieldType.STRING).description("썸네일 url"),
+                                fieldWithPath("goodDto.id").description(JsonFieldType.NULL).description("좋아요 식별자"),
+                                fieldWithPath("goodDto.isGood").description(JsonFieldType.BOOLEAN).description("해당 게시글 좋아요 여부")
                         )));
 
         // then
@@ -158,7 +160,7 @@ class PostControllerTest {
         given(loginMemberArgumentResolver.resolveArgument(any(), any(), any(), any()))
                 .willReturn(1L);
         given(postService.updatePost(any(), any(), any(), any()))
-                .willReturn(TEST_POST_DETAIL_RESPONSE);
+                .willReturn(TEST_POST_UPDATE_RESPONSE);
         String body = objectMapper.writeValueAsString(TEST_POST_UPDATE_REQUEST);
         // when
         mockMvc.perform(RestDocumentationRequestBuilders.patch("/posts/{postId}/categories/{categoryId}", 1L, 1L)
@@ -167,7 +169,7 @@ class PostControllerTest {
                 .content(body)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(TEST_POST_DETAIL_RESPONSE)))
+                .andExpect(content().json(objectMapper.writeValueAsString(TEST_POST_UPDATE_RESPONSE)))
                 .andDo(document("post/updatePost",
                         pathParameters(
                                 parameterWithName("postId").description("게시글 식별자"),
@@ -278,7 +280,7 @@ class PostControllerTest {
 
         PageImpl<PostResponse> postResponsePage = new PageImpl<>(postResponseList, pageRequest, postResponseList.size());
 
-        given(postService.findPostByAddress(any(), any(), any()))
+        given(postService.findPostByAddress(any(), any(), any(), any()))
                 .willReturn(postResponsePage);
 
         // when
@@ -318,6 +320,8 @@ class PostControllerTest {
                                 fieldWithPath("content.[].imageDtoList.[].id").type(JsonFieldType.NUMBER).description("이미지 식별자"),
                                 fieldWithPath("content.[].imageDtoList.[].imageUrl").type(JsonFieldType.STRING).description("이미지 url"),
                                 fieldWithPath("content.[].imageDtoList.[].thumbnailImageUrl").type(JsonFieldType.STRING).description("썸네일 url"),
+                                fieldWithPath("content.[].goodDto.id").type(JsonFieldType.VARIES).description("좋아요 식별자").optional(),
+                                fieldWithPath("content.[].goodDto.isGood").type(JsonFieldType.BOOLEAN).description("해당 게시글 좋아요 여부"),
                                 fieldWithPath("pageable.sort.sorted").type(JsonFieldType.BOOLEAN).description("정렬 여부"),
                                 fieldWithPath("pageable.sort.unsorted").type(JsonFieldType.BOOLEAN).description("비정렬 여부"),
                                 fieldWithPath("pageable.sort.empty").type(JsonFieldType.BOOLEAN).description("값이 비었는지 여부"),
@@ -449,6 +453,8 @@ class PostControllerTest {
                                 fieldWithPath("content.[].imageDtoList.[].id").type(JsonFieldType.NUMBER).description("이미지 식별자"),
                                 fieldWithPath("content.[].imageDtoList.[].imageUrl").type(JsonFieldType.STRING).description("이미지 url"),
                                 fieldWithPath("content.[].imageDtoList.[].thumbnailImageUrl").type(JsonFieldType.STRING).description("썸네일 url"),
+                                fieldWithPath("content.[].goodDto.id").type(JsonFieldType.VARIES).description("좋아요 식별자").optional(),
+                                fieldWithPath("content.[].goodDto.isGood").type(JsonFieldType.BOOLEAN).description("해당 게시글 좋아요 여부"),
                                 fieldWithPath("pageable.sort.sorted").type(JsonFieldType.BOOLEAN).description("정렬 여부"),
                                 fieldWithPath("pageable.sort.unsorted").type(JsonFieldType.BOOLEAN).description("비정렬 여부"),
                                 fieldWithPath("pageable.sort.empty").type(JsonFieldType.BOOLEAN).description("값이 비었는지 여부"),
@@ -537,7 +543,7 @@ class PostControllerTest {
     @DisplayName("앱에서 게시글 상세 조회")
     void findPostDetail() throws Exception{
         // given
-        given(postService.findPost(any()))
+        given(postService.findPost(any(), any()))
                 .willReturn(TEST_POST_DETAIL_RESPONSE);
 
         // when
@@ -569,11 +575,13 @@ class PostControllerTest {
                                 fieldWithPath("categoryDto.name").type(JsonFieldType.STRING).description("카테고리 이름"),
                                 fieldWithPath("imageDtoList.[].id").description(JsonFieldType.NUMBER).description("이미지 식별자"),
                                 fieldWithPath("imageDtoList.[].imageUrl").description(JsonFieldType.STRING).description("이미지 url"),
-                                fieldWithPath("imageDtoList.[].thumbnailImageUrl").description(JsonFieldType.STRING).description("썸네일 url")
+                                fieldWithPath("imageDtoList.[].thumbnailImageUrl").description(JsonFieldType.STRING).description("썸네일 url"),
+                                fieldWithPath("goodDto.id").description(JsonFieldType.NUMBER).description("좋아요 식별자"),
+                                fieldWithPath("goodDto.isGood").description(JsonFieldType.BOOLEAN).description("해당 게시글 좋아요 여부")
                                 )));
 
         // then
-        then(postService).should(times(1)).findPost(any());
+        then(postService).should(times(1)).findPost(any(), any());
     }
 
     @Test
@@ -624,6 +632,8 @@ class PostControllerTest {
                                 fieldWithPath("content.[].imageDtoList.[].id").type(JsonFieldType.NUMBER).description("이미지 식별자"),
                                 fieldWithPath("content.[].imageDtoList.[].imageUrl").type(JsonFieldType.STRING).description("이미지 url"),
                                 fieldWithPath("content.[].imageDtoList.[].thumbnailImageUrl").type(JsonFieldType.STRING).description("썸네일 url"),
+                                fieldWithPath("content.[].goodDto.id").type(JsonFieldType.VARIES).description("좋아요 식별자").optional(),
+                                fieldWithPath("content.[].goodDto.isGood").type(JsonFieldType.BOOLEAN).description("해당 게시글 좋아요 여부"),
                                 fieldWithPath("pageable.sort.sorted").type(JsonFieldType.BOOLEAN).description("정렬 여부"),
                                 fieldWithPath("pageable.sort.unsorted").type(JsonFieldType.BOOLEAN).description("비정렬 여부"),
                                 fieldWithPath("pageable.sort.empty").type(JsonFieldType.BOOLEAN).description("값이 비었는지 여부"),

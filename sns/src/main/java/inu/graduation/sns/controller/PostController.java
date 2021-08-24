@@ -4,9 +4,7 @@ import inu.graduation.sns.config.security.LoginMember;
 import inu.graduation.sns.domain.Post;
 import inu.graduation.sns.model.post.request.PostSaveRequest;
 import inu.graduation.sns.model.post.request.PostUpdateRequest;
-import inu.graduation.sns.model.post.response.PostDetailResponse;
-import inu.graduation.sns.model.post.response.PostResponse;
-import inu.graduation.sns.model.post.response.PostSimpleResponse;
+import inu.graduation.sns.model.post.response.*;
 import inu.graduation.sns.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,20 +27,20 @@ public class PostController {
 
     //게시글 생성 + 이미지 같이 업로드
     @PostMapping("/posts/categories/{categoryId}")
-    public ResponseEntity<PostResponse> createPostWithImages(@LoginMember Long memberId,
-                                             @PathVariable Long categoryId,
-                                             @RequestPart @Valid PostSaveRequest request,
-                                             @RequestPart(required = false) List<MultipartFile> image){
+    public ResponseEntity<PostCreateResponse> createPostWithImages(@LoginMember Long memberId,
+                                                                   @PathVariable Long categoryId,
+                                                                   @RequestPart @Valid PostSaveRequest request,
+                                                                   @RequestPart(required = false) List<MultipartFile> image){
 
         return ResponseEntity.ok(postService.createPost(memberId, categoryId, request, image));
     }
 
     //게시글 수정(내용,주소,별점,공개비공개,카테고리)
     @PatchMapping("/posts/{postId}/categories/{categoryId}")
-    public ResponseEntity<PostDetailResponse> updatePost(@LoginMember Long memberId,
-                                     @PathVariable Long postId,
-                                     @PathVariable Long categoryId,
-                                     @RequestBody @Valid PostUpdateRequest request){
+    public ResponseEntity<PostUpdateResponse> updatePost(@LoginMember Long memberId,
+                                                         @PathVariable Long postId,
+                                                         @PathVariable Long categoryId,
+                                                         @RequestBody @Valid PostUpdateRequest request){
         return ResponseEntity.ok(postService.updatePost(memberId, postId, categoryId, request));
     }
 
@@ -67,9 +65,10 @@ public class PostController {
 
     // 게시글 조회(웹)
     @GetMapping("/posts")
-    public ResponseEntity<Page<PostResponse>> findPostByAddress(@RequestParam String firstAddress, @RequestParam String secondAddress,
-                                            Pageable pageable){
-        return ResponseEntity.ok(postService.findPostByAddress(firstAddress, secondAddress, pageable));
+    public ResponseEntity<Page<PostResponse>> findPostByAddress(@LoginMember Long memberId,
+                                                                @RequestParam String firstAddress, @RequestParam String secondAddress,
+                                                                Pageable pageable){
+        return ResponseEntity.ok(postService.findPostByAddress(memberId, firstAddress, secondAddress, pageable));
     }
 
     // 게시글 간단 조회(앱)
@@ -92,8 +91,8 @@ public class PostController {
 
     // 게시글 상세 조회(앱)
     @GetMapping("/m/posts/{postId}")
-    public ResponseEntity<PostDetailResponse> findPostDetail(@PathVariable Long postId){
-        return ResponseEntity.ok(postService.findPost(postId));
+    public ResponseEntity<PostDetailResponse> findPostDetail(@LoginMember Long memberId, @PathVariable Long postId){
+        return ResponseEntity.ok(postService.findPost(memberId, postId));
     }
 
     // 해시태그로 게시글검색(웹)

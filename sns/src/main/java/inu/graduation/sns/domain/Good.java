@@ -30,4 +30,12 @@ public class Good extends BaseEntity{
         good.post = findPost;
         return good;
     }
+
+    public static Good isGoodFalse() {
+        Good good = new Good();
+        good.id = 0L;
+        good.member = null;
+        good.post = null;
+        return good;
+    }
 }

@@ -1,7 +1,5 @@
 package inu.graduation.sns.model.post.response;
 
-import inu.graduation.sns.domain.Good;
-import inu.graduation.sns.domain.Image;
 import inu.graduation.sns.domain.Post;
 import inu.graduation.sns.model.Image.dto.ImageDto;
 import inu.graduation.sns.model.category.dto.CategoryDto;
@@ -16,9 +14,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class PostDetailResponse {
+@NoArgsConstructor
+public class PostCreateResponse {
+
     private Long id;
     private String content;
     private String address;
@@ -33,7 +32,7 @@ public class PostDetailResponse {
     private List<ImageDto> imageDtoList;
     private GoodDto goodDto;
 
-    public PostDetailResponse(Post post, Good good) {
+    public PostCreateResponse(Post post) {
         this.id = post.getId();
         this.content = post.getContent();
         this.address = post.getAddress();
@@ -47,10 +46,6 @@ public class PostDetailResponse {
         this.categoryDto = CategoryDto.from(post.getCategory());
         this.imageDtoList = post.getImageList().stream().map(image -> ImageDto.from(image))
                 .collect(Collectors.toList());
-        if (good.getId().equals(0L)) {
-            this.goodDto = new GoodDto(null, false);
-        } else {
-            this.goodDto = GoodDto.from(good);
-        }
+        this.goodDto = new GoodDto(null, false);
     }
 }
