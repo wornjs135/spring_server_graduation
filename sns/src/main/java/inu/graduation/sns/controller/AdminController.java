@@ -4,6 +4,7 @@ import inu.graduation.sns.domain.Category;
 import inu.graduation.sns.model.category.request.CategorySaveRequest;
 import inu.graduation.sns.model.category.request.CategoryUpdateRequest;
 import inu.graduation.sns.model.category.response.CategoryResponse;
+import inu.graduation.sns.model.member.response.MemberResponse;
 import inu.graduation.sns.model.notification.request.CreateNotificationRequest;
 import inu.graduation.sns.service.*;
 import lombok.RequiredArgsConstructor;
@@ -68,6 +69,12 @@ public class AdminController {
         commentService.adminDeleteComment(commentId);
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    // 닉네임으로 회원id 조회
+    @GetMapping("/admin/members")
+    public ResponseEntity<MemberResponse> findMemberByNickname(@RequestParam String nickname) {
+        return ResponseEntity.ok(memberService.adminFindMember(nickname));
     }
 
     // 공지사항 알림

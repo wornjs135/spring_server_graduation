@@ -229,4 +229,36 @@ class AdminControllerTest {
         // then
         then(commentService).should(times(1)).adminDeleteComment(any());
     }
+
+    @Test
+    @DisplayName("관리자 회원 조회(닉네임으로)")
+    void findMemberByNickname() throws Exception {
+        // given
+        given(memberService.adminFindMember(any()))
+                .willReturn(TEST_MEMBER_RESPONSE2);
+
+        // when
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/admin/members")
+                .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
+                .param("nickname", "닉넴")
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(TEST_MEMBER_RESPONSE2)))
+                .andDo(document("admin/findMemberByNickname",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearea Access 토큰")
+                        ),
+                        requestParameters(
+                                parameterWithName("nickname").description("조회할 닉네임")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
+                                fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필 이미지 URL"),
+                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("프로필 썸네일 이미지 URL")
+                        )));
+
+        // then
+        then(memberService).should(times(1)).adminFindMember(any());
+    }
 }

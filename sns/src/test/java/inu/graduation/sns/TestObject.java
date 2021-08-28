@@ -32,6 +32,8 @@ public class TestObject {
 
     public static final MemberResponse TEST_MEMBER_RESPONSE
             = new MemberResponse(1L, "황주환", "이미지url", "썸네일url");
+    public static final MemberResponse TEST_MEMBER_RESPONSE2
+            = new MemberResponse(1L, "닉넴", "이미지url", "썸네일url");
 
     public static final MemberResponse TEST_MEMBER_RESPONSE_UPDATE_PROFILEIMG
             = new MemberResponse(1L, "황주환", "수정된이미지url", "수정된썸네일url");

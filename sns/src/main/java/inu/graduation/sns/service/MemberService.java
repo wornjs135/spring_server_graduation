@@ -146,6 +146,13 @@ public class MemberService {
         return true;
     }
 
+    // 관리자가 회원 조회(닉네임으로)
+    public MemberResponse adminFindMember(String nickname) {
+        Member findMember = memberRepository.findByNickname(nickname)
+                .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
+        return new MemberResponse(findMember);
+    }
+
     // 회원 정보 조회
     public MemberResponse findMemberInfo(Long memberId) {
         Member findMember = memberRepository.findById(memberId)

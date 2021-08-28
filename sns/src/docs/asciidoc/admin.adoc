@@ -77,3 +77,14 @@ Header
 include::{snippets}/admin/deleteComment/request-headers.adoc[]
 ===== 응답
 include::{snippets}/admin/deleteComment/http-response.adoc[]
+
+== (관리자) 닉네임으로 회원 조회 API
+===== 요청
+include::{snippets}/admin/findMemberByNickname/http-request.adoc[]
+URL 파라미터
+include::{snippets}/admin/findMemberByNickname/request-parameters.adoc[]
+Header
+include::{snippets}/admin/findMemberByNickname/request-headers.adoc[]
+===== 응답
+include::{snippets}/admin/findMemberByNickname/http-response.adoc[]
+include::{snippets}/admin/findMemberByNickname/response-fields.adoc[]
