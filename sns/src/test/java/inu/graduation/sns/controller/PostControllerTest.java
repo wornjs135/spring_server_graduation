@@ -379,6 +379,8 @@ class PostControllerTest {
                         responseFields(
                                 fieldWithPath("content.[].id").type(JsonFieldType.NUMBER).description("게시글 식별자"),
                                 fieldWithPath("content.[].content").type(JsonFieldType.STRING).description("게시글 내용"),
+                                fieldWithPath("content.[].categoryDto.id").type(JsonFieldType.NUMBER).description("카테고리 식별자"),
+                                fieldWithPath("content.[].categoryDto.name").type(JsonFieldType.STRING).description("카테고리 이름"),
                                 fieldWithPath("content.[].imageDtoList.[].id").type(JsonFieldType.NUMBER).description("이미지 식별자"),
                                 fieldWithPath("content.[].imageDtoList.[].imageUrl").type(JsonFieldType.STRING).description("이미지 url"),
                                 fieldWithPath("content.[].imageDtoList.[].thumbnailImageUrl").type(JsonFieldType.STRING).description("썸네일 url"),
@@ -513,6 +515,8 @@ class PostControllerTest {
                         responseFields(
                                 fieldWithPath("content.[].id").type(JsonFieldType.NUMBER).description("게시글 식별자"),
                                 fieldWithPath("content.[].content").type(JsonFieldType.STRING).description("게시글 내용"),
+                                fieldWithPath("content.[].categoryDto.id").type(JsonFieldType.NUMBER).description("카테고리 식별자"),
+                                fieldWithPath("content.[].categoryDto.name").type(JsonFieldType.STRING).description("카테고리 이름"),
                                 fieldWithPath("content.[].imageDtoList.[].id").type(JsonFieldType.NUMBER).description("이미지 식별자"),
                                 fieldWithPath("content.[].imageDtoList.[].imageUrl").type(JsonFieldType.STRING).description("이미지 url"),
                                 fieldWithPath("content.[].imageDtoList.[].thumbnailImageUrl").type(JsonFieldType.STRING).description("썸네일 url"),
@@ -692,6 +696,8 @@ class PostControllerTest {
                         responseFields(
                                 fieldWithPath("content.[].id").type(JsonFieldType.NUMBER).description("게시글 식별자"),
                                 fieldWithPath("content.[].content").type(JsonFieldType.STRING).description("게시글 내용"),
+                                fieldWithPath("content.[].categoryDto.id").type(JsonFieldType.NUMBER).description("카테고리 식별자"),
+                                fieldWithPath("content.[].categoryDto.name").type(JsonFieldType.STRING).description("카테고리 이름"),
                                 fieldWithPath("content.[].imageDtoList.[].id").type(JsonFieldType.NUMBER).description("이미지 식별자"),
                                 fieldWithPath("content.[].imageDtoList.[].imageUrl").type(JsonFieldType.STRING).description("이미지 url"),
                                 fieldWithPath("content.[].imageDtoList.[].thumbnailImageUrl").type(JsonFieldType.STRING).description("썸네일 url"),
