@@ -154,8 +154,8 @@ public class PostService {
     }
 
     // 게시글 조회(웹)
-    public Page<PostResponse> findPostByAddress(Long memberId, String firstAddress, String secondAddress, Pageable pageable) {
-        Page<Post> findPosts = postQueryRepository.findByAddress(memberId, firstAddress, secondAddress, pageable);
+    public Page<PostResponse> findPostByAddress(String firstAddress, String secondAddress, Pageable pageable) {
+        Page<Post> findPosts = postQueryRepository.findByAddress(firstAddress, secondAddress, pageable);
 
         return findPosts.map(post -> new PostResponse(post));
     }
@@ -172,6 +172,13 @@ public class PostService {
         Page<Post> myPostWeb = postQueryRepository.findMyPostWeb(memberId, pageable);
 
         return myPostWeb.map(post -> new PostResponse(post));
+    }
+
+    // 내가 쓴 게시글 조회(웹, 주소로)
+    public Page<PostResponse> findMyPostListByAddressWeb(String firstAddress, String secondAddress, Long memberId, Pageable pageable) {
+        Page<Post> myPostByAddressWeb = postQueryRepository.findMyPostByAddressWeb(firstAddress, secondAddress, memberId, pageable);
+
+        return myPostByAddressWeb.map(post -> new PostResponse(post));
     }
 
     // 내가 쓴 게시글 간단 조회(앱)
@@ -282,5 +289,4 @@ public class PostService {
         }
         return str;
     }
-
 }

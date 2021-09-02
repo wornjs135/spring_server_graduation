@@ -65,10 +65,9 @@ public class PostController {
 
     // 게시글 조회(웹)
     @GetMapping("/posts")
-    public ResponseEntity<Page<PostResponse>> findPostByAddress(@LoginMember Long memberId,
-                                                                @RequestParam String firstAddress, @RequestParam String secondAddress,
+    public ResponseEntity<Page<PostResponse>> findPostByAddress(@RequestParam String firstAddress, @RequestParam String secondAddress,
                                                                 Pageable pageable){
-        return ResponseEntity.ok(postService.findPostByAddress(memberId, firstAddress, secondAddress, pageable));
+        return ResponseEntity.ok(postService.findPostByAddress(firstAddress, secondAddress, pageable));
     }
 
     // 게시글 간단 조회(앱)
@@ -81,6 +80,13 @@ public class PostController {
     @GetMapping("/members/posts")
     public ResponseEntity<Page<PostResponse>> findMyPostListWeb(@LoginMember Long memberId, Pageable pageable){
         return ResponseEntity.ok(postService.findMyPostListWeb(memberId, pageable));
+    }
+
+    // 내가 쓴 글 조회(웹, 주소로)
+    @GetMapping("/members/posts/address")
+    public ResponseEntity<Page<PostResponse>> findMyPostListByAddressWeb(@RequestParam String firstAddress, @RequestParam String secondAddress,
+                                                                         @LoginMember Long memberId, Pageable pageable){
+        return ResponseEntity.ok(postService.findMyPostListByAddressWeb(firstAddress, secondAddress, memberId, pageable));
     }
 
     // 내가 쓴 글 간단조회(앱)

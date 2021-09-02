@@ -280,12 +280,11 @@ class PostControllerTest {
 
         PageImpl<PostResponse> postResponsePage = new PageImpl<>(postResponseList, pageRequest, postResponseList.size());
 
-        given(postService.findPostByAddress(any(), any(), any(), any()))
+        given(postService.findPostByAddress(any(), any(), any()))
                 .willReturn(postResponsePage);
 
         // when
         mockMvc.perform(RestDocumentationRequestBuilders.get("/posts")
-                .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
                 .param("firstAddress","인천")
                 .param("secondAddress", "남동")
                 .param("page", "0")
@@ -294,9 +293,6 @@ class PostControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(postResponsePage)))
                 .andDo(document("post/findPostsWeb",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearea Access 토큰")
-                        ),
                         requestParameters(
                                 parameterWithName("firstAddress").description("첫번째 주소"),
                                 parameterWithName("secondAddress").description("두번째 주소"),
@@ -483,6 +479,85 @@ class PostControllerTest {
     }
 
     @Test
+    @DisplayName("웹에서 내가 쓴 글 조회(주소로)")
+    void findMyPostListByAddressWeb() throws Exception {
+        // given
+        PageRequest pageRequest = PageRequest.of(0, 20);
+        List<PostResponse> postResponseList = new ArrayList<>();
+        postResponseList.add(TEST_POST_RESPONSE); postResponseList.add(TEST_POST_RESPONSE2); postResponseList.add(TEST_POST_RESPONSE3);
+
+        PageImpl<PostResponse> postResponsePage = new PageImpl<>(postResponseList, pageRequest, postResponseList.size());
+
+        given(postService.findMyPostListByAddressWeb(any(), any(), any(), any()))
+                .willReturn(postResponsePage);
+        given(loginMemberArgumentResolver.resolveArgument(any(), any(), any(), any()))
+                .willReturn(1L);
+
+        // when
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/members/posts/address")
+                        .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
+                        .param("firstAddress","인천")
+                        .param("secondAddress", "남동")
+                        .param("page", "0")
+                        .param("size", "20")
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(postResponsePage)))
+                .andDo(document("post/findMyPostsByAddressWeb",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearea Access 토큰")
+                        ),
+                        requestParameters(
+                                parameterWithName("firstAddress").description("첫번째 주소"),
+                                parameterWithName("secondAddress").description("두번째 주소"),
+                                parameterWithName("page").description("페이지 번호"),
+                                parameterWithName("size").description("데이터 개수")
+                        ),
+                        responseFields(
+                                fieldWithPath("content.[].id").type(JsonFieldType.NUMBER).description("게시글 식별자"),
+                                fieldWithPath("content.[].content").type(JsonFieldType.STRING).description("게시글 내용"),
+                                fieldWithPath("content.[].address").type(JsonFieldType.STRING).description("주소"),
+                                fieldWithPath("content.[].score").type(JsonFieldType.NUMBER).description("별점"),
+                                fieldWithPath("content.[].isOpen").type(JsonFieldType.BOOLEAN).description("공개여부"),
+                                fieldWithPath("content.[].countGood").type(JsonFieldType.NUMBER).description("좋아요 개수"),
+                                fieldWithPath("content.[].countComment").type(JsonFieldType.NUMBER).description("댓글 개수"),
+                                fieldWithPath("content.[].createdAt").type(JsonFieldType.STRING).description("게시글 생성시간"),
+                                fieldWithPath("content.[].updatedAt").type(JsonFieldType.STRING).description("게시글 수정시간"),
+                                fieldWithPath("content.[].memberDto.id").type(JsonFieldType.NUMBER).description("작성자 식별자"),
+                                fieldWithPath("content.[].memberDto.nickname").type(JsonFieldType.STRING).description("작성자 닉네임"),
+                                fieldWithPath("content.[].categoryDto.id").type(JsonFieldType.NUMBER).description("카테고리 식별자"),
+                                fieldWithPath("content.[].categoryDto.name").type(JsonFieldType.STRING).description("카테고리 이름"),
+                                fieldWithPath("content.[].imageDtoList.[].id").type(JsonFieldType.NUMBER).description("이미지 식별자"),
+                                fieldWithPath("content.[].imageDtoList.[].imageUrl").type(JsonFieldType.STRING).description("이미지 url"),
+                                fieldWithPath("content.[].imageDtoList.[].thumbnailImageUrl").type(JsonFieldType.STRING).description("썸네일 url"),
+                                fieldWithPath("content.[].goodDto.id").type(JsonFieldType.VARIES).description("좋아요 식별자").optional(),
+                                fieldWithPath("content.[].goodDto.isGood").type(JsonFieldType.BOOLEAN).description("해당 게시글 좋아요 여부"),
+                                fieldWithPath("pageable.sort.sorted").type(JsonFieldType.BOOLEAN).description("정렬 여부"),
+                                fieldWithPath("pageable.sort.unsorted").type(JsonFieldType.BOOLEAN).description("비정렬 여부"),
+                                fieldWithPath("pageable.sort.empty").type(JsonFieldType.BOOLEAN).description("값이 비었는지 여부"),
+                                fieldWithPath("pageable.offset").type(JsonFieldType.NUMBER).description("페이지 크기"),
+                                fieldWithPath("pageable.pageNumber").type(JsonFieldType.NUMBER).description("현재 페이지 번호"),
+                                fieldWithPath("pageable.pageSize").type(JsonFieldType.NUMBER).description("한 페이지의 데이터 수"),
+                                fieldWithPath("pageable.paged").type(JsonFieldType.BOOLEAN).description("페이징 여부"),
+                                fieldWithPath("pageable.unpaged").type(JsonFieldType.BOOLEAN).description("비페이징 여부"),
+                                fieldWithPath("totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수"),
+                                fieldWithPath("totalElements").type(JsonFieldType.NUMBER).description("총 데이터 개수"),
+                                fieldWithPath("last").type(JsonFieldType.BOOLEAN).description("마지막 페이지 여부"),
+                                fieldWithPath("size").type(JsonFieldType.NUMBER).description("페이지 크기"),
+                                fieldWithPath("number").type(JsonFieldType.NUMBER).description("페이지 번호"),
+                                fieldWithPath("sort.sorted").type(JsonFieldType.BOOLEAN).description("정렬 여부"),
+                                fieldWithPath("sort.unsorted").type(JsonFieldType.BOOLEAN).description("비정렬 여부"),
+                                fieldWithPath("sort.empty").type(JsonFieldType.BOOLEAN).description("값이 비었는지 여부"),
+                                fieldWithPath("numberOfElements").type(JsonFieldType.NUMBER).description("현재 페이지 크기"),
+                                fieldWithPath("first").type(JsonFieldType.BOOLEAN).description("첫번째 페이지 여부"),
+                                fieldWithPath("empty").type(JsonFieldType.BOOLEAN).description("데이터가 비었는지 여부")
+                        )));
+
+        // then
+        then(postService).should(times(1)).findMyPostListByAddressWeb(any(), any(), any(), any());
+    }
+
+    @Test
     @DisplayName("앱에서 내가 쓴 글 간단조회")
     void findMyPostListApp() throws Exception {
         // given
@@ -603,7 +678,6 @@ class PostControllerTest {
 
         // when
         mockMvc.perform(RestDocumentationRequestBuilders.get("/posts/hashtag")
-                .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
                 .param("page", "0")
                 .param("size", "20")
                 .param("hashtag", "해시")
@@ -611,9 +685,6 @@ class PostControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(postResponsePage)))
                 .andDo(document("post/findByHashtagWeb",
-                        requestHeaders(
-                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearea Access 토큰")
-                        ),
                         requestParameters(
                                 parameterWithName("page").description("페이지 번호"),
                                 parameterWithName("size").description("데이터 개수"),

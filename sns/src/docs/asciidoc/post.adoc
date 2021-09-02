@@ -67,8 +67,6 @@ include::{snippets}/post/delete/http-response.adoc[]
 include::{snippets}/post/findPostsWeb/http-request.adoc[]
 URL 파라미터
 include::{snippets}/post/findPostsWeb/request-parameters.adoc[]
-Header
-include::{snippets}/post/findPostsWeb/request-headers.adoc[]
 ===== 응답
 include::{snippets}/post/findPostsWeb/http-response.adoc[]
 include::{snippets}/post/findPostsWeb/response-fields.adoc[]
@@ -84,13 +82,22 @@ include::{snippets}/post/findByPostsWeb/request-headers.adoc[]
 include::{snippets}/post/findByPostsWeb/http-response.adoc[]
 include::{snippets}/post/findByPostsWeb/response-fields.adoc[]
 
+== (웹) 내가 쓴 글 조회 (주소로)
+===== 요청
+include::{snippets}/post/findMyPostsByAddressWeb/http-request.adoc[]
+URL 파라미터
+include::{snippets}/post/findMyPostsByAddressWeb/request-parameters.adoc[]
+Header
+include::{snippets}/post/findMyPostsByAddressWeb/request-headers.adoc[]
+===== 응답
+include::{snippets}/post/findMyPostsByAddressWeb/http-response.adoc[]
+include::{snippets}/post/findMyPostsByAddressWeb/response-fields.adoc[]
+
 == (웹) 해시태그로 글 조회
 ===== 요청
 include::{snippets}/post/findByHashtagWeb/http-request.adoc[]
 URL 파라미터
 include::{snippets}/post/findByHashtagWeb/request-parameters.adoc[]
-Header
-include::{snippets}/post/findByHashtagWeb/request-headers.adoc[]
 ===== 응답
 include::{snippets}/post/findByHashtagWeb/http-response.adoc[]
 include::{snippets}/post/findByHashtagWeb/response-fields.adoc[]

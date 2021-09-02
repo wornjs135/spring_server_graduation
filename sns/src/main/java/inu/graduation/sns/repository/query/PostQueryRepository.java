@@ -28,7 +28,7 @@ public class PostQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public Page<Post> findByAddress(Long memberId, String firstAddress, String secondAddress, Pageable pageable){
+    public Page<Post> findByAddress(String firstAddress, String secondAddress, Pageable pageable){
         List<Post> findPosts = queryFactory
                 .selectFrom(post)
                 .where(post.address.contains(firstAddress), post.address.contains(secondAddress),
@@ -92,6 +92,26 @@ public class PostQueryRepository {
         long totalCount = queryFactory
                 .selectFrom(post)
                 .where(post.member.id.eq(memberId))
+                .orderBy(post.createdAt.desc())
+                .fetchCount();
+
+        return new PageImpl<>(findPosts, pageable, totalCount);
+    }
+
+    public Page<Post> findMyPostByAddressWeb(String firstAddress, String secondAddress, Long memberId, Pageable pageable) {
+        List<Post> findPosts = queryFactory
+                .selectFrom(post)
+                .where(post.member.id.eq(memberId), post.address.contains(firstAddress), post.address.contains(secondAddress))
+                .leftJoin(post.member, member).fetchJoin()
+                .leftJoin(post.category, category).fetchJoin()
+                .orderBy(post.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        long totalCount = queryFactory
+                .selectFrom(post)
+                .where(post.member.id.eq(memberId), post.address.contains(firstAddress), post.address.contains(secondAddress))
                 .orderBy(post.createdAt.desc())
                 .fetchCount();
 
