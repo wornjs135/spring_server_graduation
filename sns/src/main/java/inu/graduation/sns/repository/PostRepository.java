@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
@@ -18,4 +19,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("select p from Post p where p.member.id =:memberId order by p.createdAt desc")
     Slice<Post> findMyPostList(@Param("memberId") Long memberId, Pageable pageable);
+
+    Optional<Post> findByMemberId(Long memberId);
 }

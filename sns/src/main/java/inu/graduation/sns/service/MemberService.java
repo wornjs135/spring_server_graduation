@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import inu.graduation.sns.config.security.JwtTokenProvider;
 import inu.graduation.sns.domain.Image;
 import inu.graduation.sns.domain.Member;
+import inu.graduation.sns.domain.Post;
 import inu.graduation.sns.domain.ProfileImage;
 import inu.graduation.sns.exception.MemberException;
 import inu.graduation.sns.model.common.CreateToken;
@@ -15,7 +16,9 @@ import inu.graduation.sns.model.kakao.KaKaoUserResponse;
 import inu.graduation.sns.model.kakao.KakaoTokenRequest;
 import inu.graduation.sns.model.member.request.MemberUpdateRequest;
 import inu.graduation.sns.model.member.response.MemberResponse;
+import inu.graduation.sns.model.post.response.PostResponse;
 import inu.graduation.sns.repository.MemberRepository;
+import inu.graduation.sns.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -48,6 +51,7 @@ public class MemberService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
+    private final PostRepository postRepository;
     private final AmazonS3Client amazonS3Client;
 
     // 로그인
@@ -141,6 +145,10 @@ public class MemberService {
     public boolean adminDeleteMember(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
+        Optional<Post> findPost = postRepository.findByMemberId(findMember.getId());
+        if (findPost.isPresent()) {
+            postRepository.delete(findPost.get());
+        }
         memberRepository.delete(findMember);
 
         return true;
