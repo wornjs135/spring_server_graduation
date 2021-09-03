@@ -32,6 +32,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -145,9 +146,9 @@ public class MemberService {
     public boolean adminDeleteMember(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
-        Optional<Post> findPost = postRepository.findByMemberId(findMember.getId());
-        if (findPost.isPresent()) {
-            postRepository.delete(findPost.get());
+        List<Post> findPost = postRepository.findByMemberId(findMember.getId());
+        if (!findPost.isEmpty()) {
+            postRepository.deleteInBatch(findPost);
         }
         memberRepository.delete(findMember);
 
