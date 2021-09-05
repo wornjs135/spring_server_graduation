@@ -192,12 +192,17 @@ public class MemberService {
         HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(headers);
 
         //http 요청하기/ response에 응답을 받아옴
-        ResponseEntity<String> response = rt.exchange(
-                "https://kapi.kakao.com/v2/user/me",
-                HttpMethod.POST,
-                kakaoProfileRequest,
-                String.class
-        );
+        ResponseEntity<String> response;
+        try {
+            response = rt.exchange(
+                    "https://kapi.kakao.com/v2/user/me",
+                    HttpMethod.POST,
+                    kakaoProfileRequest,
+                    String.class
+            );
+        } catch (Exception e) {
+            throw new MemberException("kakao 토큰이 잘못되었습니다.");
+        }
 
         ObjectMapper objectMapper2 = new ObjectMapper();
         KaKaoUserResponse kaKaoUserResponse = null;
@@ -205,7 +210,8 @@ public class MemberService {
         try {
             kaKaoUserResponse = objectMapper2.readValue(response.getBody(), KaKaoUserResponse.class);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            throw new MemberException("kakao 사용자 정보를 불러오지 못했습니다.");
         }
 
         return kaKaoUserResponse;
