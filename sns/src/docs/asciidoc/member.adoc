@@ -19,8 +19,12 @@ Header
 include::{snippets}/member/create/request-headers.adoc[]
 ===== 응답
 include::{snippets}/member/create/http-response.adoc[]
+일반 사용자면 ROLE_MEMBER, 관리자면 ROLE_ADMIN +
+
 Header
 include::{snippets}/member/create/response-headers.adoc[]
+Body
+include::{snippets}/member/create/response-fields.adoc[]
 
 == access 토큰 재발급 API
 ===== 요청

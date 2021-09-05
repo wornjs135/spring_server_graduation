@@ -1056,13 +1056,14 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 124
+Content-Length: 150
 
 {
   "id" : 1,
   "nickname" : "닉넴",
   "profileImageUrl" : "이미지url",
-  "profileThumbnailImageUrl" : "썸네일url"
+  "profileThumbnailImageUrl" : "썸네일url",
+  "role" : "ROLE_MEMBER"
 }</code></pre>
 </div>
 </div>
@@ -1099,6 +1100,11 @@ Content-Length: 124
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileThumbnailImageUrl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">프로필 썸네일 이미지 URL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>role</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 권한</p></td>
 </tr>
 </tbody>
 </table>

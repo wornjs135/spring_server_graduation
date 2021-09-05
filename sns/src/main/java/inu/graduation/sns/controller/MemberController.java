@@ -3,9 +3,12 @@ package inu.graduation.sns.controller;
 import inu.graduation.sns.config.security.JwtTokenProvider;
 import inu.graduation.sns.config.security.LoginMember;
 import inu.graduation.sns.domain.Member;
+import inu.graduation.sns.domain.Role;
 import inu.graduation.sns.model.common.CreateToken;
 import inu.graduation.sns.model.member.request.MemberUpdateRequest;
+import inu.graduation.sns.model.member.response.LoginResponse;
 import inu.graduation.sns.model.member.response.MemberResponse;
+import inu.graduation.sns.model.role.dto.RoleDto;
 import inu.graduation.sns.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -25,13 +28,13 @@ public class MemberController {
 
     // 카카오 로그인
     @PostMapping("/members/login")
-    public ResponseEntity kakaoLogin(@RequestHeader(name = "kakaoToken") String kakaoToken){
-        CreateToken createToken = memberService.kakaoLoginMember(kakaoToken);
+    public ResponseEntity<RoleDto> kakaoLogin(@RequestHeader(name = "kakaoToken") String kakaoToken){
+        LoginResponse loginResponse = memberService.kakaoLoginMember(kakaoToken);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .header("accessToken", createToken.getAccessToken())
-                .header("refreshToken", createToken.getRefreshToken())
-                .build();
+                .header("accessToken", loginResponse.getCreateToken().getAccessToken())
+                .header("refreshToken", loginResponse.getCreateToken().getRefreshToken())
+                .body(new RoleDto(loginResponse.getRole()));
     }
 
     // accessToken 재발급

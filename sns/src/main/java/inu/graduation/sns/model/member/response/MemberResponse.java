@@ -15,6 +15,7 @@ public class MemberResponse {
     private String nickname;
     private String profileImageUrl;
     private String profileThumbnailImageUrl;
+    private String role;
 
     public MemberResponse(Member member){
         this.id = member.getId();
@@ -22,5 +23,6 @@ public class MemberResponse {
         this.nickname = member.getNickname();
         this.profileImageUrl = member.getProfileImage().getProfileImageUrl();
         this.profileThumbnailImageUrl = member.getProfileImage().getProfileThumbnailImageUrl();
+        this.role = member.getRole().toString();
     }
 }

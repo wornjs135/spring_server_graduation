@@ -15,6 +15,7 @@ import inu.graduation.sns.model.common.CreateToken;
 import inu.graduation.sns.model.kakao.KaKaoUserResponse;
 import inu.graduation.sns.model.kakao.KakaoTokenRequest;
 import inu.graduation.sns.model.member.request.MemberUpdateRequest;
+import inu.graduation.sns.model.member.response.LoginResponse;
 import inu.graduation.sns.model.member.response.MemberResponse;
 import inu.graduation.sns.model.post.response.PostResponse;
 import inu.graduation.sns.repository.MemberRepository;
@@ -57,7 +58,7 @@ public class MemberService {
 
     // 로그인
     @Transactional
-    public CreateToken kakaoLoginMember(String kakaoToken) {
+    public LoginResponse kakaoLoginMember(String kakaoToken) {
         KaKaoUserResponse kakaoUser = getKakaoUserInfo(kakaoToken);
 
         Optional<Member> findMember = memberRepository.findByKakaoId(Long.valueOf(kakaoUser.getId()));
@@ -70,13 +71,13 @@ public class MemberService {
                 CreateToken createToken = jwtTokenProvider.createToken(String.valueOf(savedMember.getId()));
                 savedMember.changeRefreshToken(createToken.getRefreshToken());
 
-                return createToken;
+                return new LoginResponse(createToken, member.getRole());
             } else { // 관리자 계정 생성
                 Member savedAdmin = saveAdmin(kakaoUser.getId());
                 CreateToken createToken = jwtTokenProvider.createToken(String.valueOf(savedAdmin.getId()));
                 savedAdmin.changeRefreshToken(createToken.getRefreshToken());
 
-                return createToken;
+                return new LoginResponse(createToken, savedAdmin.getRole());
             }
 
         } else { // 서버에 회원 정보 있으면 바로 로그인
@@ -84,7 +85,7 @@ public class MemberService {
             CreateToken createToken = jwtTokenProvider.createToken(String.valueOf(member.getId()));
             member.changeRefreshToken(createToken.getRefreshToken());
 
-            return createToken;
+            return new LoginResponse(createToken, member.getRole());
         }
     }
 

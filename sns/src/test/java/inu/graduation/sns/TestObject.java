@@ -1,5 +1,6 @@
 package inu.graduation.sns;
 
+import inu.graduation.sns.domain.Role;
 import inu.graduation.sns.model.Image.dto.ImageDto;
 import inu.graduation.sns.model.category.dto.CategoryDto;
 import inu.graduation.sns.model.category.request.CategorySaveRequest;
@@ -8,13 +9,16 @@ import inu.graduation.sns.model.category.response.CategoryResponse;
 import inu.graduation.sns.model.comment.request.CommentSaveRequest;
 import inu.graduation.sns.model.comment.request.CommentUpdateRequest;
 import inu.graduation.sns.model.comment.response.CommentResponse;
+import inu.graduation.sns.model.common.CreateToken;
 import inu.graduation.sns.model.good.dto.GoodDto;
 import inu.graduation.sns.model.good.response.GoodCountResponse;
 import inu.graduation.sns.model.member.dto.MemberDto;
+import inu.graduation.sns.model.member.response.LoginResponse;
 import inu.graduation.sns.model.member.response.MemberResponse;
 import inu.graduation.sns.model.post.request.PostSaveRequest;
 import inu.graduation.sns.model.post.request.PostUpdateRequest;
 import inu.graduation.sns.model.post.response.*;
+import inu.graduation.sns.model.role.dto.RoleDto;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 
@@ -30,15 +34,21 @@ public class TestObject {
     public final static String JWT_ACCESSTOKEN_TEST = "Bearer access토큰";
     public final static String JWT_REFRESHTOKEN_TEST = "Bearer refresh토큰";
 
+    public static final LoginResponse TEST_MEMBER_LOGIN_RESPONSE
+            = new LoginResponse(CreateToken.from(JWT_ACCESSTOKEN_TEST, JWT_REFRESHTOKEN_TEST), Role.ROLE_MEMBER);
+
+    public static final RoleDto TEST_ROLE_DTO
+            = new RoleDto(Role.ROLE_MEMBER);
+
     public static final MemberResponse TEST_MEMBER_RESPONSE
-            = new MemberResponse(1L, "황주환", "이미지url", "썸네일url");
+            = new MemberResponse(1L, "황주환", "이미지url", "썸네일url", "ROLE_MEMBER");
     public static final MemberResponse TEST_MEMBER_RESPONSE2
-            = new MemberResponse(1L, "닉넴", "이미지url", "썸네일url");
+            = new MemberResponse(1L, "닉넴", "이미지url", "썸네일url", "ROLE_MEMBER");
 
     public static final MemberResponse TEST_MEMBER_RESPONSE_UPDATE_PROFILEIMG
-            = new MemberResponse(1L, "황주환", "수정된이미지url", "수정된썸네일url");
+            = new MemberResponse(1L, "황주환", "수정된이미지url", "수정된썸네일url", "ROLE_MEMBER");
     public static final MemberResponse TEST_MEMBER_RESPONSE_DEFAULT_PROFILEIMG
-            = new MemberResponse(1L, "황주환", "기본이미지url", "기본썸네일url");
+            = new MemberResponse(1L, "황주환", "기본이미지url", "기본썸네일url", "ROLE_MEMBER");
 
     public static final MemberDto TEST_MEMBER_DTO
             = new MemberDto(1L, "닉네임");

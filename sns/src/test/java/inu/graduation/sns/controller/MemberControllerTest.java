@@ -90,17 +90,16 @@ class MemberControllerTest {
     @DisplayName("카카오 로그인")
     void kakaoLogin() throws Exception {
         // given
-        CreateToken createToken = CreateToken.from(JWT_ACCESSTOKEN_TEST, JWT_REFRESHTOKEN_TEST);
-
         given(memberService.kakaoLoginMember(any()))
-                .willReturn(createToken);
+                .willReturn(TEST_MEMBER_LOGIN_RESPONSE);
 
         // when
         mockMvc.perform(RestDocumentationRequestBuilders.post("/members/login")
                 .header("kakaoToken","kakaoAccessToken"))
                 .andExpect(status().isOk())
-                .andExpect(header().string("accessToken", createToken.getAccessToken()))
-                .andExpect(header().string("refreshToken", createToken.getRefreshToken()))
+                .andExpect(header().string("accessToken", TEST_MEMBER_LOGIN_RESPONSE.getCreateToken().getAccessToken()))
+                .andExpect(header().string("refreshToken", TEST_MEMBER_LOGIN_RESPONSE.getCreateToken().getRefreshToken()))
+                .andExpect(content().json(objectMapper.writeValueAsString(TEST_ROLE_DTO)))
                 .andDo(document("member/create",
                         requestHeaders(
                                 headerWithName("kakaoToken").description("카카오 액세스 토큰")
@@ -108,6 +107,9 @@ class MemberControllerTest {
                         responseHeaders(
                                 headerWithName("accessToken").description("Access 토큰"),
                                 headerWithName("refreshToken").description("Refresh 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("role").type(JsonFieldType.STRING).description("회원 권한")
                         )));
 
         // then
@@ -169,7 +171,8 @@ class MemberControllerTest {
 //                                fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("수정된 닉네임"),
                                 fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필 이미지 URL"),
-                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("프로필 썸네일 이미지 URL")
+                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("프로필 썸네일 이미지 URL"),
+                                fieldWithPath("role").type(JsonFieldType.STRING).description("회원 권한")
                         )));
 
         then(memberService).should(times(1)).updateMember(any(),any());
@@ -213,7 +216,8 @@ class MemberControllerTest {
 //                                fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
                                 fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("수정된 프로필 이미지 URL"),
-                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("수정된 프로필 썸네일 이미지 URL")
+                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("수정된 프로필 썸네일 이미지 URL"),
+                                fieldWithPath("role").type(JsonFieldType.STRING).description("회원 권한")
                         )));
 
         // then
@@ -243,7 +247,8 @@ class MemberControllerTest {
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원 식별자"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
                                 fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("기본 프로필 이미지 URL"),
-                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("기본 프로필 썸네일 이미지 URL")
+                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("기본 프로필 썸네일 이미지 URL"),
+                                fieldWithPath("role").type(JsonFieldType.STRING).description("회원 권한")
                         )));
 
         // then
@@ -292,7 +297,8 @@ class MemberControllerTest {
 //                                fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
                                 fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필 이미지 URL"),
-                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("프로필 썸네일 이미지 URL")
+                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("프로필 썸네일 이미지 URL"),
+                                fieldWithPath("role").type(JsonFieldType.STRING).description("회원 권한")
                         )));
 
         // then
