@@ -1,6 +1,7 @@
 package inu.graduation.sns.config.security;
 
 import inu.graduation.sns.domain.Member;
+import inu.graduation.sns.exception.AuthenticationException;
 import inu.graduation.sns.exception.MemberException;
 import inu.graduation.sns.model.common.CreateToken;
 import io.jsonwebtoken.*;
@@ -71,7 +72,7 @@ public class JwtTokenProvider {
 
     public String refresh(String existRefreshToken, Member member){
         if(!existRefreshToken.equals(member.getRefreshToken())){
-            throw new MemberException("refreshToken이 일치하지 않습니다.");
+            throw new AuthenticationException("refreshToken이 일치하지 않습니다.");
         }
         return createAccessToken(Long.toString(member.getId()));
     }

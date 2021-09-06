@@ -1,6 +1,7 @@
 package inu.graduation.sns.config.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -11,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RequiredArgsConstructor
@@ -26,13 +28,20 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                          ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
 
+        HttpServletResponse res = (HttpServletResponse) response;
         String jwtToken = resolveToken((HttpServletRequest) request);
 
         if(StringUtils.hasText(jwtToken) && jwtTokenProvider.validateToken(jwtToken)){
             Authentication authentication = jwtTokenProvider.getAuthentication(jwtToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        chain.doFilter(request, response);
+        //chain.doFilter(request, response);
+
+        try {
+            chain.doFilter(request, response);
+        } catch (Exception e) {
+            res.sendRedirect("/exception/token");
+        }
     }
 
     // JWT 토큰을 구해옴

@@ -18,4 +18,7 @@ public class ExceptionController {
     public ResponseEntity accessDeniedException(){
         throw new AccessDeniedException("권한이 없습니다.");
     }
+
+    @GetMapping("/exception/token")
+    public ResponseEntity tokenException() { throw new AuthenticationException("유효하지 않는 토큰입니다."); }
 }
