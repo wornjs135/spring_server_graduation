@@ -217,6 +217,13 @@ public class PostService {
         return postHashtagRepository.findPostsByHashtagId(findHashtag.getId(), pageable);
     }
 
+    // 전체 글 간단조회(앱)
+    public Slice<PostSimpleResponse> findAllPostsApp(Pageable pageable) {
+        Slice<Post> allPostList = postRepository.findAllPostList(pageable);
+
+        return allPostList.map(post -> new PostSimpleResponse(post));
+    }
+
     // s3 이미지 업로드 함수 + db저장
     public boolean uploadImageS3(List<MultipartFile> images, Post createdPost) {
         if (images != null){

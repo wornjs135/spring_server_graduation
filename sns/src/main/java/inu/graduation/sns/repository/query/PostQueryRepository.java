@@ -7,10 +7,12 @@ import inu.graduation.sns.domain.*;
 import inu.graduation.sns.model.member.response.MemberResponse;
 import inu.graduation.sns.model.post.response.PostDetailResponse;
 import inu.graduation.sns.model.post.response.PostResponse;
+import inu.graduation.sns.model.post.response.PostSimpleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

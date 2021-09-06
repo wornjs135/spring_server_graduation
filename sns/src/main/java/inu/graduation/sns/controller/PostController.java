@@ -112,4 +112,10 @@ public class PostController {
     public ResponseEntity<Slice<PostSimpleResponse>> findPostByHashtagApp(@RequestParam String hashtag, Pageable pageable){
         return ResponseEntity.ok(postService.findPostsByhashtagApp(hashtag, pageable));
     }
+
+    // 전체 글 조회(앱)
+    @GetMapping("/m/posts/all")
+    public ResponseEntity<Slice<PostSimpleResponse>> findAllPostApp(Pageable pageable) {
+        return ResponseEntity.ok(postService.findAllPostsApp(pageable));
+    }
 }

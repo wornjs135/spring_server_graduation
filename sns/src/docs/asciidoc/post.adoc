@@ -145,3 +145,14 @@ include::{snippets}/post/findPostDetailApp/request-headers.adoc[]
 ===== 응답
 include::{snippets}/post/findPostDetailApp/http-response.adoc[]
 include::{snippets}/post/findPostDetailApp/response-fields.adoc[]
+
+== (앱) 게시글 전체 간단조회
+===== 요청
+include::{snippets}/post/findAllPostApp/http-request.adoc[]
+URL 파라미터
+include::{snippets}/post/findAllPostApp/request-parameters.adoc[]
+Header
+include::{snippets}/post/findAllPostApp/request-headers.adoc[]
+===== 응답
+include::{snippets}/post/findAllPostApp/http-response.adoc[]
+include::{snippets}/post/findAllPostApp/response-fields.adoc[]
