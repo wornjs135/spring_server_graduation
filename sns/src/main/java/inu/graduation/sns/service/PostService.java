@@ -205,6 +205,9 @@ public class PostService {
         Hashtag findHashtag = hashtagRepository.findByName(hashtag)
                 .orElseThrow(() -> new HashtagException("존재하지 않는 해시태그입니다."));
         Page<Post> postByHashtag = postHashtagQueryRepository.findPostByHashtagId(findHashtag.getId(), pageable);
+        if (postByHashtag.isEmpty()) {
+            throw new HashtagException("존재하지 않는 해시태그입니다.");
+        }
 
         return postByHashtag.map(post -> new PostResponse(post));
     }
@@ -214,7 +217,12 @@ public class PostService {
         Hashtag findHashtag = hashtagRepository.findByName(hashtag)
                 .orElseThrow(() -> new HashtagException("존재하지 않는 해시태그입니다."));
 
-        return postHashtagRepository.findPostsByHashtagId(findHashtag.getId(), pageable);
+        Slice<PostSimpleResponse> findPostByHashtag = postHashtagRepository.findPostsByHashtagId(findHashtag.getId(), pageable);
+        if (findPostByHashtag.isEmpty()) {
+            throw new HashtagException("존재하지 않는 해시태그입니다.");
+        }
+
+        return findPostByHashtag;
     }
 
     // 전체 글 간단조회(앱)
