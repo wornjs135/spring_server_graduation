@@ -296,4 +296,26 @@ public class PostService {
         }
         return str;
     }
+
+    /*
+    *************** 테스트 용************
+     */
+    @Transactional
+    public void testCreatePost(Long categoryId, Long memberId, PostSaveRequest request) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
+        Category findCategory = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryException("존재하지 않는 카테고리입니다."));
+        String imageUrl = "https://appcenter-study-bucket.s3.ap-northeast-2.amazonaws.com/e999c8d8-f379-4087-b290-91dd915107ab_kakao_2.jpg";
+        String thumbnailImageUrl = "https://appcenter-study-bucket-thumbnail.s3.ap-northeast-2.amazonaws.com/e999c8d8-f379-4087-b290-91dd915107ab_kakao_2.jpg";
+        String storeName = "kakao_2.jpg";
+
+        for (int i = 0; i < 10; i++) {
+            Post createdPost = Post.createPost(findMember, findCategory, request);
+            Post savedPost = postRepository.save(createdPost);
+
+            Image imageObject = Image.createImage(imageUrl, thumbnailImageUrl, storeName, createdPost);
+            imageRepository.save(imageObject);
+        }
+    }
 }

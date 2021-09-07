@@ -118,4 +118,13 @@ public class PostController {
     public ResponseEntity<Slice<PostAllSimpleResponse>> findAllPostApp(Pageable pageable) {
         return ResponseEntity.ok(postService.findAllPostsApp(pageable));
     }
+
+    /*
+    **************************테스트 용*************************
+     */
+    @GetMapping("/test/posts/categories/{categoryId}")
+    public ResponseEntity testCreatePost(@PathVariable Long categoryId, @LoginMember Long memberId, @RequestPart @Valid PostSaveRequest request) {
+        postService.testCreatePost(categoryId, memberId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 }
