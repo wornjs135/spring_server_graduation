@@ -157,6 +157,10 @@ public class TestObject {
             = new PostSimpleResponse(5L, "게시글내용 #해시", TEST_CATEGORY_DTO, TEST_IMAGE_DTO_LIST);
     public static final PostSimpleResponse TEST_POST_SIMPLE_RESPONSE6
             = new PostSimpleResponse(6L, "게시글내용 #해시", TEST_CATEGORY_DTO, TEST_IMAGE_DTO_LIST);
+    public static final PostAllSimpleResponse TEST_POST_ALL_SIMPLE_RESPONSE1
+            = new PostAllSimpleResponse(1L, "게시글내용1", "인천광역시 남동구 어쩌구", TEST_CATEGORY_DTO, TEST_IMAGE_DTO_LIST);
+    public static final PostAllSimpleResponse TEST_POST_ALL_SIMPLE_RESPONSE2
+            = new PostAllSimpleResponse(2L, "게시글내용2", "경상북도 예천군 어쩌구저쩌구", TEST_CATEGORY_DTO, TEST_IMAGE_DTO_LIST);
 
     public static final CommentSaveRequest TEST_COMMENT_SAVE_REQUEST
             = new CommentSaveRequest("댓글내용");

@@ -3,6 +3,7 @@ package inu.graduation.sns.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import inu.graduation.sns.config.security.JwtTokenProvider;
 import inu.graduation.sns.config.security.LoginMemberArgumentResolver;
+import inu.graduation.sns.model.post.response.PostAllSimpleResponse;
 import inu.graduation.sns.model.post.response.PostResponse;
 import inu.graduation.sns.model.post.response.PostSimpleResponse;
 import inu.graduation.sns.service.PostService;
@@ -800,9 +801,9 @@ class PostControllerTest {
     void findAllPostApp() throws Exception{
         // given
         PageRequest pageRequest = PageRequest.of(0, 20);
-        List<PostSimpleResponse> postSimpleResponseList = new ArrayList<>();
-        postSimpleResponseList.add(TEST_POST_SIMPLE_RESPONSE4); postSimpleResponseList.add(TEST_POST_SIMPLE_RESPONSE5); postSimpleResponseList.add(TEST_POST_SIMPLE_RESPONSE6);
-        SliceImpl<PostSimpleResponse> result = new SliceImpl<>(postSimpleResponseList, pageRequest, true);
+        List<PostAllSimpleResponse> postAllSimpleResponseList = new ArrayList<>();
+        postAllSimpleResponseList.add(TEST_POST_ALL_SIMPLE_RESPONSE1); postAllSimpleResponseList.add(TEST_POST_ALL_SIMPLE_RESPONSE2);
+        SliceImpl<PostAllSimpleResponse> result = new SliceImpl<>(postAllSimpleResponseList, pageRequest, true);
 
         given(postService.findAllPostsApp(any()))
                 .willReturn(result);
@@ -826,6 +827,7 @@ class PostControllerTest {
                         responseFields(
                                 fieldWithPath("content.[].id").type(JsonFieldType.NUMBER).description("게시글 식별자"),
                                 fieldWithPath("content.[].content").type(JsonFieldType.STRING).description("게시글 내용"),
+                                fieldWithPath("content.[].address").type(JsonFieldType.STRING).description("게시글 주소"),
                                 fieldWithPath("content.[].categoryDto.id").type(JsonFieldType.NUMBER).description("카테고리 식별자"),
                                 fieldWithPath("content.[].categoryDto.name").type(JsonFieldType.STRING).description("카테고리 이름"),
                                 fieldWithPath("content.[].imageDtoList.[].id").type(JsonFieldType.NUMBER).description("이미지 식별자"),

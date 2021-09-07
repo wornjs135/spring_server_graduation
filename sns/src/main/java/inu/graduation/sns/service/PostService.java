@@ -218,10 +218,10 @@ public class PostService {
     }
 
     // 전체 글 간단조회(앱)
-    public Slice<PostSimpleResponse> findAllPostsApp(Pageable pageable) {
+    public Slice<PostAllSimpleResponse> findAllPostsApp(Pageable pageable) {
         Slice<Post> allPostList = postRepository.findAllPostList(pageable);
 
-        return allPostList.map(post -> new PostSimpleResponse(post));
+        return allPostList.map(post -> new PostAllSimpleResponse(post));
     }
 
     // s3 이미지 업로드 함수 + db저장

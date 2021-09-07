@@ -115,7 +115,7 @@ public class PostController {
 
     // 전체 글 조회(앱)
     @GetMapping("/m/posts/all")
-    public ResponseEntity<Slice<PostSimpleResponse>> findAllPostApp(Pageable pageable) {
+    public ResponseEntity<Slice<PostAllSimpleResponse>> findAllPostApp(Pageable pageable) {
         return ResponseEntity.ok(postService.findAllPostsApp(pageable));
     }
 }
