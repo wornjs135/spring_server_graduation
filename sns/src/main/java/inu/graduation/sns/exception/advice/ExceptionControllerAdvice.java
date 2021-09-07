@@ -16,7 +16,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
     @ExceptionHandler({MemberException.class, IllegalStateException.class, CategoryException.class,
-                        PostException.class, GoodException.class})
+                        PostException.class, GoodException.class, HashtagException.class, CommentException.class})
     public ResponseEntity<ExceptionResponse> handlingException(Exception e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionResponse(e.getMessage()));
     }
