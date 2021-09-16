@@ -156,3 +156,14 @@ include::{snippets}/post/findAllPostApp/request-headers.adoc[]
 ===== 응답
 include::{snippets}/post/findAllPostApp/http-response.adoc[]
 include::{snippets}/post/findAllPostApp/response-fields.adoc[]
+
+== (앱) 게시글 좋아요 순 간단조회
+===== 요청
+include::{snippets}/post/findPostOrderByGoodApp/http-request.adoc[]
+URL 파라미터
+include::{snippets}/post/findPostOrderByGoodApp/request-parameters.adoc[]
+Header
+include::{snippets}/post/findPostOrderByGoodApp/request-headers.adoc[]
+===== 응답
+include::{snippets}/post/findPostOrderByGoodApp/http-response.adoc[]
+include::{snippets}/post/findPostOrderByGoodApp/response-fields.adoc[]

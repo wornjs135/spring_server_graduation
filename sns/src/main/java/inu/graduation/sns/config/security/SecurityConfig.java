@@ -38,13 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/exception/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/members", "/members/login", "/members/refresh").permitAll()
-                .antMatchers(HttpMethod.GET, "/docs/member.html", "/docs/post.html", "/docs/good.html", "/docs/comment.html", "/docs/category.html", "/docs/admin.html",
-                                            "/posts", "/posts/hashtag").permitAll()
-                .antMatchers(HttpMethod.POST, "/admin/categories").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PATCH, "/admin/categories/{categoryId}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/admin/categories/{categoryId}",
-                        "/admin/members/{memberId}","/admin/posts/{postId}", "/admin/comments/{commentId}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/admin/members").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/docs/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/admin/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/admin/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
                 .anyRequest().hasAnyRole("MEMBER", "ADMIN")
                 .and()
                 .exceptionHandling()

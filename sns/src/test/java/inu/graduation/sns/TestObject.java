@@ -14,18 +14,23 @@ import inu.graduation.sns.model.good.dto.GoodDto;
 import inu.graduation.sns.model.good.response.GoodCountResponse;
 import inu.graduation.sns.model.member.dto.MemberDto;
 import inu.graduation.sns.model.member.response.LoginResponse;
+import inu.graduation.sns.model.member.response.MemberNotificationResponse;
 import inu.graduation.sns.model.member.response.MemberResponse;
+import inu.graduation.sns.model.notification.request.CreateNotificationRequest;
+import inu.graduation.sns.model.notification.response.IsAdminNotiResponse;
+import inu.graduation.sns.model.notification.response.IsCommentNotiResponse;
+import inu.graduation.sns.model.notification.response.IsGoodNotiResponse;
+import inu.graduation.sns.model.notification.response.AdminNotificationResponse;
 import inu.graduation.sns.model.post.request.PostSaveRequest;
 import inu.graduation.sns.model.post.request.PostUpdateRequest;
 import inu.graduation.sns.model.post.response.*;
+import inu.graduation.sns.model.pushnoti.PushNotiResponse;
 import inu.graduation.sns.model.role.dto.RoleDto;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +61,9 @@ public class TestObject {
             = new MemberDto(2L, "김영만");
     public static final MemberDto TEST_MEMBER_DTO3
             = new MemberDto(3L, "김우빈");
+
+    public static final MemberNotificationResponse TEST_MEMBER_NOTIFICATION_RESPONSE1
+            = new MemberNotificationResponse(true, false, true);
 
     public static final MockMultipartFile TEST_IMAGE_FILE1 = new MockMultipartFile(
             "image",
@@ -161,6 +169,10 @@ public class TestObject {
             = new PostAllSimpleResponse(1L, "게시글내용1", "인천광역시 남동구 어쩌구", TEST_CATEGORY_DTO, TEST_IMAGE_DTO_LIST);
     public static final PostAllSimpleResponse TEST_POST_ALL_SIMPLE_RESPONSE2
             = new PostAllSimpleResponse(2L, "게시글내용2", "경상북도 예천군 어쩌구저쩌구", TEST_CATEGORY_DTO, TEST_IMAGE_DTO_LIST);
+    public static final PostSimpleGoodResponse TEST_POST_SIMPLE_GOOD_RESPONSE1
+            = new PostSimpleGoodResponse(1L, "게시글내용1", 223, TEST_CATEGORY_DTO, TEST_IMAGE_DTO_LIST);
+    public static final PostSimpleGoodResponse TEST_POST_SIMPLE_GOOD_RESPONSE2
+            = new PostSimpleGoodResponse(2L, "게시글내용2", 30, TEST_CATEGORY_DTO, TEST_IMAGE_DTO_LIST);
 
     public static final CommentSaveRequest TEST_COMMENT_SAVE_REQUEST
             = new CommentSaveRequest("댓글내용");
@@ -179,4 +191,33 @@ public class TestObject {
 
     public static final GoodCountResponse TEST_GOOD_COUTN_RESPONSE
             = new GoodCountResponse(1L ,57);
+
+
+    public static final CreateNotificationRequest TEST_NOTIFICATION_CREATE_REQUEST
+            = new CreateNotificationRequest("공지사항 제목", "공지사항 내용");
+    public static final CreateNotificationRequest TEST_NOTIFICATION_CREATE_REQUEST2
+            = new CreateNotificationRequest("공지사항 제목 수정", "공지사항 내용 수정");
+
+    public static final AdminNotificationResponse TEST_NOTIFICATION_RESPONSE1
+            = new AdminNotificationResponse(1L, "공지사항 제목", "공지사항 내용", LocalDateTime.now(), LocalDateTime.now());
+    public static final AdminNotificationResponse TEST_NOTIFICATION_RESPONSE2
+            = new AdminNotificationResponse(1L, "공지사항 제목 수정", "공지사항 내용 수정", LocalDateTime.now(), LocalDateTime.now());
+    public static final AdminNotificationResponse TEST_NOTIFICATION_RESPONSE3
+            = new AdminNotificationResponse(3L, "공지사항 제목33", "공지사항 내용32312", LocalDateTime.now(), LocalDateTime.now());
+
+    public static final IsAdminNotiResponse TEST_IS_ADMIN_NOTIFICATION_RESPONSE
+            = new IsAdminNotiResponse(true);
+    public static final IsGoodNotiResponse TEST_IS_GOOD_NOTIFICATION_RESPONSE
+            = new IsGoodNotiResponse(true);
+    public static final IsCommentNotiResponse TEST_IS_COMMENT_NOTIFICATION_RESPONSE
+            = new IsCommentNotiResponse(true);
+
+    public static final PushNotiResponse TEST_PUSH_NOTIFICATION_RESPONSE1
+            = new PushNotiResponse(1L, "새 댓글", "어쩌구 님이 게시글에 댓글을 달았습니다.", 3L, LocalDateTime.now());
+    public static final PushNotiResponse TEST_PUSH_NOTIFICATION_RESPONSE2
+            = new PushNotiResponse(2L, "새 댓글", "어쩌구저쩌구 님이 게시글에 댓글을 달았습니다.", 4L, LocalDateTime.now());
+    public static final PushNotiResponse TEST_PUSH_NOTIFICATION_RESPONSE3
+            = new PushNotiResponse(3L, "좋아요 알림", "어쩌구 님이 게시글에 좋아요를 눌렀습니다.", 3L, LocalDateTime.now());
+    public static final PushNotiResponse TEST_PUSH_NOTIFICATION_RESPONSE4
+            = new PushNotiResponse(4L, "좋아요 알림", "어쩌구 님이 게시글에 좋아요를 눌렀습니다.", 5L, LocalDateTime.now());
 }

@@ -7,6 +7,7 @@ import inu.graduation.sns.domain.Role;
 import inu.graduation.sns.model.common.CreateToken;
 import inu.graduation.sns.model.member.request.MemberUpdateRequest;
 import inu.graduation.sns.model.member.response.LoginResponse;
+import inu.graduation.sns.model.member.response.MemberNotificationResponse;
 import inu.graduation.sns.model.member.response.MemberResponse;
 import inu.graduation.sns.model.role.dto.RoleDto;
 import inu.graduation.sns.service.MemberService;
@@ -28,8 +29,9 @@ public class MemberController {
 
     // 카카오 로그인
     @PostMapping("/members/login")
-    public ResponseEntity<RoleDto> kakaoLogin(@RequestHeader(name = "kakaoToken") String kakaoToken){
-        LoginResponse loginResponse = memberService.kakaoLoginMember(kakaoToken);
+    public ResponseEntity<RoleDto> kakaoLogin(@RequestHeader(name = "kakaoToken") String kakaoToken,
+                                              @RequestHeader(required = false, name = "fcmToken") String fcmToken){
+        LoginResponse loginResponse = memberService.kakaoLoginMember(kakaoToken, fcmToken);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .header("accessToken", loginResponse.getCreateToken().getAccessToken())
@@ -81,6 +83,12 @@ public class MemberController {
     @GetMapping("/members")
     public ResponseEntity<MemberResponse> findMemberInfo(@LoginMember Long memberId){
         return ResponseEntity.ok(memberService.findMemberInfo(memberId));
+    }
+
+    // 회원 알림여부 조회
+    @GetMapping("/members/notification/info")
+    public ResponseEntity<MemberNotificationResponse> findNotificationInfo(@LoginMember Long memberId) {
+        return ResponseEntity.ok(memberService.findNotificationInfo(memberId));
     }
 
     // 로그아웃

@@ -23,5 +23,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("select p from Post p where p.isOpen = true order by p.createdAt desc")
     Slice<Post> findAllPostList(Pageable pageable);
 
+    @Query("select p from Post p where p.isOpen = true order by p.countGood desc")
+    Slice<Post> findPostOrderByGood(Pageable pageable);
+
     List<Post> findByMemberId(Long memberId);
 }

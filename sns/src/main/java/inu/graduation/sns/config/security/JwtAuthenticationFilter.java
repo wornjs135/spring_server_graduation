@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.util.NestedServletException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -35,13 +36,14 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             Authentication authentication = jwtTokenProvider.getAuthentication(jwtToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        //chain.doFilter(request, response);
+        chain.doFilter(request, response);
 
-        try {
-            chain.doFilter(request, response);
-        } catch (Exception e) {
-            res.sendRedirect("/exception/token");
-        }
+//        try {
+//            chain.doFilter(request, response);
+//        } catch (NestedServletException e) {
+//            e.printStackTrace();
+//            //res.sendRedirect("/exception/token");
+//        }
     }
 
     // JWT 토큰을 구해옴

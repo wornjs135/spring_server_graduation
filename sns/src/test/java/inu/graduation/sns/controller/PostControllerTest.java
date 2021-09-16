@@ -5,6 +5,7 @@ import inu.graduation.sns.config.security.JwtTokenProvider;
 import inu.graduation.sns.config.security.LoginMemberArgumentResolver;
 import inu.graduation.sns.model.post.response.PostAllSimpleResponse;
 import inu.graduation.sns.model.post.response.PostResponse;
+import inu.graduation.sns.model.post.response.PostSimpleGoodResponse;
 import inu.graduation.sns.model.post.response.PostSimpleResponse;
 import inu.graduation.sns.service.PostService;
 import org.junit.jupiter.api.BeforeEach;
@@ -854,5 +855,65 @@ class PostControllerTest {
 
         // then
         then(postService).should(times(1)).findAllPostsApp(any());
+    }
+
+    @Test
+    @DisplayName("앱에서 좋아요 순 게시글 간단조회")
+    void findPostOrderByGood() throws Exception {
+        // given
+        PageRequest pageRequest = PageRequest.of(0, 20);
+        List<PostSimpleGoodResponse> postSimpleGoodResponseList = new ArrayList<>();
+        postSimpleGoodResponseList.add(TEST_POST_SIMPLE_GOOD_RESPONSE1); postSimpleGoodResponseList.add(TEST_POST_SIMPLE_GOOD_RESPONSE2);
+        SliceImpl<PostSimpleGoodResponse> result = new SliceImpl<>(postSimpleGoodResponseList, pageRequest, true);
+
+        given(postService.findPostOrderByGoodApp(any()))
+                .willReturn(result);
+
+        // when
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/m/posts/goods")
+                        .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
+                        .param("page", "0")
+                        .param("size", "20")
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(result)))
+                .andDo(document("post/findPostOrderByGoodApp",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearea Access 토큰")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("페이지 번호"),
+                                parameterWithName("size").description("데이터 개수")
+                        ),
+                        responseFields(
+                                fieldWithPath("content.[].id").type(JsonFieldType.NUMBER).description("게시글 식별자"),
+                                fieldWithPath("content.[].content").type(JsonFieldType.STRING).description("게시글 내용"),
+                                fieldWithPath("content.[].countGood").type(JsonFieldType.NUMBER).description("게시글 좋아요 수"),
+                                fieldWithPath("content.[].categoryDto.id").type(JsonFieldType.NUMBER).description("카테고리 식별자"),
+                                fieldWithPath("content.[].categoryDto.name").type(JsonFieldType.STRING).description("카테고리 이름"),
+                                fieldWithPath("content.[].imageDtoList.[].id").type(JsonFieldType.NUMBER).description("이미지 식별자"),
+                                fieldWithPath("content.[].imageDtoList.[].imageUrl").type(JsonFieldType.STRING).description("이미지 url"),
+                                fieldWithPath("content.[].imageDtoList.[].thumbnailImageUrl").type(JsonFieldType.STRING).description("썸네일 url"),
+                                fieldWithPath("pageable.sort.sorted").type(JsonFieldType.BOOLEAN).description("정렬 여부"),
+                                fieldWithPath("pageable.sort.unsorted").type(JsonFieldType.BOOLEAN).description("비정렬 여부"),
+                                fieldWithPath("pageable.sort.empty").type(JsonFieldType.BOOLEAN).description("값이 비었는지 여부"),
+                                fieldWithPath("pageable.offset").type(JsonFieldType.NUMBER).description("페이지 크기"),
+                                fieldWithPath("pageable.pageNumber").type(JsonFieldType.NUMBER).description("현재 페이지 번호"),
+                                fieldWithPath("pageable.pageSize").type(JsonFieldType.NUMBER).description("한 페이지의 데이터 수"),
+                                fieldWithPath("pageable.paged").type(JsonFieldType.BOOLEAN).description("페이징 여부"),
+                                fieldWithPath("pageable.unpaged").type(JsonFieldType.BOOLEAN).description("비페이징 여부"),
+                                fieldWithPath("number").type(JsonFieldType.NUMBER).description("현재 페이지 번호"),
+                                fieldWithPath("numberOfElements").type(JsonFieldType.NUMBER).description("현제 페이지 데이터 수"),
+                                fieldWithPath("first").type(JsonFieldType.BOOLEAN).description("첫번째 페이지 여부"),
+                                fieldWithPath("last").type(JsonFieldType.BOOLEAN).description("마지막 페이지 여부"),
+                                fieldWithPath("size").type(JsonFieldType.NUMBER).description("페이지 크기"),
+                                fieldWithPath("sort.sorted").type(JsonFieldType.BOOLEAN).description("정렬 여부"),
+                                fieldWithPath("sort.unsorted").type(JsonFieldType.BOOLEAN).description("비정렬 여부"),
+                                fieldWithPath("sort.empty").type(JsonFieldType.BOOLEAN).description("값이 비었는지 여부"),
+                                fieldWithPath("empty").type(JsonFieldType.BOOLEAN).description("데이터가 비었는지 여부")
+                        )));
+
+        // then
+        then(postService).should(times(1)).findPostOrderByGoodApp(any());
     }
 }

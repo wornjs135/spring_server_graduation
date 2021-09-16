@@ -90,19 +90,20 @@ class MemberControllerTest {
     @DisplayName("카카오 로그인")
     void kakaoLogin() throws Exception {
         // given
-        given(memberService.kakaoLoginMember(any()))
+        given(memberService.kakaoLoginMember(any(), any()))
                 .willReturn(TEST_MEMBER_LOGIN_RESPONSE);
 
         // when
         mockMvc.perform(RestDocumentationRequestBuilders.post("/members/login")
-                .header("kakaoToken","kakaoAccessToken"))
+                .header("kakaoToken","kakaoAccessToken").header("fcmToken", "fcmToken"))
                 .andExpect(status().isOk())
                 .andExpect(header().string("accessToken", TEST_MEMBER_LOGIN_RESPONSE.getCreateToken().getAccessToken()))
                 .andExpect(header().string("refreshToken", TEST_MEMBER_LOGIN_RESPONSE.getCreateToken().getRefreshToken()))
                 .andExpect(content().json(objectMapper.writeValueAsString(TEST_ROLE_DTO)))
                 .andDo(document("member/create",
                         requestHeaders(
-                                headerWithName("kakaoToken").description("카카오 액세스 토큰")
+                                headerWithName("kakaoToken").description("카카오 액세스 토큰"),
+                                headerWithName("fcmToken").description("fcm 토큰").optional()
                         ),
                         responseHeaders(
                                 headerWithName("accessToken").description("Access 토큰"),
@@ -113,7 +114,7 @@ class MemberControllerTest {
                         )));
 
         // then
-        then(memberService).should(times(1)).kakaoLoginMember(any());
+        then(memberService).should(times(1)).kakaoLoginMember(any(), any());
     }
 
     @Test
@@ -294,7 +295,6 @@ class MemberControllerTest {
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원 식별자"),
-//                                fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
                                 fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필 이미지 URL"),
                                 fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("프로필 썸네일 이미지 URL"),
@@ -321,5 +321,29 @@ class MemberControllerTest {
 
         // then
         then(memberService).should(times(1)).logout(any());
+    }
+
+    @Test
+    @DisplayName("회원 알림설정 여부 조회")
+    void findNotificationInfo() throws Exception {
+        // given
+        given(memberService.findNotificationInfo(any()))
+                .willReturn(TEST_MEMBER_NOTIFICATION_RESPONSE1);
+
+        // when
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/members/notification/info")
+                        .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(TEST_MEMBER_NOTIFICATION_RESPONSE1)))
+                .andDo(document("member/findNotiInfo",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer Access 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("adminNoti").type(JsonFieldType.BOOLEAN).description("공지사항 알림 여부"),
+                                fieldWithPath("goodNoti").type(JsonFieldType.BOOLEAN).description("좋아요 알림 여부"),
+                                fieldWithPath("commentNoti").type(JsonFieldType.BOOLEAN).description("댓글 알림 여부")
+                        )));
     }
 }

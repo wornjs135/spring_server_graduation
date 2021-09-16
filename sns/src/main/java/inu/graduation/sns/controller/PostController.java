@@ -119,6 +119,12 @@ public class PostController {
         return ResponseEntity.ok(postService.findAllPostsApp(pageable));
     }
 
+    // 좋아요 순 글 조회(앱)
+    @GetMapping("/m/posts/goods")
+    public ResponseEntity<Slice<PostSimpleGoodResponse>> findPostOrderByGoodApp(Pageable pageable) {
+        return ResponseEntity.ok(postService.findPostOrderByGoodApp(pageable));
+    }
+
     /*
     **************************테스트 용*************************
      */

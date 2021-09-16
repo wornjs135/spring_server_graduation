@@ -432,64 +432,40 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#api">1. (관리자) 카테고리 생성 API</a>
+<li><a href="#api">1. 공지사항 알림 여부 설정 API</a>
 <ul class="sectlevel4">
 <li><a href="#_요청">요청</a></li>
 <li><a href="#_응답">응답</a></li>
 </ul>
 </li>
-<li><a href="#_관리자_카테고리_수정_api">2. (관리자) 카테고리 수정 API</a>
+<li><a href="#_좋아요_알림_여부_설정_api">2. 좋아요 알림 여부 설정 API</a>
 <ul class="sectlevel4">
 <li><a href="#_요청_2">요청</a></li>
 <li><a href="#_응답_2">응답</a></li>
 </ul>
 </li>
-<li><a href="#_관리자_카테고리_삭제_api">3. (관리자) 카테고리 삭제 API</a>
+<li><a href="#_댓글_알림_여부_설정_api">3. 댓글 알림 여부 설정 API</a>
 <ul class="sectlevel4">
 <li><a href="#_요청_3">요청</a></li>
 <li><a href="#_응답_3">응답</a></li>
 </ul>
 </li>
-<li><a href="#_관리자_회원_삭제_api">4. (관리자) 회원 삭제 API</a>
+<li><a href="#_웹_공지사항_리스트_조회_api">4. (웹) 공지사항 리스트 조회 API</a>
 <ul class="sectlevel4">
 <li><a href="#_요청_4">요청</a></li>
 <li><a href="#_응답_4">응답</a></li>
 </ul>
 </li>
-<li><a href="#_관리자_게시글_삭제_api">5. (관리자) 게시글 삭제 API</a>
+<li><a href="#_앱_공지사항_리스트_조회_api">5. (앱) 공지사항 리스트 조회 API</a>
 <ul class="sectlevel4">
 <li><a href="#_요청_5">요청</a></li>
 <li><a href="#_응답_5">응답</a></li>
 </ul>
 </li>
-<li><a href="#_관리자_댓글_삭제_api">6. (관리자) 댓글 삭제 API</a>
+<li><a href="#_앱_좋아요_댓글_알림_리스트_조회_api">6. (앱) 좋아요, 댓글 알림 리스트 조회 API</a>
 <ul class="sectlevel4">
 <li><a href="#_요청_6">요청</a></li>
 <li><a href="#_응답_6">응답</a></li>
-</ul>
-</li>
-<li><a href="#_관리자_닉네임으로_회원_조회_api">7. (관리자) 닉네임으로 회원 조회 API</a>
-<ul class="sectlevel4">
-<li><a href="#_요청_7">요청</a></li>
-<li><a href="#_응답_7">응답</a></li>
-</ul>
-</li>
-<li><a href="#_관리자_공지사항_생성_api">8. (관리자) 공지사항 생성 API</a>
-<ul class="sectlevel4">
-<li><a href="#_요청_8">요청</a></li>
-<li><a href="#_응답_8">응답</a></li>
-</ul>
-</li>
-<li><a href="#_관리자_공지사항_수정_api">9. (관리자) 공지사항 수정 API</a>
-<ul class="sectlevel4">
-<li><a href="#_요청_9">요청</a></li>
-<li><a href="#_응답_9">응답</a></li>
-</ul>
-</li>
-<li><a href="#_관리자_공지사항_삭제_api">10. (관리자) 공지사항 삭제 API</a>
-<ul class="sectlevel4">
-<li><a href="#_요청_10">요청</a></li>
-<li><a href="#_응답_10">응답</a></li>
 </ul>
 </li>
 </ul>
@@ -497,22 +473,27 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="api"><a class="anchor" href="#api"></a><a class="link" href="#api">1. (관리자) 카테고리 생성 API</a></h2>
+<h2 id="api"><a class="anchor" href="#api"></a><a class="link" href="#api">1. 공지사항 알림 여부 설정 API</a></h2>
 <div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+DB에서 저장된 설정 여부 값이 false이면 true로, true이면 false로 수정됩니다.(모든 알림 여부 설정 동일, 기본값은 true)
+</td>
+</tr>
+</table>
+</div>
 <div class="sect4">
 <h5 id="_요청"><a class="anchor" href="#_요청"></a><a class="link" href="#_요청">요청</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /admin/categories HTTP/1.1
-Content-Type: application/json
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /setting/adminnoti HTTP/1.1
 Authorization: Bearer access토큰
-Accept: application/json
-Content-Length: 39
-Host: localhost:8080
-
-{
-  "name" : "새로운 카테고리"
-}</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -536,37 +517,6 @@ Host: localhost:8080
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>Body</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code>{
-  "name" : "새로운 카테고리"
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">생성할 카테고리 이름</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect4">
 <h5 id="_응답"><a class="anchor" href="#_응답"></a><a class="link" href="#_응답">응답</a></h5>
@@ -574,11 +524,10 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 51
+Content-Length: 24
 
 {
-  "id" : 4,
-  "name" : "생성된 카테고리"
+  "adminNoti" : true
 }</code></pre>
 </div>
 </div>
@@ -597,14 +546,9 @@ Content-Length: 51
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 식별자</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 이름</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>adminNoti</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 알림 설정 여부</p></td>
 </tr>
 </tbody>
 </table>
@@ -612,48 +556,19 @@ Content-Length: 51
 </div>
 </div>
 <div class="sect1">
-<h2 id="_관리자_카테고리_수정_api"><a class="anchor" href="#_관리자_카테고리_수정_api"></a><a class="link" href="#_관리자_카테고리_수정_api">2. (관리자) 카테고리 수정 API</a></h2>
+<h2 id="_좋아요_알림_여부_설정_api"><a class="anchor" href="#_좋아요_알림_여부_설정_api"></a><a class="link" href="#_좋아요_알림_여부_설정_api">2. 좋아요 알림 여부 설정 API</a></h2>
 <div class="sectionbody">
 <div class="sect4">
 <h5 id="_요청_2"><a class="anchor" href="#_요청_2"></a><a class="link" href="#_요청_2">요청</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /admin/categories/1 HTTP/1.1
-Content-Type: application/json
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /setting/goodnoti HTTP/1.1
 Authorization: Bearer access토큰
-Accept: application/json
-Content-Length: 39
-Host: localhost:8080
-
-{
-  "name" : "수정할 카테고리"
-}</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>경로변수
-./admin/categories/{categoryId}</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>categoryId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 식별자</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Hedaer</p>
+<p>Header</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -673,37 +588,6 @@ Host: localhost:8080
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>Body</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code>{
-  "name" : "수정할 카테고리"
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">수정할 카테고리 이름</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect4">
 <h5 id="_응답_2"><a class="anchor" href="#_응답_2"></a><a class="link" href="#_응답_2">응답</a></h5>
@@ -711,11 +595,10 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 51
+Content-Length: 23
 
 {
-  "id" : 5,
-  "name" : "수정된 카테고리"
+  "goodNoti" : true
 }</code></pre>
 </div>
 </div>
@@ -734,14 +617,9 @@ Content-Length: 51
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 식별자</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 이름</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>goodNoti</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">좋아요 알림 설정 여부</p></td>
 </tr>
 </tbody>
 </table>
@@ -749,39 +627,17 @@ Content-Length: 51
 </div>
 </div>
 <div class="sect1">
-<h2 id="_관리자_카테고리_삭제_api"><a class="anchor" href="#_관리자_카테고리_삭제_api"></a><a class="link" href="#_관리자_카테고리_삭제_api">3. (관리자) 카테고리 삭제 API</a></h2>
+<h2 id="_댓글_알림_여부_설정_api"><a class="anchor" href="#_댓글_알림_여부_설정_api"></a><a class="link" href="#_댓글_알림_여부_설정_api">3. 댓글 알림 여부 설정 API</a></h2>
 <div class="sectionbody">
 <div class="sect4">
 <h5 id="_요청_3"><a class="anchor" href="#_요청_3"></a><a class="link" href="#_요청_3">요청</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /admin/categories/1 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /setting/commentnoti HTTP/1.1
 Authorization: Bearer access토큰
 Host: localhost:8080</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>경로변수
-./admin/categories/{categoryId}</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>categoryId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 식별자</p></td>
-</tr>
-</tbody>
-</table>
 <div class="paragraph">
 <p>Header</p>
 </div>
@@ -808,27 +664,54 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_3"><a class="anchor" href="#_응답_3"></a><a class="link" href="#_응답_3">응답</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 26
+
+{
+  "commentNoti" : true
+}</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentNoti</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 알림 설정 여부</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_관리자_회원_삭제_api"><a class="anchor" href="#_관리자_회원_삭제_api"></a><a class="link" href="#_관리자_회원_삭제_api">4. (관리자) 회원 삭제 API</a></h2>
+<h2 id="_웹_공지사항_리스트_조회_api"><a class="anchor" href="#_웹_공지사항_리스트_조회_api"></a><a class="link" href="#_웹_공지사항_리스트_조회_api">4. (웹) 공지사항 리스트 조회 API</a></h2>
 <div class="sectionbody">
 <div class="sect4">
 <h5 id="_요청_4"><a class="anchor" href="#_요청_4"></a><a class="link" href="#_요청_4">요청</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /admin/members/1 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /notifications?page=0&amp;size=20 HTTP/1.1
 Authorization: Bearer access토큰
+Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>경로변수
-./admin/members/{memberId}</p>
+<p>URL 파라미터</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -843,8 +726,12 @@ Host: localhost:8080</code></pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별자</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터 개수</p></td>
 </tr>
 </tbody>
 </table>
@@ -874,152 +761,199 @@ Host: localhost:8080</code></pre>
 <h5 id="_응답_4"><a class="anchor" href="#_응답_4"></a><a class="link" href="#_응답_4">응답</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 863
+
+{
+  "content" : [ {
+    "id" : 1,
+    "title" : "공지사항 제목",
+    "content" : "공지사항 내용",
+    "createdAt" : "2021-09-16T23:46:09.708493",
+    "updatedAt" : "2021-09-16T23:46:09.708529"
+  }, {
+    "id" : 3,
+    "title" : "공지사항 제목33",
+    "content" : "공지사항 내용32312",
+    "createdAt" : "2021-09-16T23:46:09.708548",
+    "updatedAt" : "2021-09-16T23:46:09.70855"
+  } ],
+  "pageable" : {
+    "sort" : {
+      "sorted" : false,
+      "unsorted" : true,
+      "empty" : true
+    },
+    "offset" : 0,
+    "pageNumber" : 0,
+    "pageSize" : 20,
+    "paged" : true,
+    "unpaged" : false
+  },
+  "totalPages" : 1,
+  "totalElements" : 2,
+  "last" : true,
+  "size" : 20,
+  "number" : 0,
+  "sort" : {
+    "sorted" : false,
+    "unsorted" : true,
+    "empty" : true
+  },
+  "numberOfElements" : 2,
+  "first" : true,
+  "empty" : false
+}</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 생성시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].updatedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 수정시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.sort.sorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.sort.unsorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비정렬 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.sort.empty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">값이 비었는지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.offset</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 크기</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.pageNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 페이지 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.pageSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">한 페이지의 데이터 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.paged</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이징 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.unpaged</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비페이징 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalPages</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 페이지 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 데이터 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>last</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마지막 페이지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 크기</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort.sorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort.unsorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비정렬 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort.empty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">값이 비었는지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>numberOfElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 페이지 크기</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>first</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">첫번째 페이지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>empty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터가 비었는지 여부</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_관리자_게시글_삭제_api"><a class="anchor" href="#_관리자_게시글_삭제_api"></a><a class="link" href="#_관리자_게시글_삭제_api">5. (관리자) 게시글 삭제 API</a></h2>
+<h2 id="_앱_공지사항_리스트_조회_api"><a class="anchor" href="#_앱_공지사항_리스트_조회_api"></a><a class="link" href="#_앱_공지사항_리스트_조회_api">5. (앱) 공지사항 리스트 조회 API</a></h2>
 <div class="sectionbody">
 <div class="sect4">
 <h5 id="_요청_5"><a class="anchor" href="#_요청_5"></a><a class="link" href="#_요청_5">요청</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /admin/posts/1 HTTP/1.1
-Authorization: Bearer access토큰
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>경로변수
-./admin/posts/{postId}</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 식별자</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Header</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Bearer Access 토큰</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect4">
-<h5 id="_응답_5"><a class="anchor" href="#_응답_5"></a><a class="link" href="#_응답_5">응답</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_관리자_댓글_삭제_api"><a class="anchor" href="#_관리자_댓글_삭제_api"></a><a class="link" href="#_관리자_댓글_삭제_api">6. (관리자) 댓글 삭제 API</a></h2>
-<div class="sectionbody">
-<div class="sect4">
-<h5 id="_요청_6"><a class="anchor" href="#_요청_6"></a><a class="link" href="#_요청_6">요청</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /admin/comments/1 HTTP/1.1
-Authorization: Bearer access토큰
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>경로변수
-./admin/comments/{commentId}</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 식별자</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Header</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Bearer Access 토큰</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect4">
-<h5 id="_응답_6"><a class="anchor" href="#_응답_6"></a><a class="link" href="#_응답_6">응답</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_관리자_닉네임으로_회원_조회_api"><a class="anchor" href="#_관리자_닉네임으로_회원_조회_api"></a><a class="link" href="#_관리자_닉네임으로_회원_조회_api">7. (관리자) 닉네임으로 회원 조회 API</a></h2>
-<div class="sectionbody">
-<div class="sect4">
-<h5 id="_요청_7"><a class="anchor" href="#_요청_7"></a><a class="link" href="#_요청_7">요청</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /admin/members?nickname=%EB%8B%89%EB%84%B4 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /m/notifications?page=0&amp;size=20 HTTP/1.1
 Authorization: Bearer access토큰
 Accept: application/json
 Host: localhost:8080</code></pre>
@@ -1041,8 +975,12 @@ Host: localhost:8080</code></pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">조회할 닉네임</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터 개수</p></td>
 </tr>
 </tbody>
 </table>
@@ -1069,19 +1007,50 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect4">
-<h5 id="_응답_7"><a class="anchor" href="#_응답_7"></a><a class="link" href="#_응답_7">응답</a></h5>
+<h5 id="_응답_5"><a class="anchor" href="#_응답_5"></a><a class="link" href="#_응답_5">응답</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 150
+Content-Length: 821
 
 {
-  "id" : 1,
-  "nickname" : "닉넴",
-  "profileImageUrl" : "이미지url",
-  "profileThumbnailImageUrl" : "썸네일url",
-  "role" : "ROLE_MEMBER"
+  "content" : [ {
+    "id" : 1,
+    "title" : "공지사항 제목",
+    "content" : "공지사항 내용",
+    "createdAt" : "2021-09-16T23:46:09.708493",
+    "updatedAt" : "2021-09-16T23:46:09.708529"
+  }, {
+    "id" : 3,
+    "title" : "공지사항 제목33",
+    "content" : "공지사항 내용32312",
+    "createdAt" : "2021-09-16T23:46:09.708548",
+    "updatedAt" : "2021-09-16T23:46:09.70855"
+  } ],
+  "pageable" : {
+    "sort" : {
+      "sorted" : false,
+      "unsorted" : true,
+      "empty" : true
+    },
+    "offset" : 0,
+    "pageNumber" : 0,
+    "pageSize" : 20,
+    "paged" : true,
+    "unpaged" : false
+  },
+  "size" : 20,
+  "number" : 0,
+  "sort" : {
+    "sorted" : false,
+    "unsorted" : true,
+    "empty" : true
+  },
+  "numberOfElements" : 2,
+  "first" : true,
+  "last" : false,
+  "empty" : false
 }</code></pre>
 </div>
 </div>
@@ -1100,29 +1069,114 @@ Content-Length: 150
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별자</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 식별자</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].title</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 제목</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].content</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지 URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileThumbnailImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].createdAt</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 썸네일 이미지 URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 생성시간</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>role</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].updatedAt</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 권한</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 수정시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.sort.sorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.sort.unsorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비정렬 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.sort.empty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">값이 비었는지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.offset</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 크기</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.pageNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 페이지 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.pageSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">한 페이지의 데이터 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.paged</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이징 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.unpaged</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비페이징 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 페이지 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>numberOfElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현제 페이지 데이터 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>first</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">첫번째 페이지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>last</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마지막 페이지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 크기</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort.sorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort.unsorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비정렬 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort.empty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">값이 비었는지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>empty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터가 비었는지 여부</p></td>
 </tr>
 </tbody>
 </table>
@@ -1130,322 +1184,20 @@ Content-Length: 150
 </div>
 </div>
 <div class="sect1">
-<h2 id="_관리자_공지사항_생성_api"><a class="anchor" href="#_관리자_공지사항_생성_api"></a><a class="link" href="#_관리자_공지사항_생성_api">8. (관리자) 공지사항 생성 API</a></h2>
+<h2 id="_앱_좋아요_댓글_알림_리스트_조회_api"><a class="anchor" href="#_앱_좋아요_댓글_알림_리스트_조회_api"></a><a class="link" href="#_앱_좋아요_댓글_알림_리스트_조회_api">6. (앱) 좋아요, 댓글 알림 리스트 조회 API</a></h2>
 <div class="sectionbody">
 <div class="sect4">
-<h5 id="_요청_8"><a class="anchor" href="#_요청_8"></a><a class="link" href="#_요청_8">요청</a></h5>
+<h5 id="_요청_6"><a class="anchor" href="#_요청_6"></a><a class="link" href="#_요청_6">요청</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /admin/notification HTTP/1.1
-Content-Type: application/json
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /m/members/notifications?page=0&amp;size=20 HTTP/1.1
 Authorization: Bearer access토큰
 Accept: application/json
-Content-Length: 74
-Host: localhost:8080
-
-{
-  "title" : "공지사항 제목",
-  "content" : "공지사항 내용"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Header</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Bearea Access 토큰</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Body</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code>{
-  "title" : "공지사항 제목",
-  "content" : "공지사항 내용"
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 제목</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 내용</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect4">
-<h5 id="_응답_8"><a class="anchor" href="#_응답_8"></a><a class="link" href="#_응답_8">응답</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 178
-
-{
-  "id" : 1,
-  "title" : "공지사항 제목",
-  "content" : "공지사항 내용",
-  "createdAt" : "2021-09-16T23:46:09.708493",
-  "updatedAt" : "2021-09-16T23:46:09.708529"
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 식별자</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 제목</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 내용</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createdAt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">생성 시간</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>updatedAt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">수정 시간</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_관리자_공지사항_수정_api"><a class="anchor" href="#_관리자_공지사항_수정_api"></a><a class="link" href="#_관리자_공지사항_수정_api">9. (관리자) 공지사항 수정 API</a></h2>
-<div class="sectionbody">
-<div class="sect4">
-<h5 id="_요청_9"><a class="anchor" href="#_요청_9"></a><a class="link" href="#_요청_9">요청</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /admin/notification/1 HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer access토큰
-Accept: application/json
-Content-Length: 88
-Host: localhost:8080
-
-{
-  "title" : "공지사항 제목 수정",
-  "content" : "공지사항 내용 수정"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>경로변수
-./admin/notification/{notificationId}</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>notificationId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 식별자</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Header</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Bearea Access 토큰</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Body</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code>{
-  "title" : "공지사항 제목 수정",
-  "content" : "공지사항 내용 수정"
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 제목</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 내용</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect4">
-<h5 id="_응답_9"><a class="anchor" href="#_응답_9"></a><a class="link" href="#_응답_9">응답</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 191
-
-{
-  "id" : 1,
-  "title" : "공지사항 제목 수정",
-  "content" : "공지사항 내용 수정",
-  "createdAt" : "2021-09-16T23:46:09.708537",
-  "updatedAt" : "2021-09-16T23:46:09.70854"
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 식별자</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 제목</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 내용</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createdAt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">생성 시간</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>updatedAt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">수정 시간</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_관리자_공지사항_삭제_api"><a class="anchor" href="#_관리자_공지사항_삭제_api"></a><a class="link" href="#_관리자_공지사항_삭제_api">10. (관리자) 공지사항 삭제 API</a></h2>
-<div class="sectionbody">
-<div class="sect4">
-<h5 id="_요청_10"><a class="anchor" href="#_요청_10"></a><a class="link" href="#_요청_10">요청</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /admin/notification/1 HTTP/1.1
-Authorization: Bearer access토큰
 Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>경로변수
-./admin/notification/{notificationId}</p>
+<p>URL 파라미터</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -1460,8 +1212,12 @@ Host: localhost:8080</code></pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>notificationId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">공지사항 식별자</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터 개수</p></td>
 </tr>
 </tbody>
 </table>
@@ -1488,19 +1244,198 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect4">
-<h5 id="_응답_10"><a class="anchor" href="#_응답_10"></a><a class="link" href="#_응답_10">응답</a></h5>
+<h5 id="_응답_6"><a class="anchor" href="#_응답_6"></a><a class="link" href="#_응답_6">응답</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 1216
+
+{
+  "content" : [ {
+    "id" : 1,
+    "title" : "새 댓글",
+    "content" : "어쩌구 님이 게시글에 댓글을 달았습니다.",
+    "postId" : 3,
+    "createdAt" : "2021-09-16T23:46:09.709045"
+  }, {
+    "id" : 2,
+    "title" : "새 댓글",
+    "content" : "어쩌구저쩌구 님이 게시글에 댓글을 달았습니다.",
+    "postId" : 4,
+    "createdAt" : "2021-09-16T23:46:09.70909"
+  }, {
+    "id" : 3,
+    "title" : "좋아요 알림",
+    "content" : "어쩌구 님이 게시글에 좋아요를 눌렀습니다.",
+    "postId" : 3,
+    "createdAt" : "2021-09-16T23:46:09.709099"
+  }, {
+    "id" : 4,
+    "title" : "좋아요 알림",
+    "content" : "어쩌구 님이 게시글에 좋아요를 눌렀습니다.",
+    "postId" : 5,
+    "createdAt" : "2021-09-16T23:46:09.70911"
+  } ],
+  "pageable" : {
+    "sort" : {
+      "sorted" : false,
+      "unsorted" : true,
+      "empty" : true
+    },
+    "offset" : 0,
+    "pageNumber" : 0,
+    "pageSize" : 20,
+    "paged" : true,
+    "unpaged" : false
+  },
+  "size" : 20,
+  "number" : 0,
+  "sort" : {
+    "sorted" : false,
+    "unsorted" : true,
+    "empty" : true
+  },
+  "numberOfElements" : 4,
+  "first" : true,
+  "last" : false,
+  "empty" : false
+}</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">좋아요, 댓글 알림 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">알림 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">알림 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 게시글 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content.[].createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">알림 생성시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.sort.sorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.sort.unsorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비정렬 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.sort.empty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">값이 비었는지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.offset</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 크기</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.pageNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 페이지 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.pageSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">한 페이지의 데이터 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.paged</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이징 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.unpaged</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비페이징 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 페이지 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>numberOfElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현제 페이지 데이터 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>first</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">첫번째 페이지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>last</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마지막 페이지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 크기</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort.sorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort.unsorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비정렬 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort.empty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">값이 비었는지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>empty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터가 비었는지 여부</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-09-16 17:57:40 KST
+Last updated 2021-09-16 23:42:45 KST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">

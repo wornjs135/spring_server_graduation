@@ -3,10 +3,7 @@ package inu.graduation.sns.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import inu.graduation.sns.config.security.JwtTokenProvider;
 import inu.graduation.sns.config.security.LoginMemberArgumentResolver;
-import inu.graduation.sns.service.CategoryService;
-import inu.graduation.sns.service.CommentService;
-import inu.graduation.sns.service.MemberService;
-import inu.graduation.sns.service.PostService;
+import inu.graduation.sns.service.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +24,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static inu.graduation.sns.TestObject.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -54,6 +50,9 @@ class AdminControllerTest {
 
     @MockBean
     private CommentService commentService;
+
+    @MockBean
+    private NotificationService notificationService;
 
     @MockBean
     private JwtTokenProvider jwtTokenProvider;
@@ -262,4 +261,102 @@ class AdminControllerTest {
         // then
         then(memberService).should(times(1)).adminFindMember(any());
     }
+
+    @Test
+    @DisplayName("관리자 공지사항 등록 + 알림 보내기")
+    void sendNotification() throws Exception {
+        // given
+        given(notificationService.sendAllMessage(any()))
+                .willReturn(TEST_NOTIFICATION_RESPONSE1);
+        String body = objectMapper.writeValueAsString(TEST_NOTIFICATION_CREATE_REQUEST);
+
+        // when
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/admin/notification")
+                        .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(body)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(TEST_NOTIFICATION_RESPONSE1)))
+                .andDo(document("admin/createNotification",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearea Access 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("title").type(JsonFieldType.STRING).description("공지사항 제목"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("공지사항 내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("공지사항 식별자"),
+                                fieldWithPath("title").type(JsonFieldType.STRING).description("공지사항 제목"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("공지사항 내용"),
+                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성 시간"),
+                                fieldWithPath("updatedAt").type(JsonFieldType.STRING).description("수정 시간")
+                        )));
+
+        // then
+        then(notificationService).should(times(1)).sendAllMessage(any());
+    }
+
+    @Test
+    @DisplayName("관리자 공지사항 수정")
+    void updateNotification() throws Exception {
+        // given
+        given(notificationService.updateNotification(any(), any()))
+                .willReturn(TEST_NOTIFICATION_RESPONSE2);
+        String body = objectMapper.writeValueAsString(TEST_NOTIFICATION_CREATE_REQUEST2);
+
+        // when
+        mockMvc.perform(RestDocumentationRequestBuilders.patch("/admin/notification/{notificationId}", 1L)
+                        .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(body)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(TEST_NOTIFICATION_RESPONSE2)))
+                .andDo(document("admin/updateNotification",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearea Access 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("notificationId").description("공지사항 식별자")
+                        ),
+                        requestFields(
+                                fieldWithPath("title").type(JsonFieldType.STRING).description("공지사항 제목"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("공지사항 내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("공지사항 식별자"),
+                                fieldWithPath("title").type(JsonFieldType.STRING).description("공지사항 제목"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("공지사항 내용"),
+                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성 시간"),
+                                fieldWithPath("updatedAt").type(JsonFieldType.STRING).description("수정 시간")
+                        )));
+
+        // then
+        then(notificationService).should(times(1)).updateNotification(any(), any());
+    }
+
+    @Test
+    @DisplayName("관리자 공지사항 삭제")
+    void deleteNotification() throws Exception {
+        // given
+
+        // when
+        mockMvc.perform(RestDocumentationRequestBuilders.delete("/admin/notification/{notificationId}", 1L)
+                        .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST))
+                .andExpect(status().isOk())
+                .andDo(document("admin/deleteNotification",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearea Access 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("notificationId").description("공지사항 식별자")
+                        )));
+
+        // then
+        then(notificationService).should(times(1)).deleteNotification(any());
+    }
+
+
 }

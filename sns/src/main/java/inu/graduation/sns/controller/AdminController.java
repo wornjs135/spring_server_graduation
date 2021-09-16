@@ -1,20 +1,19 @@
 package inu.graduation.sns.controller;
 
-import inu.graduation.sns.domain.Category;
 import inu.graduation.sns.model.category.request.CategorySaveRequest;
 import inu.graduation.sns.model.category.request.CategoryUpdateRequest;
 import inu.graduation.sns.model.category.response.CategoryResponse;
 import inu.graduation.sns.model.member.response.MemberResponse;
 import inu.graduation.sns.model.notification.request.CreateNotificationRequest;
+import inu.graduation.sns.model.notification.request.UpdateNotificationRequest;
+import inu.graduation.sns.model.notification.response.AdminNotificationResponse;
 import inu.graduation.sns.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class AdminController {
     private final MemberService memberService;
     private final PostService postService;
     private final CommentService commentService;
-//    private final NotificationService notificationService;
+    private final NotificationService notificationService;
 
     // 카테고리 생성
     @PostMapping("/admin/categories")
@@ -77,11 +76,24 @@ public class AdminController {
         return ResponseEntity.ok(memberService.adminFindMember(nickname));
     }
 
-    // 공지사항 알림
-//    @PostMapping("/admin/notification")
-//    public ResponseEntity sendNotification(@RequestBody @Valid CreateNotificationRequest createNotificationRequest) {
-//        notificationService.sendAllMessage(createNotificationRequest);
-//
-//        return ResponseEntity.status(HttpStatus.OK).build();
-//    }
+    // 공지사항 등록 + 알림 보내기
+    @PostMapping("/admin/notification")
+    public ResponseEntity<AdminNotificationResponse> sendNotification(@RequestBody @Valid CreateNotificationRequest createNotificationRequest) {
+        return ResponseEntity.ok(notificationService.sendAllMessage(createNotificationRequest));
+    }
+
+    // 공지사항 수정
+    @PatchMapping("/admin/notification/{notificationId}")
+    public ResponseEntity<AdminNotificationResponse> updateNotification(@RequestBody @Valid UpdateNotificationRequest updateNotificationRequest,
+                                                                        @PathVariable Long notificationId) {
+        return ResponseEntity.ok(notificationService.updateNotification(updateNotificationRequest, notificationId));
+    }
+
+    // 공지사항 삭제
+    @DeleteMapping("/admin/notification/{notificationId}")
+    public ResponseEntity deleteNotification(@PathVariable Long notificationId) {
+        notificationService.deleteNotification(notificationId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

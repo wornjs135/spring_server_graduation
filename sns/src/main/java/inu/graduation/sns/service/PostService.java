@@ -232,6 +232,13 @@ public class PostService {
         return allPostList.map(post -> new PostAllSimpleResponse(post));
     }
 
+    // 좋아요 순 글 간단조회(앱)
+    public Slice<PostSimpleGoodResponse> findPostOrderByGoodApp(Pageable pageable) {
+        Slice<Post> findPostListOrderByGood= postRepository.findPostOrderByGood(pageable);
+
+        return findPostListOrderByGood.map(post -> new PostSimpleGoodResponse(post));
+    }
+
     // s3 이미지 업로드 함수 + db저장
     public boolean uploadImageS3(List<MultipartFile> images, Post createdPost) {
         if (images != null){

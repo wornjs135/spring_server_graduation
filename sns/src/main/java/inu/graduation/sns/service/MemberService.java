@@ -6,18 +6,19 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import inu.graduation.sns.config.security.JwtTokenProvider;
-import inu.graduation.sns.domain.Image;
 import inu.graduation.sns.domain.Member;
 import inu.graduation.sns.domain.Post;
 import inu.graduation.sns.domain.ProfileImage;
 import inu.graduation.sns.exception.MemberException;
 import inu.graduation.sns.model.common.CreateToken;
 import inu.graduation.sns.model.kakao.KaKaoUserResponse;
-import inu.graduation.sns.model.kakao.KakaoTokenRequest;
 import inu.graduation.sns.model.member.request.MemberUpdateRequest;
 import inu.graduation.sns.model.member.response.LoginResponse;
+import inu.graduation.sns.model.member.response.MemberNotificationResponse;
 import inu.graduation.sns.model.member.response.MemberResponse;
-import inu.graduation.sns.model.post.response.PostResponse;
+import inu.graduation.sns.model.notification.response.IsAdminNotiResponse;
+import inu.graduation.sns.model.notification.response.IsCommentNotiResponse;
+import inu.graduation.sns.model.notification.response.IsGoodNotiResponse;
 import inu.graduation.sns.repository.MemberRepository;
 import inu.graduation.sns.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -58,7 +58,7 @@ public class MemberService {
 
     // 로그인
     @Transactional
-    public LoginResponse kakaoLoginMember(String kakaoToken) {
+    public LoginResponse kakaoLoginMember(String kakaoToken, String fcmToken) {
         KaKaoUserResponse kakaoUser = getKakaoUserInfo(kakaoToken);
 
         Optional<Member> findMember = memberRepository.findByKakaoId(Long.valueOf(kakaoUser.getId()));
@@ -66,14 +66,14 @@ public class MemberService {
         if (!findMember.isPresent()){
             // 일반계정 생성
             if (!kakaoUser.getId().equals(adminKakaoId)) {
-                Member member = Member.createMember(kakaoUser.getId());
+                Member member = Member.createMember(kakaoUser.getId(), fcmToken);
                 Member savedMember = memberRepository.save(member);
                 CreateToken createToken = jwtTokenProvider.createToken(String.valueOf(savedMember.getId()));
                 savedMember.changeRefreshToken(createToken.getRefreshToken());
 
                 return new LoginResponse(createToken, member.getRole());
             } else { // 관리자 계정 생성
-                Member savedAdmin = saveAdmin(kakaoUser.getId());
+                Member savedAdmin = saveAdmin(kakaoUser.getId(), fcmToken);
                 CreateToken createToken = jwtTokenProvider.createToken(String.valueOf(savedAdmin.getId()));
                 savedAdmin.changeRefreshToken(createToken.getRefreshToken());
 
@@ -84,6 +84,10 @@ public class MemberService {
             Member member = findMember.get();
             CreateToken createToken = jwtTokenProvider.createToken(String.valueOf(member.getId()));
             member.changeRefreshToken(createToken.getRefreshToken());
+
+            if (fcmToken != null) {
+                member.changeFcmToken(fcmToken);
+            }
 
             return new LoginResponse(createToken, member.getRole());
         }
@@ -170,6 +174,43 @@ public class MemberService {
         return new MemberResponse(findMember);
     }
 
+    // 회원 알림 여부 조회
+    public MemberNotificationResponse findNotificationInfo(Long memberId) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
+        return new MemberNotificationResponse(findMember);
+    }
+
+    // 공지사항 알림 여부 설정
+    @Transactional
+    public IsAdminNotiResponse updateNotification(Long memberId) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
+        findMember.changeAdminNoti();
+
+        return new IsAdminNotiResponse(findMember.getAdminNoti());
+    }
+
+    // 좋아요 알림 여부 설정
+    @Transactional
+    public IsGoodNotiResponse updateGoodNotification(Long memberId) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
+        findMember.changeGoodNoti();
+
+        return new IsGoodNotiResponse(findMember.getGoodNoti());
+    }
+
+    // 댓글 알림 여부 설정
+    @Transactional
+    public IsCommentNotiResponse updateCommentNotification(Long memberId) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
+        findMember.changeCommentNoti();
+
+        return new IsCommentNotiResponse(findMember.getCommentNoti());
+    }
+
     // 로그아웃
     @Transactional
     public void logout(Long memberId) {
@@ -218,8 +259,8 @@ public class MemberService {
     }
 
     // 관리자 계정 저장
-    private Member saveAdmin(Integer kakaoId) {
-        Member adminMember = Member.createAdminMember(kakaoId);
+    private Member saveAdmin(Integer kakaoId, String fcmToken) {
+        Member adminMember = Member.createAdminMember(kakaoId, fcmToken);
         return memberRepository.save(adminMember);
     }
 

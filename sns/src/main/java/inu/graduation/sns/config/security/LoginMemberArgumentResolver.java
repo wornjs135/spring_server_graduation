@@ -1,5 +1,6 @@
 package inu.graduation.sns.config.security;
 
+import inu.graduation.sns.exception.AuthenticationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
@@ -30,8 +31,13 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        User user = (User) authentication.getPrincipal();
-        return Long.valueOf(user.getUsername());
+//        User user = (User) authentication.getPrincipal();
+        try {
+            User user = (User) authentication.getPrincipal();
+            return Long.valueOf(user.getUsername());
+        } catch (ClassCastException e) {
+            throw new AuthenticationException("토큰이 잘못되었습니다.");
+        }
 //        String bearerToken = webRequest.getHeader(HttpHeaders.AUTHORIZATION);
 //        String memberPk = jwtTokenProvider.getMemberPk(bearerToken);
 //        return memberPk;

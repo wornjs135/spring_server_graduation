@@ -15,7 +15,7 @@
 == 회원 로그인 API
 ===== 요청
 include::{snippets}/member/create/http-request.adoc[]
-Header
+Header - 웹의 경우 fcmToken 없이 로그인
 include::{snippets}/member/create/request-headers.adoc[]
 ===== 응답
 include::{snippets}/member/create/http-response.adoc[]
@@ -92,3 +92,12 @@ Header
 include::{snippets}/member/logout/request-headers.adoc[]
 ===== 응답
 include::{snippets}/member/logout/http-response.adoc[]
+
+== 회원 알림설정 여부 조회 API
+===== 요청
+include::{snippets}/member/findNotiInfo/http-request.adoc[]
+Header
+include::{snippets}/member/findNotiInfo/request-headers.adoc[]
+===== 응답
+include::{snippets}/member/findNotiInfo/http-response.adoc[]
+include::{snippets}/member/findNotiInfo/response-fields.adoc[]

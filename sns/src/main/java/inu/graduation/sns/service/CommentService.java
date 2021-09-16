@@ -27,7 +27,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
-    //private final NotificationService notificationService;
+    private final NotificationService notificationService;
 
     // 댓글 생성
     @Transactional
@@ -40,7 +40,9 @@ public class CommentService {
         findPost.addCommentCount();
         Comment savedComment = commentRepository.save(comment);
 
-        //notificationService.sendMessage("게시글 작성자 토큰", "새 댓글", NotificationService.createCommentNotice(findMember.getNickname()));
+        if (findPost.getMember().getCommentNoti().equals(true)) {
+            notificationService.sendMessage(findPost, NotificationService.CommentNotificationTitle(), NotificationService.createCommentNotice(findMember.getNickname()));
+        }
 
         return new CommentResponse(savedComment);
     }

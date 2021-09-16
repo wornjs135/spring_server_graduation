@@ -22,8 +22,6 @@ public class Member extends BaseEntity{
 
     private Long kakaoId;
 
-//    private String email;
-
     private String nickname;
 
     @Enumerated(EnumType.STRING)
@@ -34,25 +32,49 @@ public class Member extends BaseEntity{
 
     private String refreshToken;
 
-    public static Member createMember(Integer kakaoId) {
+    private String fcmToken;
+
+    private Boolean goodNoti;
+
+    private Boolean commentNoti;
+
+    private Boolean adminNoti;
+
+    private String backGroundImage;
+
+    public static Member createMember(Integer kakaoId, String fcmToken) {
         Member member = new Member();
         member.kakaoId = Long.valueOf(kakaoId);
-//        member.email = email;
         member.nickname = randomNickname();
         member.role = Role.ROLE_MEMBER;
         member.profileImage = ProfileImage.createDefaultProfileImage();
         member.refreshToken = null;
+        member.fcmToken = null;
+        member.goodNoti = true;
+        member.commentNoti = true;
+        member.adminNoti = true;
+        if (fcmToken != null) {
+            member.fcmToken = fcmToken;
+        }
+        member.backGroundImage = null;
         return member;
     }
 
-    public static Member createAdminMember(Integer kakaoId) {
+    public static Member createAdminMember(Integer kakaoId, String fcmToken) {
         Member member = new Member();
         member.kakaoId = Long.valueOf(kakaoId);
-//        member.email = email;
         member.nickname = "관리자";
         member.role = Role.ROLE_ADMIN;
         member.profileImage = ProfileImage.createDefaultProfileImage();
         member.refreshToken = null;
+        member.fcmToken = null;
+        member.goodNoti = true;
+        member.commentNoti = true;
+        member.adminNoti = true;
+        if (fcmToken != null) {
+            member.fcmToken = fcmToken;
+        }
+        member.backGroundImage = null;
         return member;
     }
 
@@ -78,6 +100,31 @@ public class Member extends BaseEntity{
         this.refreshToken = refreshToken;
     }
 
+    public void changeFcmToken(String fcmToken) { this.fcmToken = fcmToken; }
+
+    public void changeAdminNoti() {
+        if (this.getAdminNoti().equals(true)) {
+            this.adminNoti = false;
+        } else {
+            this.adminNoti = true;
+        }
+    }
+
+    public void changeGoodNoti() {
+        if (this.getGoodNoti().equals(true)) {
+            this.goodNoti = false;
+        } else {
+            this.goodNoti = true;
+        }
+    }
+
+    public void changeCommentNoti() {
+        if (this.getCommentNoti().equals(true)) {
+            this.commentNoti = false;
+        } else {
+            this.commentNoti = true;
+        }
+    }
 
     // 기본 랜덤닉네임 생성
     public static String randomNickname(){

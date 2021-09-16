@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class CreateNotificationRequest {
+@NoArgsConstructor
+public class UpdateNotificationRequest {
 
     @NotNull
     private String title;

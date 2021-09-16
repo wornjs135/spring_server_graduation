@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 public class MemberResponse {
 
     private Long id;
-//    private String email;
     private String nickname;
     private String profileImageUrl;
     private String profileThumbnailImageUrl;
@@ -19,7 +18,6 @@ public class MemberResponse {
 
     public MemberResponse(Member member){
         this.id = member.getId();
-//        this.email = member.getEmail();
         this.nickname = member.getNickname();
         this.profileImageUrl = member.getProfileImage().getProfileImageUrl();
         this.profileThumbnailImageUrl = member.getProfileImage().getProfileThumbnailImageUrl();

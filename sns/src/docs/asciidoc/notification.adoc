@@ -1,0 +1,75 @@
+:basedir: {docdir}/../../../
+:snippets: {basedir}/build/generated-snippets
+
+= RESTFUL Notes API Guide
+:doctype: member
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectlinks:
+:sectanchors:
+
+[[api]]
+== 공지사항 알림 여부 설정 API
+NOTE: DB에서 저장된 설정 여부 값이 false이면 true로, true이면 false로 수정됩니다.(모든 알림 여부 설정 동일, 기본값은 true)
+
+===== 요청
+include::{snippets}/notification/changeAdminNoti/http-request.adoc[]
+Header
+include::{snippets}/notification/changeAdminNoti/request-headers.adoc[]
+===== 응답
+include::{snippets}/notification/changeAdminNoti/http-response.adoc[]
+include::{snippets}/notification/changeAdminNoti/response-fields.adoc[]
+
+== 좋아요 알림 여부 설정 API
+===== 요청
+include::{snippets}/notification/changeGoodNoti/http-request.adoc[]
+Header
+include::{snippets}/notification/changeGoodNoti/request-headers.adoc[]
+===== 응답
+include::{snippets}/notification/changeGoodNoti/http-response.adoc[]
+include::{snippets}/notification/changeGoodNoti/response-fields.adoc[]
+
+== 댓글 알림 여부 설정 API
+===== 요청
+include::{snippets}/notification/changeCommentNoti/http-request.adoc[]
+Header
+include::{snippets}/notification/changeCommentNoti/request-headers.adoc[]
+===== 응답
+include::{snippets}/notification/changeCommentNoti/http-response.adoc[]
+include::{snippets}/notification/changeCommentNoti/response-fields.adoc[]
+
+== (웹) 공지사항 리스트 조회 API
+===== 요청
+include::{snippets}/notification/findAllAdminNotiWeb/http-request.adoc[]
+URL 파라미터
+include::{snippets}/notification/findAllAdminNotiWeb/request-parameters.adoc[]
+Header
+include::{snippets}/notification/findAllAdminNotiWeb/request-headers.adoc[]
+===== 응답
+include::{snippets}/notification/findAllAdminNotiWeb/http-response.adoc[]
+include::{snippets}/notification/findAllAdminNotiWeb/response-fields.adoc[]
+
+== (앱) 공지사항 리스트 조회 API
+===== 요청
+include::{snippets}/notification/findAllAdminNotiApp/http-request.adoc[]
+URL 파라미터
+include::{snippets}/notification/findAllAdminNotiApp/request-parameters.adoc[]
+Header
+include::{snippets}/notification/findAllAdminNotiApp/request-headers.adoc[]
+===== 응답
+include::{snippets}/notification/findAllAdminNotiApp/http-response.adoc[]
+include::{snippets}/notification/findAllAdminNotiApp/response-fields.adoc[]
+
+== (앱) 좋아요, 댓글 알림 리스트 조회 API
+===== 요청
+include::{snippets}/notification/findOtherNotiApp/http-request.adoc[]
+URL 파라미터
+include::{snippets}/notification/findOtherNotiApp/request-parameters.adoc[]
+Header
+include::{snippets}/notification/findOtherNotiApp/request-headers.adoc[]
+===== 응답
+include::{snippets}/notification/findOtherNotiApp/http-response.adoc[]
+include::{snippets}/notification/findOtherNotiApp/response-fields.adoc[]

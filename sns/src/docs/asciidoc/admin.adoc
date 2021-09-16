@@ -88,3 +88,39 @@ include::{snippets}/admin/findMemberByNickname/request-headers.adoc[]
 ===== 응답
 include::{snippets}/admin/findMemberByNickname/http-response.adoc[]
 include::{snippets}/admin/findMemberByNickname/response-fields.adoc[]
+
+== (관리자) 공지사항 생성 API
+===== 요청
+include::{snippets}/admin/createNotification/http-request.adoc[]
+Header
+include::{snippets}/admin/createNotification/request-headers.adoc[]
+Body
+include::{snippets}/admin/createNotification/request-body.adoc[]
+include::{snippets}/admin/createNotification/request-fields.adoc[]
+===== 응답
+include::{snippets}/admin/createNotification/http-response.adoc[]
+include::{snippets}/admin/createNotification/response-fields.adoc[]
+
+== (관리자) 공지사항 수정 API
+===== 요청
+include::{snippets}/admin/updateNotification/http-request.adoc[]
+경로변수
+include::{snippets}/admin/updateNotification/path-parameters.adoc[]
+Header
+include::{snippets}/admin/updateNotification/request-headers.adoc[]
+Body
+include::{snippets}/admin/updateNotification/request-body.adoc[]
+include::{snippets}/admin/updateNotification/request-fields.adoc[]
+===== 응답
+include::{snippets}/admin/updateNotification/http-response.adoc[]
+include::{snippets}/admin/updateNotification/response-fields.adoc[]
+
+== (관리자) 공지사항 삭제 API
+===== 요청
+include::{snippets}/admin/deleteNotification/http-request.adoc[]
+경로변수
+include::{snippets}/admin/deleteNotification/path-parameters.adoc[]
+Header
+include::{snippets}/admin/deleteNotification/request-headers.adoc[]
+===== 응답
+include::{snippets}/admin/deleteNotification/http-response.adoc[]
