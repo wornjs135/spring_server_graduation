@@ -325,7 +325,7 @@ public class PostService {
         String thumbnailImageUrl = "https://appcenter-study-bucket-thumbnail.s3.ap-northeast-2.amazonaws.com/e999c8d8-f379-4087-b290-91dd915107ab_kakao_2.jpg";
         String storeName = "kakao_2.jpg";
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             Post createdPost = Post.createPost(findMember, findCategory, request);
             Post savedPost = postRepository.save(createdPost);
 
