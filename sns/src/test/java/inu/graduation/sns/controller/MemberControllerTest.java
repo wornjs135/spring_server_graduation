@@ -169,10 +169,10 @@ class MemberControllerTest {
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원 식별자"),
-//                                fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("수정된 닉네임"),
                                 fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필 이미지 URL"),
                                 fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("프로필 썸네일 이미지 URL"),
+                                fieldWithPath("backGroundImageUrl").type(JsonFieldType.STRING).description("배경 이미지 URL"),
                                 fieldWithPath("role").type(JsonFieldType.STRING).description("회원 권한")
                         )));
 
@@ -218,6 +218,7 @@ class MemberControllerTest {
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
                                 fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("수정된 프로필 이미지 URL"),
                                 fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("수정된 프로필 썸네일 이미지 URL"),
+                                fieldWithPath("backGroundImageUrl").type(JsonFieldType.STRING).description("배경 이미지 URL"),
                                 fieldWithPath("role").type(JsonFieldType.STRING).description("회원 권한")
                         )));
 
@@ -249,6 +250,7 @@ class MemberControllerTest {
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
                                 fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("기본 프로필 이미지 URL"),
                                 fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("기본 프로필 썸네일 이미지 URL"),
+                                fieldWithPath("backGroundImageUrl").type(JsonFieldType.STRING).description("배경 이미지 URL"),
                                 fieldWithPath("role").type(JsonFieldType.STRING).description("회원 권한")
                         )));
 
@@ -298,6 +300,7 @@ class MemberControllerTest {
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
                                 fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필 이미지 URL"),
                                 fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("프로필 썸네일 이미지 URL"),
+                                fieldWithPath("backGroundImageUrl").type(JsonFieldType.STRING).description("배경 이미지 URL"),
                                 fieldWithPath("role").type(JsonFieldType.STRING).description("회원 권한")
                         )));
 
@@ -345,5 +348,80 @@ class MemberControllerTest {
                                 fieldWithPath("goodNoti").type(JsonFieldType.BOOLEAN).description("좋아요 알림 여부"),
                                 fieldWithPath("commentNoti").type(JsonFieldType.BOOLEAN).description("댓글 알림 여부")
                         )));
+    }
+
+    @Test
+    @DisplayName("배경사진 수정")
+    void updateBackGroundImage() throws Exception {
+        // given
+        given(memberService.updateBackGroundImage(any(), any()))
+                .willReturn(TEST_MEMBER_RESPONSE);
+
+        // when
+        MockMultipartHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.multipart("/members/backgroundimg");
+        builder.with(new RequestPostProcessor() {
+            @Override
+            public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+                request.setMethod("PATCH");
+                return request;
+            }
+        });
+
+        // when
+        mockMvc.perform(builder.file(TEST_IMAGE_FILE4)
+                        .header(HttpHeaders.AUTHORIZATION,JWT_ACCESSTOKEN_TEST)
+                        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(TEST_MEMBER_RESPONSE)))
+                .andDo(document("member/updateBackGroundImg",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer Access 토큰")
+                        ),
+                        requestParts(
+                                partWithName("image").description("수정할 배경사진 이미지")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
+                                fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필 이미지 URL"),
+                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("프로필 썸네일 이미지 URL"),
+                                fieldWithPath("backGroundImageUrl").type(JsonFieldType.STRING).description("수정된 배경 이미지 URL"),
+                                fieldWithPath("role").type(JsonFieldType.STRING).description("회원 권한")
+                        )));
+
+        // then
+        then(memberService).should(times(1)).updateBackGroundImage(any(), any());
+    }
+
+    @Test
+    @DisplayName("배경사진 기본이미지로")
+    void defaultBackGroundImage() throws Exception {
+        // given
+        given(memberService.defaultBackGroundImage(any()))
+                .willReturn(TEST_MEMBER_RESPONSE2);
+
+        // when
+        mockMvc.perform(RestDocumentationRequestBuilders.patch("/members/backgroundimg/default")
+                        .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(TEST_MEMBER_RESPONSE2)))
+                .andDo(document("member/defaultBackGroundImg",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearer Access 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
+                                fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("기본 프로필 이미지 URL"),
+                                fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("기본 프로필 썸네일 이미지 URL"),
+                                fieldWithPath("backGroundImageUrl").type(JsonFieldType.STRING).description("배경 이미지 URL"),
+                                fieldWithPath("role").type(JsonFieldType.STRING).description("회원 권한")
+                        )));
+
+        // then
+        then(memberService).should(times(1)).defaultBackGroundImage(any());
     }
 }

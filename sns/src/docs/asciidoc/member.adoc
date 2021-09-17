@@ -101,3 +101,23 @@ include::{snippets}/member/findNotiInfo/request-headers.adoc[]
 ===== 응답
 include::{snippets}/member/findNotiInfo/http-response.adoc[]
 include::{snippets}/member/findNotiInfo/response-fields.adoc[]
+
+== 배경사진 수정 API
+===== 요청
+include::{snippets}/member/updateBackGroundImg/http-request.adoc[]
+Header
+include::{snippets}/member/updateBackGroundImg/request-headers.adoc[]
+Part
+include::{snippets}/member/updateBackGroundImg/request-parts.adoc[]
+===== 응답
+include::{snippets}/member/updateBackGroundImg/http-response.adoc[]
+include::{snippets}/member/updateBackGroundImg/response-fields.adoc[]
+
+== 배경사진 기본이지미로 수정 API
+===== 요청
+include::{snippets}/member/defaultBackGroundImg/http-request.adoc[]
+Header
+include::{snippets}/member/defaultBackGroundImg/request-headers.adoc[]
+===== 응답
+include::{snippets}/member/defaultBackGroundImg/http-response.adoc[]
+include::{snippets}/member/defaultBackGroundImg/response-fields.adoc[]

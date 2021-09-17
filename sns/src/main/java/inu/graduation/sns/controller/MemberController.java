@@ -98,4 +98,17 @@ public class MemberController {
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    // 배경사진 수정
+    @PatchMapping("/members/backgroundimg")
+    public ResponseEntity<MemberResponse> updateBackGroundImage(@LoginMember Long memberId,
+                                                                @RequestPart MultipartFile image) {
+        return ResponseEntity.ok(memberService.updateBackGroundImage(memberId, image));
+    }
+
+    // 배경사진 기본이미지로
+    @PatchMapping("/members/backgroundimg/default")
+    public ResponseEntity<MemberResponse> defaultBackGroundImage(@LoginMember Long memberId) {
+        return ResponseEntity.ok(memberService.defaultBackGroundImage(memberId));
+    }
 }

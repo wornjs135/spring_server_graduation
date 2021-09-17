@@ -255,6 +255,7 @@ class AdminControllerTest {
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
                                 fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필 이미지 URL"),
                                 fieldWithPath("profileThumbnailImageUrl").type(JsonFieldType.STRING).description("프로필 썸네일 이미지 URL"),
+                                fieldWithPath("backGroundImageUrl").type(JsonFieldType.STRING).description("배경 이미지 URL"),
                                 fieldWithPath("role").type(JsonFieldType.STRING).description("회원 권한")
                         )));
 

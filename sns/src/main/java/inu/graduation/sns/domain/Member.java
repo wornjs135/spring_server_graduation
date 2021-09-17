@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static inu.graduation.sns.model.common.DefaultProfielImg.*;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -56,7 +58,7 @@ public class Member extends BaseEntity{
         if (fcmToken != null) {
             member.fcmToken = fcmToken;
         }
-        member.backGroundImage = null;
+        member.backGroundImage = DEFAULT_PROFILE_IMG;
         return member;
     }
 
@@ -74,7 +76,7 @@ public class Member extends BaseEntity{
         if (fcmToken != null) {
             member.fcmToken = fcmToken;
         }
-        member.backGroundImage = null;
+        member.backGroundImage = DEFAULT_PROFILE_IMG;
         return member;
     }
 
@@ -88,9 +90,15 @@ public class Member extends BaseEntity{
         return true;
     }
 
+    public void updateBackGroundImage(String backGroundImage) {
+        this.backGroundImage = backGroundImage;
+    }
+
     public void defaultProfileImage() {
         this.profileImage = ProfileImage.createDefaultProfileImage();
     }
+
+    public void defaultBackGroundImage() { this.backGroundImage = DEFAULT_PROFILE_IMG; }
 
     public void logout(){
         this.refreshToken = null;

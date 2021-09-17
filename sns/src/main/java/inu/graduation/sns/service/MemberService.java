@@ -48,8 +48,14 @@ public class MemberService {
     @Value("${cloud.aws.s3.thumbnailBucket}")
     private String thumbnailBucket;
 
-    @Value("${spring.adminKakaoId}")
-    private Integer adminKakaoId;
+    @Value("${spring.adminKakaoId1}")
+    private Integer adminKakaoId1;
+
+    @Value("${spring.adminKakaoId2}")
+    private Integer adminKakaoId2;
+
+    @Value("${spring.adminKakaoId3}")
+    private Integer adminKakaoId3;
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
@@ -65,7 +71,7 @@ public class MemberService {
         // 서버에 회원 정보가 없으면
         if (!findMember.isPresent()){
             // 일반계정 생성
-            if (!kakaoUser.getId().equals(adminKakaoId)) {
+            if (!kakaoUser.getId().equals(adminKakaoId1) && !kakaoUser.getId().equals(adminKakaoId2) && !kakaoUser.getId().equals(adminKakaoId3)) {
                 Member member = Member.createMember(kakaoUser.getId(), fcmToken);
                 Member savedMember = memberRepository.save(member);
                 CreateToken createToken = jwtTokenProvider.createToken(String.valueOf(savedMember.getId()));
@@ -217,6 +223,27 @@ public class MemberService {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
         findMember.logout();
+    }
+
+    // 배경사진 수정
+    @Transactional
+    public MemberResponse updateBackGroundImage(Long memberId, MultipartFile image) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
+        ProfileImage updateProfileImage = uploadImageS3(image);
+        findMember.updateBackGroundImage(updateProfileImage.getProfileImageUrl());
+
+        return new MemberResponse(findMember);
+    }
+
+    // 배경사진 기본이미지로
+    @Transactional
+    public MemberResponse defaultBackGroundImage(Long memberId) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
+        findMember.defaultBackGroundImage();
+
+        return new MemberResponse(findMember);
     }
 
     //카카오api로 카카오 유저정보 받아오기

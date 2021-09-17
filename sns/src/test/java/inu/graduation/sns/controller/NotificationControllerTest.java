@@ -28,8 +28,7 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import org.springframework.http.HttpHeaders;
@@ -270,6 +269,38 @@ class NotificationControllerTest {
 
         // then
         then(notificationService).should(times(1)).findAllNotificationApp(any());
+    }
+
+    @Test
+    @DisplayName("공지사항 상세 조회")
+    void findAdminNotification() throws Exception {
+        // given
+        given(notificationService.findAdminNotification(any()))
+                .willReturn(TEST_NOTIFICATION_RESPONSE1);
+
+        // when
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/m/notifications/{notificationId}", 1L)
+                        .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(TEST_NOTIFICATION_RESPONSE1)))
+                .andDo(document("notification/findAdminNoti",
+                        pathParameters(
+                                parameterWithName("notificationId").description("공지사항 식별자")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearea Access 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("공지사항 식별자"),
+                                fieldWithPath("title").type(JsonFieldType.STRING).description("공지사항 제목"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("공지사항 내용"),
+                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("공지사항 생성시간"),
+                                fieldWithPath("updatedAt").type(JsonFieldType.STRING).description("공지사항 수정시간")
+                                )));
+
+        // then
+        then(notificationService).should(times(1)).findAdminNotification(any());
     }
 
     @Test

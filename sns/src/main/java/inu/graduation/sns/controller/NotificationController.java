@@ -15,6 +15,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -52,6 +53,12 @@ public class NotificationController {
     @GetMapping("/m/notifications")
     public ResponseEntity<Slice<AdminNotificationResponse>> findAllNotificationApp(Pageable pageable) {
         return ResponseEntity.ok(notificationService.findAllNotificationApp(pageable));
+    }
+
+    // 공지사항 상세 조회 (앱, 웹)
+    @GetMapping("/m/notifications/{notificationId}")
+    public ResponseEntity<AdminNotificationResponse> findAdminNotification(@PathVariable Long notificationId) {
+        return ResponseEntity.ok(notificationService.findAdminNotification(notificationId));
     }
 
     // 좋아요, 댓글 알림 리스트 조회(앱)

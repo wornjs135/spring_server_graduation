@@ -46,14 +46,14 @@ public class TestObject {
             = new RoleDto(Role.ROLE_MEMBER);
 
     public static final MemberResponse TEST_MEMBER_RESPONSE
-            = new MemberResponse(1L, "황주환", "이미지url", "썸네일url", "ROLE_MEMBER");
+            = new MemberResponse(1L, "황주환", "이미지url", "썸네일url", "배경이미지url", "ROLE_MEMBER");
     public static final MemberResponse TEST_MEMBER_RESPONSE2
-            = new MemberResponse(1L, "닉넴", "이미지url", "썸네일url", "ROLE_MEMBER");
+            = new MemberResponse(1L, "닉넴", "이미지url", "썸네일url", "배경이미지url", "ROLE_MEMBER");
 
     public static final MemberResponse TEST_MEMBER_RESPONSE_UPDATE_PROFILEIMG
-            = new MemberResponse(1L, "황주환", "수정된이미지url", "수정된썸네일url", "ROLE_MEMBER");
+            = new MemberResponse(1L, "황주환", "수정된이미지url", "수정된썸네일url", "배경이미지url", "ROLE_MEMBER");
     public static final MemberResponse TEST_MEMBER_RESPONSE_DEFAULT_PROFILEIMG
-            = new MemberResponse(1L, "황주환", "기본이미지url", "기본썸네일url", "ROLE_MEMBER");
+            = new MemberResponse(1L, "황주환", "기본이미지url", "기본썸네일url", "배경이미지url", "ROLE_MEMBER");
 
     public static final MemberDto TEST_MEMBER_DTO
             = new MemberDto(1L, "닉네임");
@@ -68,6 +68,11 @@ public class TestObject {
     public static final MockMultipartFile TEST_IMAGE_FILE1 = new MockMultipartFile(
             "image",
             "프로필사진.png",
+            MediaType.IMAGE_PNG_VALUE,
+            "<<image>>".getBytes(StandardCharsets.UTF_8));
+    public static final MockMultipartFile TEST_IMAGE_FILE4 = new MockMultipartFile(
+            "image",
+            "배경사진.png",
             MediaType.IMAGE_PNG_VALUE,
             "<<image>>".getBytes(StandardCharsets.UTF_8));
     public static final MockMultipartFile TEST_IMAGE_FILE2 = new MockMultipartFile(

@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
@@ -137,6 +138,14 @@ public class NotificationService {
         return findAllNotification.map(notification -> new AdminNotificationResponse(notification));
     }
 
+    // 공지사항 상세 조회(앱, 웹)
+    public AdminNotificationResponse findAdminNotification(Long notificationId) {
+        Notification findAdminNotification = notificationRepository.findById(notificationId)
+                .orElseThrow(() -> new NotificationException("존재하지 않는 공지사항입니다."));
+
+        return new AdminNotificationResponse(findAdminNotification);
+    }
+
     // 좋아요, 댓글 알림 조회(앱)
     public Slice<PushNotiResponse> findMyPushNotificationApp(Long memberId, Pageable pageable) {
         Slice<PushNoti> findMyPushNoti = pushNotiRepository.findAllMyPushNotification(memberId, pageable);
@@ -147,24 +156,24 @@ public class NotificationService {
     private void sendNotificationAll(Page<Member> allMemberList) {
         List<String> registrationTokens = new ArrayList<>();
         for (Member member : allMemberList.getContent()) {
-            registrationTokens.add(member.getFcmToken());
+            if (member.getFcmToken() != null) {
+                registrationTokens.add(member.getFcmToken());
+            }
         }
 
-        if (registrationTokens.isEmpty()) {
-            return;
-        }
+        if (registrationTokens.size() != 0) {
+            try {
+                MulticastMessage message = MulticastMessage.builder()
+                        .putData("title", AdminNoticeTitle())
+                        .putData("body", createAdminNotice())
+                        .addAllTokens(registrationTokens)
+                        .build();
 
-        try {
-            MulticastMessage message = MulticastMessage.builder()
-                    .putData("title", AdminNoticeTitle())
-                    .putData("body", createAdminNotice())
-                    .addAllTokens(registrationTokens)
-                    .build();
-
-            BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
-            log.info("Sent message: " + response);
-        } catch (FirebaseMessagingException e) {
-            log.error("푸쉬알림 전송 실패");
+                BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
+                log.info("Sent message: " + response);
+            } catch (FirebaseMessagingException e) {
+                log.error("푸쉬알림 전송 실패");
+            }
         }
     }
 

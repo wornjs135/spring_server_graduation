@@ -63,6 +63,17 @@ include::{snippets}/notification/findAllAdminNotiApp/request-headers.adoc[]
 include::{snippets}/notification/findAllAdminNotiApp/http-response.adoc[]
 include::{snippets}/notification/findAllAdminNotiApp/response-fields.adoc[]
 
+== 공지사항 상세 조회(앱,웹 둘다 가능)
+===== 요청
+include::{snippets}/notification/findAdminNoti/http-request.adoc[]
+URL 파라미터
+include::{snippets}/notification/findAdminNoti/path-parameters.adoc[]
+Header
+include::{snippets}/notification/findAdminNoti/request-headers.adoc[]
+===== 응답
+include::{snippets}/notification/findAdminNoti/http-response.adoc[]
+include::{snippets}/notification/findAdminNoti/response-fields.adoc[]
+
 == (앱) 좋아요, 댓글 알림 리스트 조회 API
 ===== 요청
 include::{snippets}/notification/findOtherNotiApp/http-request.adoc[]
