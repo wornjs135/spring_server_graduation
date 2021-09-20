@@ -70,21 +70,23 @@ public class NotificationService {
     @Transactional
     public void sendMessage(Post post, String title, String content) {
         pushNotiRepository.save(PushNoti.createPushNoti(title, content, post));
-        try {
-            Message message = Message.builder()
-                    .setToken(post.getMember().getFcmToken())
-                    .putData("title", title)
-                    .putData("body", content)
-                    .build();
-            String response = FirebaseMessaging.getInstance().sendAsync(message).get();
-            log.info("Sent message: " + response);
-        } catch (ExecutionException e) {
-            log.error("푸쉬알림 전송 실패");
-        } catch (InterruptedException e) {
-            log.error("푸쉬알림 전송 실패");
-        } catch (IllegalArgumentException e) {
-            log.error("푸쉬알림 전송 실패");
-            throw new MemberException("fcm토큰이 잘못되었습니다. 어플로 다시 로그인하세요.");
+        if (!post.getMember().getFcmToken().isEmpty()) {
+            try {
+                Message message = Message.builder()
+                        .setToken(post.getMember().getFcmToken())
+                        .putData("title", title)
+                        .putData("body", content)
+                        .build();
+                String response = FirebaseMessaging.getInstance().sendAsync(message).get();
+                log.info("Sent message: " + response);
+            } catch (ExecutionException e) {
+                log.error("푸쉬알림 전송 실패");
+            } catch (InterruptedException e) {
+                log.error("푸쉬알림 전송 실패");
+            } catch (IllegalArgumentException e) {
+                log.error("푸쉬알림 전송 실패");
+                throw new MemberException("fcm토큰이 잘못되었습니다. 어플로 다시 로그인하세요.");
+            }
         }
     }
 
@@ -156,7 +158,7 @@ public class NotificationService {
     private void sendNotificationAll(Page<Member> allMemberList) {
         List<String> registrationTokens = new ArrayList<>();
         for (Member member : allMemberList.getContent()) {
-            if (member.getFcmToken() != null) {
+            if (!member.getFcmToken().isEmpty()) {
                 registrationTokens.add(member.getFcmToken());
             }
         }
