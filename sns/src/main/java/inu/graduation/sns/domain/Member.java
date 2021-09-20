@@ -51,7 +51,7 @@ public class Member extends BaseEntity{
         member.role = Role.ROLE_MEMBER;
         member.profileImage = ProfileImage.createDefaultProfileImage();
         member.refreshToken = null;
-        member.fcmToken = null;
+        member.fcmToken = "errorProtection";
         member.goodNoti = true;
         member.commentNoti = true;
         member.adminNoti = true;
@@ -69,7 +69,7 @@ public class Member extends BaseEntity{
         member.role = Role.ROLE_ADMIN;
         member.profileImage = ProfileImage.createDefaultProfileImage();
         member.refreshToken = null;
-        member.fcmToken = null;
+        member.fcmToken = "errorProtection";
         member.goodNoti = true;
         member.commentNoti = true;
         member.adminNoti = true;
