@@ -147,6 +147,10 @@ public class MemberService {
     public boolean deleteMember(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
+        List<Post> findPost = postRepository.findByMemberId(findMember.getId());
+        if (!findPost.isEmpty()) {
+            postRepository.deleteAll(findPost);
+        }
         memberRepository.delete(findMember);
 
         return true;
@@ -159,7 +163,7 @@ public class MemberService {
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
         List<Post> findPost = postRepository.findByMemberId(findMember.getId());
         if (!findPost.isEmpty()) {
-            postRepository.deleteInBatch(findPost);
+            postRepository.deleteAll(findPost);
         }
         memberRepository.delete(findMember);
 
