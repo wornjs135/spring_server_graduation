@@ -58,7 +58,7 @@ public class Member extends BaseEntity{
         if (fcmToken != null) {
             member.fcmToken = fcmToken;
         }
-        member.backGroundImage = DEFAULT_PROFILE_IMG;
+        member.backGroundImage = DEFAULT_BACKGROUND_IMG;
         return member;
     }
 
@@ -76,7 +76,7 @@ public class Member extends BaseEntity{
         if (fcmToken != null) {
             member.fcmToken = fcmToken;
         }
-        member.backGroundImage = DEFAULT_PROFILE_IMG;
+        member.backGroundImage = DEFAULT_BACKGROUND_IMG;
         return member;
     }
 
@@ -98,7 +98,7 @@ public class Member extends BaseEntity{
         this.profileImage = ProfileImage.createDefaultProfileImage();
     }
 
-    public void defaultBackGroundImage() { this.backGroundImage = DEFAULT_PROFILE_IMG; }
+    public void defaultBackGroundImage() { this.backGroundImage = DEFAULT_BACKGROUND_IMG; }
 
     public void logout(){
         this.refreshToken = null;
