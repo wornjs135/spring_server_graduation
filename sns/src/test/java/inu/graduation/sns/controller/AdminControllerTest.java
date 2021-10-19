@@ -3,6 +3,8 @@ package inu.graduation.sns.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import inu.graduation.sns.config.security.JwtTokenProvider;
 import inu.graduation.sns.config.security.LoginMemberArgumentResolver;
+import inu.graduation.sns.model.member.response.FindAllMemberResponse;
+import inu.graduation.sns.model.member.response.MemberResponse;
 import inu.graduation.sns.service.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -22,6 +26,10 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import static inu.graduation.sns.TestObject.*;
 import static org.mockito.BDDMockito.*;
@@ -261,6 +269,64 @@ class AdminControllerTest {
 
         // then
         then(memberService).should(times(1)).adminFindMember(any());
+    }
+
+    @Test
+    @DisplayName("관리자 (웹) 회원 전체 조회")
+    void findAllMember() throws Exception {
+        // given
+        PageRequest pageRequest = PageRequest.of(0, 20);
+        List<FindAllMemberResponse> allMember = new ArrayList<>();
+        allMember.add(TEST_ALL_MEMBER_RESPONSE); allMember.add(TEST_ALL_MEMBER_RESPONSE2); allMember.add(TEST_ALL_MEMBER_RESPONSE3);
+
+        PageImpl<FindAllMemberResponse> allMemberPage = new PageImpl<>(allMember, pageRequest, allMember.size());
+
+        given(memberService.findAllMember(any()))
+                .willReturn(allMemberPage);
+
+        // when
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/admin/members/all")
+                        .header(HttpHeaders.AUTHORIZATION, JWT_ACCESSTOKEN_TEST)
+                        .param("page", "0")
+                        .param("size", "20")
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(allMemberPage)))
+                .andDo(document("admin/findAllMemberWeb",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Bearea Access 토큰")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("페이지 번호"),
+                                parameterWithName("size").description("데이터 개수")
+                        ),
+                        responseFields(
+                                fieldWithPath("content.[].id").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                fieldWithPath("content.[].nickname").type(JsonFieldType.STRING).description("회원 닉네임"),
+                                fieldWithPath("content.[].role").type(JsonFieldType.STRING).description("회원 권한"),
+                                fieldWithPath("pageable.sort.sorted").type(JsonFieldType.BOOLEAN).description("정렬 여부"),
+                                fieldWithPath("pageable.sort.unsorted").type(JsonFieldType.BOOLEAN).description("비정렬 여부"),
+                                fieldWithPath("pageable.sort.empty").type(JsonFieldType.BOOLEAN).description("값이 비었는지 여부"),
+                                fieldWithPath("pageable.offset").type(JsonFieldType.NUMBER).description("페이지 크기"),
+                                fieldWithPath("pageable.pageNumber").type(JsonFieldType.NUMBER).description("현재 페이지 번호"),
+                                fieldWithPath("pageable.pageSize").type(JsonFieldType.NUMBER).description("한 페이지의 데이터 수"),
+                                fieldWithPath("pageable.paged").type(JsonFieldType.BOOLEAN).description("페이징 여부"),
+                                fieldWithPath("pageable.unpaged").type(JsonFieldType.BOOLEAN).description("비페이징 여부"),
+                                fieldWithPath("totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수"),
+                                fieldWithPath("totalElements").type(JsonFieldType.NUMBER).description("총 데이터 개수"),
+                                fieldWithPath("last").type(JsonFieldType.BOOLEAN).description("마지막 페이지 여부"),
+                                fieldWithPath("size").type(JsonFieldType.NUMBER).description("페이지 크기"),
+                                fieldWithPath("number").type(JsonFieldType.NUMBER).description("페이지 번호"),
+                                fieldWithPath("sort.sorted").type(JsonFieldType.BOOLEAN).description("정렬 여부"),
+                                fieldWithPath("sort.unsorted").type(JsonFieldType.BOOLEAN).description("비정렬 여부"),
+                                fieldWithPath("sort.empty").type(JsonFieldType.BOOLEAN).description("값이 비었는지 여부"),
+                                fieldWithPath("numberOfElements").type(JsonFieldType.NUMBER).description("현재 페이지 크기"),
+                                fieldWithPath("first").type(JsonFieldType.BOOLEAN).description("첫번째 페이지 여부"),
+                                fieldWithPath("empty").type(JsonFieldType.BOOLEAN).description("데이터가 비었는지 여부")
+                        )));
+
+        // then
+        then(memberService).should(times(1)).findAllMember(any());
     }
 
     @Test

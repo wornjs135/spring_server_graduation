@@ -13,6 +13,7 @@ import inu.graduation.sns.exception.MemberException;
 import inu.graduation.sns.model.common.CreateToken;
 import inu.graduation.sns.model.kakao.KaKaoUserResponse;
 import inu.graduation.sns.model.member.request.MemberUpdateRequest;
+import inu.graduation.sns.model.member.response.FindAllMemberResponse;
 import inu.graduation.sns.model.member.response.LoginResponse;
 import inu.graduation.sns.model.member.response.MemberNotificationResponse;
 import inu.graduation.sns.model.member.response.MemberResponse;
@@ -23,6 +24,8 @@ import inu.graduation.sns.repository.MemberRepository;
 import inu.graduation.sns.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -175,6 +178,11 @@ public class MemberService {
         Member findMember = memberRepository.findByNickname(nickname)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
         return new MemberResponse(findMember);
+    }
+
+    // (웹) 관리자가 회원 전체 조회
+    public Page<FindAllMemberResponse> findAllMember(Pageable pageable) {
+        return memberRepository.findAll(pageable).map(member -> new FindAllMemberResponse(member));
     }
 
     // 회원 정보 조회

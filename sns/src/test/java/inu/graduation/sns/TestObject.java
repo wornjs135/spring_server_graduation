@@ -13,6 +13,7 @@ import inu.graduation.sns.model.common.CreateToken;
 import inu.graduation.sns.model.good.dto.GoodDto;
 import inu.graduation.sns.model.good.response.GoodCountResponse;
 import inu.graduation.sns.model.member.dto.MemberDto;
+import inu.graduation.sns.model.member.response.FindAllMemberResponse;
 import inu.graduation.sns.model.member.response.LoginResponse;
 import inu.graduation.sns.model.member.response.MemberNotificationResponse;
 import inu.graduation.sns.model.member.response.MemberResponse;
@@ -49,6 +50,12 @@ public class TestObject {
             = new MemberResponse(1L, "황주환", "이미지url", "썸네일url", "배경이미지url", "ROLE_MEMBER");
     public static final MemberResponse TEST_MEMBER_RESPONSE2
             = new MemberResponse(1L, "닉넴", "이미지url", "썸네일url", "배경이미지url", "ROLE_MEMBER");
+    public static final FindAllMemberResponse TEST_ALL_MEMBER_RESPONSE
+            = new FindAllMemberResponse(1L, "김영만", "ROLE_MEMBER");
+    public static final FindAllMemberResponse TEST_ALL_MEMBER_RESPONSE2
+            = new FindAllMemberResponse(2L, "강서노", "ROLE_MEMBER");
+    public static final FindAllMemberResponse TEST_ALL_MEMBER_RESPONSE3
+            = new FindAllMemberResponse(3L, "박재권", "ROLE_ADMIN");
 
     public static final MemberResponse TEST_MEMBER_RESPONSE_UPDATE_PROFILEIMG
             = new MemberResponse(1L, "황주환", "수정된이미지url", "수정된썸네일url", "배경이미지url", "ROLE_MEMBER");

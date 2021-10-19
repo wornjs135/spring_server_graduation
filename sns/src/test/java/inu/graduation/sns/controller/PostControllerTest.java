@@ -486,6 +486,7 @@ class PostControllerTest {
         // given
         PageRequest pageRequest = PageRequest.of(0, 20);
         List<PostResponse> postResponseList = new ArrayList<>();
+
         postResponseList.add(TEST_POST_RESPONSE); postResponseList.add(TEST_POST_RESPONSE2); postResponseList.add(TEST_POST_RESPONSE3);
 
         PageImpl<PostResponse> postResponsePage = new PageImpl<>(postResponseList, pageRequest, postResponseList.size());

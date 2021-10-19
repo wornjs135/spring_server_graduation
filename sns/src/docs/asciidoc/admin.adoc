@@ -89,6 +89,17 @@ include::{snippets}/admin/findMemberByNickname/request-headers.adoc[]
 include::{snippets}/admin/findMemberByNickname/http-response.adoc[]
 include::{snippets}/admin/findMemberByNickname/response-fields.adoc[]
 
+== (관리자, 웹) 회원 리스트 전체 조회 API
+===== 요청
+include::{snippets}/admin/findAllMemberWeb/http-request.adoc[]
+Header
+include::{snippets}/admin/findAllMemberWeb/request-headers.adoc[]
+URL 파라미터
+include::{snippets}/admin/findAllMemberWeb/request-parameters.adoc[]
+===== 응답
+include::{snippets}/admin/findAllMemberWeb/http-response.adoc[]
+include::{snippets}/admin/findAllMemberWeb/response-fields.adoc[]
+
 == (관리자) 공지사항 생성 API
 ===== 요청
 include::{snippets}/admin/createNotification/http-request.adoc[]

@@ -3,12 +3,15 @@ package inu.graduation.sns.controller;
 import inu.graduation.sns.model.category.request.CategorySaveRequest;
 import inu.graduation.sns.model.category.request.CategoryUpdateRequest;
 import inu.graduation.sns.model.category.response.CategoryResponse;
+import inu.graduation.sns.model.member.response.FindAllMemberResponse;
 import inu.graduation.sns.model.member.response.MemberResponse;
 import inu.graduation.sns.model.notification.request.CreateNotificationRequest;
 import inu.graduation.sns.model.notification.request.UpdateNotificationRequest;
 import inu.graduation.sns.model.notification.response.AdminNotificationResponse;
 import inu.graduation.sns.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -74,6 +77,12 @@ public class AdminController {
     @GetMapping("/admin/members")
     public ResponseEntity<MemberResponse> findMemberByNickname(@RequestParam String nickname) {
         return ResponseEntity.ok(memberService.adminFindMember(nickname));
+    }
+
+    // (웹) 회원 전체 목록
+    @GetMapping("/admin/members/all")
+    public ResponseEntity<Page<FindAllMemberResponse>> findAllMember(Pageable pageable) {
+        return ResponseEntity.ok(memberService.findAllMember(pageable));
     }
 
     // 공지사항 등록 + 알림 보내기
